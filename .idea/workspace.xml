@@ -32,10 +32,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="efe486cb-477d-4a8f-99df-e4c51e3641fc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/TileMap.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/TileMap.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TileMap.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/TileMap.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TileMap.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/TileMap.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -92,8 +92,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="43" selection-start-line="5" selection-start-column="43" selection-end-line="5" selection-end-column="43" />
+            <state relative-caret-position="285">
+              <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -111,7 +111,7 @@
         <entry file="file://$PROJECT_DIR$/src/TileMap.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="203">
-              <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="30" />
+              <caret line="21" column="30" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -156,22 +156,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="medieval_roguelike" type="b2602c69:ProjectViewProjectNode" />
-              <item name="medieval-roguelike" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="medieval_roguelike" type="b2602c69:ProjectViewProjectNode" />
-              <item name="medieval-roguelike" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -203,12 +188,12 @@
       <updated>1551772133666</updated>
       <workItem from="1551772135782" duration="712000" />
       <workItem from="1551774077249" duration="4833000" />
-      <workItem from="1551780643881" duration="2238000" />
+      <workItem from="1551780643881" duration="2529000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7783000" />
+    <option name="totallyTimeSpent" value="8074000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -221,7 +206,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="0" width="1374" height="736" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.12348485" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -232,12 +216,12 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32960895" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32838285" />
       <window_info anchor="bottom" id="Database Changes" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32838285" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32838285" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="10" />
-      <window_info active="true" anchor="bottom" id="CMake" order="11" visible="true" weight="0.3294702" />
+      <window_info active="true" anchor="bottom" id="CMake" order="11" weight="0.3294702" />
       <window_info anchor="bottom" id="TeamCity" order="12" />
       <window_info anchor="bottom" id="Messages" order="13" weight="0.32960895" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -298,7 +282,7 @@
     <entry file="file://$PROJECT_DIR$/src/TileMap.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="203">
-          <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="30" />
+          <caret line="21" column="30" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -311,8 +295,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="43" selection-start-line="5" selection-start-column="43" selection-end-line="5" selection-end-column="43" />
+        <state relative-caret-position="285">
+          <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
         </state>
       </provider>
     </entry>

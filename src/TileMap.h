@@ -14,8 +14,8 @@ class TileMap {
      @brief Création d'une pièce, avec TILES_WIDTH = largeur du tile et TILES_HEIGHT = hauteur du tile
      */
     public :
-        const int TILES_WIDTH;
-        const int TILES_HEIGHT;
+        const int TILES_WIDTH = 32;
+        const int TILES_HEIGHT = 32;
         //Sprite[*] tiles;
 
         //TileMap();
