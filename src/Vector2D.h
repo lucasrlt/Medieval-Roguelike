@@ -11,26 +11,41 @@
 
 class Vector2D {
 public:
+    /**
+     @brief Création d'un nombre complexe, avec x = partie réelle et y = partie imaginaire.
+     */
     float x;
     float y;
 
+    /**
+    @brief Initialisation du vecteur 2D par défaut à 0.
+    */
     Vector2D();
 
+    /**
+    @brief Initialisation du vecteur 2D avec des valeurs.
+    */
     Vector2D(float a, float b);
-
-    ~Vector2D();
 };
 
 /**
- @brief Ajout des surcharges opérateurs pour les calculs de complexes.
+ @brief Surcharge opérateur pour l'addition de 2 complexes.
  */
-
 Vector2D operator+(Vector2D a, Vector2D b);
 
+/**
+ @brief Surcharge opérateur pour la soustraction de 2 complexes.
+ */
 Vector2D operator-(Vector2D a, Vector2D b);
 
+/**
+ @brief Surcharge opérateur pour la multiplication d'un complexe avec un coefficient.
+ */
 Vector2D operator*(Vector2D a, float b);
 
+/**
+ @brief Surcharge opérateur pour la division d'un complexe avec un coefficient.
+ */
 Vector2D operator/(Vector2D a, float b);
 
 
