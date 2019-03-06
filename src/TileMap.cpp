@@ -4,21 +4,43 @@
 
 #include "TileMap.h"
 #include <iostream>
-#include <ifstream>
+#include <fstream>
+#include <string>
 
 using namespace std;
 
-void TileMap::fetchRoomFromFile(string filename)
+void TileMap::fetchRoomFromFile(const string& filename,int gridSize, int linesBeforeGrid)
 {
-    ifstream copyingfile(string filename);
-    if (!copyingfile.is_open()) {
-        cout << "Erreur dans l'ouverture en lecture du fichier." << endl;
+    ifstream readFile(filename.c_str());
+    if (!readFile.is_open()) {
+        cerr << "Erreur dans l'ouverture en lecture du fichier." << endl;
         return;
     }
-    int TileMap[8][8];
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++)
-            copyingfile >> TileMap[i][j];
+    if (readFile) {
+        char content;
+        string beforeContent;
+        char separator;
+        int tabTile[gridSize][gridSize];
+        for(int k = 0; k < linesBeforeGrid; k++)
+        {
+            getline(readFile, beforeContent);
+        }
+        for(int i = 0; i < gridSize; i++)
+        {
+            for(int j = 0; j < gridSize; j++)
+            {
+                readFile >> content;
+                readFile >> separator;
+                tabTile[i][j] = content - '0';
+                cout << tabTile[i][j];
+            }
+            cout << endl;
+        }
+        readFile.close();
     }
-    copyingfile.close();
+}
+
+void TileMap::getTileNameForId(int id)
+{
+        
 }

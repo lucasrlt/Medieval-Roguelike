@@ -5,6 +5,8 @@
 #ifndef MEDIEVAL_ROGUELIKE_TILEMAP_H
 #define MEDIEVAL_ROGUELIKE_TILEMAP_H
 #include <string>
+
+using namespace std;
 /**
      @brief Création de la classe TileMap qui permet de créer une pièce du labyrinthe sur la map
      */
@@ -19,8 +21,9 @@ class TileMap {
         //Sprite[*] tiles;
 
         //TileMap();
-        void fetchRoomFromFile(string filename); //Room* out_room);
-        //drawTilesForRoom(Room& room, SDLMode& sdl);
+        void fetchRoomFromFile(const string& filename,int gridSize = 8, int linesBeforeGrid = 6); //Room* out_room);
+        //void drawTilesForRoom(Room& room, SDLMode& sdl);
+        void getTileNameForId(int id);
 };
 
 
