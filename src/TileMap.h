@@ -5,25 +5,30 @@
 #ifndef MEDIEVAL_ROGUELIKE_TILEMAP_H
 #define MEDIEVAL_ROGUELIKE_TILEMAP_H
 #include <string>
+#include <vector>
 
 using namespace std;
 /**
-     @brief Création de la classe TileMap qui permet de créer une pièce du labyrinthe sur la map
+     @brief Classe qui récupère la couleur d'un sprite et la forme d'un tile
      */
 
 class TileMap {
-    /**
-     @brief Création d'une pièce, avec TILES_WIDTH = largeur du tile et TILES_HEIGHT = hauteur du tile
-     */
     public :
         const int TILES_WIDTH = 32;
         const int TILES_HEIGHT = 32;
         //Sprite[*] tiles;
 
         //TileMap();
+        /**
+         * @brief Récupère la salle depuis le fichier
+         * @param filename : nom du fichier du tile
+         * @param gridSize  : Taille d'une salle de tiles
+         * @param linesBeforeGrid : Lignes de textes du fichier filename avant les tiles
+         */
         void fetchRoomFromFile(const string& filename,int gridSize = 8, int linesBeforeGrid = 6); //Room* out_room);
         //void drawTilesForRoom(Room& room, SDLMode& sdl);
-        void getTileNameForId(int id);
+
+        void getSpriteNames(vector<string> &files);
 };
 
 
