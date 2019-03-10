@@ -18,7 +18,6 @@ class TileMap {
         const int TILES_HEIGHT = 32;
         //Sprite[*] tiles;
 
-        //TileMap();
         /**
          * @brief Récupère la salle depuis le fichier
          * @param filename : nom du fichier du tile
@@ -27,7 +26,10 @@ class TileMap {
          */
         void fetchRoomFromFile(const string& filename,int gridSize = 8, int linesBeforeGrid = 6); //Room* out_room);
         //void drawTilesForRoom(Room& room, SDLMode& sdl);
-
+        /**
+         * @brief Récupère les sprites des ids
+         * @param files : tableau de vecteur string des sprites
+         */
         void getSpriteNames(vector<string> &files);
 };
 

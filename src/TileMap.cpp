@@ -20,10 +20,10 @@ void TileMap::fetchRoomFromFile(const string& filename,int gridSize, int linesBe
     }
 
     if (readFile) {
-        char content;       //Variable contenant les numéros des sprites
-        string beforeContent;   //Variable contenant les lignes de textes avant les ids des sprites
-        char separator;     //Variable stockant les virgules entre les id des sprites
-        int tabTile[gridSize][gridSize];    //Tableau 2D contenant tous les ids des sprites
+        char content;
+        string beforeContent;
+        char separator;
+        int tabTile[gridSize][gridSize];
 
         for(int k = 0; k < linesBeforeGrid; k++)    //Récupère les premières lignes inutiles
         {
@@ -34,9 +34,9 @@ void TileMap::fetchRoomFromFile(const string& filename,int gridSize, int linesBe
         {
             for(int j = 0; j < gridSize; j++)
             {
-                readFile >> content;    //Lis le fichier et mets le contenu dans la variable content
-                readFile >> separator;  //Lis le fichier et mets le contenu dans la variable separator
-                tabTile[i][j] = content - '0';  //Mets le contenu de la variable content dans le tableau puis converti le caractère en entier
+                readFile >> content;
+                readFile >> separator;
+                tabTile[i][j] = content - '0';
                 //cout << tabTile[i][j];
             }
             cout << endl;
@@ -45,13 +45,15 @@ void TileMap::fetchRoomFromFile(const string& filename,int gridSize, int linesBe
     }
 }
 
-void getSpriteNames(vector<string> &files)
+void TileMap::getSpriteNames(vector<string> &files)
 {
     const string filename = "../data/tilemaps/TileSet.tsx";
     string linesBeforeContent;
     string testContent;
     string separator;
+    string sourceContent;
     string content;
+    string spriteContent;
 
     ifstream readFile(filename.c_str());
 
@@ -59,14 +61,25 @@ void getSpriteNames(vector<string> &files)
         cerr << "Erreur dans l'ouverture en lecture du fichier." << endl;
         return;
     }
-while (!readFile.eof())
-    readFile >> testContent;
-    if(testContent == "<image")
+    while (!readFile.eof())
     {
-        readFile >> separator;
-        readFile >> separator;
-        readFile >> content;
-        content.substr(0,6); // Soustrait d'un caractère avec une certaine portée et le mets dans content
-    } else
-        getline(readFile,linesBeforeContent);
+        readFile >> testContent;
+        if (testContent =="<image") // Si le string correspond à <image, on récupère le nom du fichier et on le rentre dans le vector
+        {
+            readFile >> separator;
+            readFile >> separator;
+            readFile >> sourceContent;
+
+            size_t sourcePos = sourceContent.find("source="); //Cherche le mot source dans la chaine sourceContent
+            content = sourceContent.substr(sourcePos + 8); //Copie les caractères depuis le s de source jusqu'au " et le met dans le string content
+            size_t contentPos = content.find('"');
+            spriteContent = content.substr(0, contentPos);
+            files.push_back(spriteContent);
+        }
+        else
+        {
+            getline(readFile, linesBeforeContent);
+        }
+    }
+    readFile.close();
 }
