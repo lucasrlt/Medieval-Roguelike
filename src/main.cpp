@@ -1,11 +1,9 @@
 #include <iostream>
-#include "LevelGenerator.h"
+#include <string.h>
+#include "DungeonGenerator.h"
 
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-
-    LevelGenerator lg;
-    lg.fetchRooms("../data/tilemaps");
+int main()
+{
 
     return 0;
 }

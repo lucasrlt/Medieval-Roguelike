@@ -1,9 +1,15 @@
-//
-// Created by Lucas on 2019-03-05.
-//
-
 #include "Room.h"
 
-Room::Room(RoomSchema _schema) {
-    schema = _schema;
+bool RoomSchema::operator==(const RoomSchema &schema) const
+{
+    return openBottom == schema.openBottom && openTop == schema.openTop &&
+           openRight == schema.openRight && openLeft == schema.openLeft;
+}
+
+Room::Room()
+{
+}
+
+Room::~Room()
+{
 }
