@@ -84,7 +84,7 @@ class DungeonGenerator
      * 
      * @param dungeon tableau dans lequel les salles du donjon sont stockées.
      */
-    void generateDugeon(Room dungeon[MAZE_SIZE][MAZE_SIZE]);
+    void generateDungeon(Room dungeon[MAZE_SIZE][MAZE_SIZE]);
 
     /**
      * @brief Crée des salles à partir de toutes les tilemaps stockées dans le dossier dir et 

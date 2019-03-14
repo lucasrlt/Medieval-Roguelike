@@ -203,7 +203,7 @@ Room DungeonGenerator::getRandomRoomForPos(unsigned int x, unsigned int y)
     return possibleRooms[rand() % possibleRooms.size()];
 }
 
-void DungeonGenerator::generateDugeon(Room dungeon[MAZE_SIZE][MAZE_SIZE])
+void DungeonGenerator::generateDungeon(Room dungeon[MAZE_SIZE][MAZE_SIZE])
 {
     // Parcourt tout le tableau maze et trouve des salles adaptés à chaque case à 1.
     for (unsigned int y = 0; y < MAZE_SIZE; ++y)
