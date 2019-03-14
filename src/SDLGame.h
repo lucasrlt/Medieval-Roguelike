@@ -23,9 +23,9 @@ private :
 public :
 
     SDLGame();
-    ~SDLGame ();
-    //void SDLLoop ();
-    //void SDLShow ();
+    //~SDLGame ();
+    void SDLLoop ();
+    void SDLShow ();
 
 };
 
