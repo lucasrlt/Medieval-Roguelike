@@ -34,7 +34,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="efe486cb-477d-4a8f-99df-e4c51e3641fc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Entity.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Player.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Weapon.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Weapon.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
+=======
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Agent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Agent.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Vector2D.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Vector2D.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Vector2D.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Vector2D.h" afterDir="false" />
+>>>>>>> aefaff05886040840e43d12d79892e0f12accae6
       <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -45,13 +58,51 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="FavoritesManager">
+    <favorites_list name="medieval_roguelike" />
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="75">
               <caret line="5" column="1" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
+=======
+            <state relative-caret-position="105">
+              <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Vector2D.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="945">
+              <caret line="63" column="25" selection-start-line="63" selection-start-column="25" selection-end-line="63" selection-end-column="25" />
+              <folding>
+                <element signature="e#0#21#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Vector2D.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="15" selection-start-line="15" selection-end-line="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="15" column="74" selection-start-line="15" selection-start-column="74" selection-end-line="15" selection-end-column="74" />
+>>>>>>> aefaff05886040840e43d12d79892e0f12accae6
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -60,31 +111,78 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="90">
               <caret line="6" column="206" selection-start-line="6" selection-start-column="206" selection-end-line="6" selection-end-column="206" />
+=======
+        <entry file="file://$PROJECT_DIR$/src/Entity.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="290">
+              <caret line="35" column="31" selection-start-line="35" selection-start-column="31" selection-end-line="35" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Weapon.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="495">
+              <caret line="33" column="35" selection-start-line="33" selection-start-column="35" selection-end-line="33" selection-end-column="35" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+              </folding>
+>>>>>>> aefaff05886040840e43d12d79892e0f12accae6
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/../../L2_ConceptionDevApp-master/Pacman/src/sdl2/sdlJeu.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="939">
               <caret line="207" column="26" selection-start-line="207" selection-start-column="26" selection-end-line="207" selection-end-column="26" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
+=======
+        <entry file="file://$PROJECT_DIR$/src/Weapon.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="720">
+              <caret line="48" column="36" selection-start-line="48" selection-start-column="36" selection-end-line="48" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Player.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+>>>>>>> aefaff05886040840e43d12d79892e0f12accae6
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/../../L2_ConceptionDevApp-master/Pacman/src/sdl2/main_sdl.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="15">
               <caret line="1" selection-start-line="1" selection-end-line="1" />
+=======
+        <entry file="file://$PROJECT_DIR$/src/Player.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="525">
+              <caret line="35" column="44" selection-start-line="35" selection-start-column="44" selection-end-line="35" selection-end-column="44" />
+              <folding>
+                <element signature="e#73#90#0" expanded="true" />
+              </folding>
+>>>>>>> aefaff05886040840e43d12d79892e0f12accae6
             </state>
           </provider>
         </entry>
@@ -111,8 +209,12 @@
       <list>
         <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/Vector2D.cpp" />
+        <option value="$PROJECT_DIR$/src/Item.cpp" />
+        <option value="$PROJECT_DIR$/src/Item.h" />
+        <option value="$PROJECT_DIR$/src/Agent.cpp" />
+        <option value="$PROJECT_DIR$/src/Agent.h" />
         <option value="$PROJECT_DIR$/src/Vector2D.h" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/src/TileMap.h" />
         <option value="$PROJECT_DIR$/data/tilemaps/TileSet.tsx" />
         <option value="$PROJECT_DIR$/src/TileMap.cpp" />
@@ -124,15 +226,23 @@
         <option value="$PROJECT_DIR$/src/SDLGame.cpp" />
         <option value="$PROJECT_DIR$/src/SDLGame.h" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
+=======
+        <option value="$PROJECT_DIR$/src/Vector2D.cpp" />
+        <option value="$PROJECT_DIR$/src/Weapon.cpp" />
+        <option value="$PROJECT_DIR$/src/Player.cpp" />
+        <option value="$PROJECT_DIR$/src/Player.h" />
+        <option value="$PROJECT_DIR$/src/Entity.cpp" />
+        <option value="$PROJECT_DIR$/src/Weapon.h" />
+        <option value="$PROJECT_DIR$/src/Entity.h" />
+>>>>>>> aefaff05886040840e43d12d79892e0f12accae6
         <option value="$PROJECT_DIR$/src/main.cpp" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="14" />
-    <option name="y" value="20" />
-    <option name="width" value="1336" />
-    <option name="height" value="691" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1680" />
+    <option name="height" value="1027" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -201,6 +311,7 @@
       <option name="presentableId" value="Default" />
       <updated>1551772133666</updated>
       <workItem from="1551772135782" duration="712000" />
+<<<<<<< HEAD
       <workItem from="1551774077249" duration="4833000" />
       <workItem from="1551780643881" duration="3157000" />
       <workItem from="1551890774176" duration="1310000" />
@@ -209,11 +320,31 @@
       <workItem from="1552564518791" duration="147000" />
       <workItem from="1552564695528" duration="330000" />
       <workItem from="1552565053223" duration="4616000" />
+=======
+      <workItem from="1551774077249" duration="9480000" />
+      <workItem from="1551808079946" duration="338000" />
+      <workItem from="1551859893335" duration="9491000" />
+      <workItem from="1551877301814" duration="6756000" />
+      <workItem from="1551904730440" duration="492000" />
+      <workItem from="1551949598980" duration="47000" />
+      <workItem from="1551981744508" duration="3689000" />
+      <workItem from="1552050206088" duration="4029000" />
+      <workItem from="1552085380636" duration="2710000" />
+      <workItem from="1552124261308" duration="5734000" />
+      <workItem from="1552141915644" duration="3779000" />
+      <workItem from="1552287567021" duration="4989000" />
+      <workItem from="1552302757917" duration="4022000" />
+      <workItem from="1552564261795" duration="43000" />
+>>>>>>> aefaff05886040840e43d12d79892e0f12accae6
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="45408000" />
+=======
+    <option name="totallyTimeSpent" value="56311000" />
+>>>>>>> aefaff05886040840e43d12d79892e0f12accae6
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -225,9 +356,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1366" height="732" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="808" extended-state="0" />
     <editor active="true" />
     <layout>
+<<<<<<< HEAD
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13333334" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -235,17 +367,30 @@
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.307947" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.049668875" />
+=======
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49375" weight="0.13304721" />
+      <window_info id="Structure" order="1" sideWeight="0.50625" side_tool="true" weight="0.13161659" />
+      <window_info id="Favorites" order="2" sideWeight="0.50416666" side_tool="true" weight="0.12017167" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32960895" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+>>>>>>> aefaff05886040840e43d12d79892e0f12accae6
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32838285" />
       <window_info anchor="bottom" id="Database Changes" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3294702" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32960895" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="10" />
-      <window_info anchor="bottom" id="CMake" order="11" weight="0.3294702" />
+      <window_info anchor="bottom" id="CMake" order="11" />
       <window_info anchor="bottom" id="TeamCity" order="12" />
+<<<<<<< HEAD
       <window_info anchor="bottom" id="Messages" order="13" weight="0.22516556" />
       <window_info anchor="bottom" id="TypeScript" order="14" />
+=======
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.32960895" />
+>>>>>>> aefaff05886040840e43d12d79892e0f12accae6
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -253,6 +398,7 @@
       <window_info anchor="right" id="LuaJ" order="4" />
     </layout>
     <layout-to-restore>
+<<<<<<< HEAD
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13333334" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -271,6 +417,25 @@
       <window_info anchor="bottom" id="TeamCity" order="12" />
       <window_info anchor="bottom" id="Messages" order="13" weight="0.22516556" />
       <window_info anchor="bottom" id="TypeScript" order="14" />
+=======
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49375" visible="true" weight="0.13304721" />
+      <window_info id="Structure" order="1" sideWeight="0.50625" side_tool="true" weight="0.13161659" />
+      <window_info id="Favorites" order="2" sideWeight="0.50416666" side_tool="true" weight="0.12017167" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32960895" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32960895" />
+      <window_info anchor="bottom" id="Database Changes" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32960895" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info anchor="bottom" id="CMake" order="11" />
+      <window_info anchor="bottom" id="TeamCity" order="12" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.32960895" />
+>>>>>>> aefaff05886040840e43d12d79892e0f12accae6
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -287,36 +452,63 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp" />
     <entry file="file://$PROJECT_DIR$/src/Tilemap.cpp" />
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Item.h" />
+    <entry file="file://$PROJECT_DIR$/src/Item.cpp" />
+>>>>>>> aefaff05886040840e43d12d79892e0f12accae6
     <entry file="file://$PROJECT_DIR$/src/Vector2D.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+        <state relative-caret-position="945">
+          <caret line="63" column="25" selection-start-line="63" selection-start-column="25" selection-end-line="63" selection-end-column="25" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Vector2D.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="4" selection-start-line="13" selection-start-column="4" selection-end-line="15" selection-end-column="7" />
+        <state relative-caret-position="225">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Agent.cpp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Agent.h">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/tilemaps/BL.tmx">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/src/Entity.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="5" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
+        <state relative-caret-position="225">
+          <caret line="15" column="74" selection-start-line="15" selection-start-column="74" selection-end-line="15" selection-end-column="74" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Weapon.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="33" column="35" selection-start-line="33" selection-start-column="35" selection-end-line="33" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Weapon.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="48" column="36" selection-start-line="48" selection-start-column="36" selection-end-line="48" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/data/tilemaps/TileSet.tsx" />
     <entry file="file://$PROJECT_DIR$/data/tilemaps/B.tmx">
       <provider selected="true" editor-type-id="text-editor">
@@ -331,10 +523,29 @@
           <caret line="3" selection-start-line="3" selection-end-line="3" />
           <folding>
             <element signature="e#42#62#0" expanded="true" />
+=======
+    <entry file="file://$PROJECT_DIR$/src/Player.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Player.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="35" column="44" selection-start-line="35" selection-start-column="44" selection-end-line="35" selection-end-column="44" />
+          <folding>
+            <element signature="e#73#90#0" expanded="true" />
+>>>>>>> aefaff05886040840e43d12d79892e0f12accae6
+          </folding>
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/sdlGame.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -423,6 +634,26 @@
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
+=======
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="5" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="35" column="31" selection-start-line="35" selection-start-column="31" selection-end-line="35" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="1" lean-forward="true" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+>>>>>>> aefaff05886040840e43d12d79892e0f12accae6
         </state>
       </provider>
     </entry>

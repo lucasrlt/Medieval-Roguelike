@@ -2,7 +2,8 @@
 #include <string.h>
 #include "DungeonGenerator.h"
 
-int main()
+
+using namespace std;
 {
     return 0;
 }
