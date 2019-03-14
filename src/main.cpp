@@ -3,7 +3,7 @@
 #include "DungeonGenerator.h"
 #include "SDLGame.h"
 
-int main(int argc, char** arg)
+int main(int argc, char **arg)
 {
     SDLGame sj;
     sj.SDLLoop();
