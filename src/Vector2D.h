@@ -9,8 +9,9 @@
  @brief Création de la classe Vector2D, qui servira à établir les positions et la force.
  */
 
-class Vector2D {
-public:
+class Vector2D
+{
+  public:
     /**
      @brief Création d'un nombre complexe, avec x = partie réelle et y = partie imaginaire.
      */
@@ -47,6 +48,5 @@ Vector2D operator*(Vector2D a, float b);
  @brief Surcharge opérateur pour la division d'un complexe avec un coefficient.
  */
 Vector2D operator/(Vector2D a, float b);
-
 
 #endif //MEDIEVAL_ROGUELIKE_VECTOR2D_H
