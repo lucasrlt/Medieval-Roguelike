@@ -1,14 +1,11 @@
 #include <iostream>
 #include <string.h>
-#include "Game.h"
+#include "DungeonGenerator.h"
+#include "SDLGame.h"
 
-using namespace std;
-
-int main() {
-    Game g;
-    g.initDungeon();
-
-    cout<<g.getConstRoom(5, 3).tilemapName<<endl;
-
+int main(int argc, char **arg)
+{
+    SDLGame sj;
+    sj.SDLLoop();
     return 0;
 }

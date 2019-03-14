@@ -9,13 +9,16 @@
  @author Alexandre PUILLET
  */
 
-
 /**
  * @brief Classe représentant un point de coordonnées x et y
  */
 
-class Vector2D {
-public:
+class Vector2D
+{
+  public:
+    /**
+     @brief Création d'un nombre complexe, avec x = partie réelle et y = partie imaginaire.
+     */
     float x;
     float y;
 
@@ -45,7 +48,6 @@ public:
     * @brief Tests du module.
     */
     void regressionTest();
-
 };
 
 /**
@@ -67,6 +69,5 @@ void operator*(Vector2D &a, float b);
  @brief Surcharge opérateur pour la division d'un complexe avec un coefficient.
  */
 void operator/(Vector2D &a, float b);
-
 
 #endif //MEDIEVAL_ROGUELIKE_VECTOR2D_H
