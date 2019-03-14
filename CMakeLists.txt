@@ -8,4 +8,4 @@ add_executable(medieval_roguelike
         doc/doxyfile
         src/main.cpp
         CMakeLists.txt
-        README src/Vector2D.cpp src/Vector2D.h src/Agent.cpp src/Agent.h)
+        README src/Vector2D.cpp src/Vector2D.h src/Entity.cpp src/Entity.h src/Player.cpp src/Player.h src/Weapon.cpp src/Weapon.h)
