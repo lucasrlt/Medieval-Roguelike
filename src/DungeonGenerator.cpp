@@ -5,6 +5,8 @@
 #include <string>
 #include <time.h>
 #include <iostream>
+#include <cstdio>
+#include <chrono>
 #include "DungeonGenerator.h"
 
 using namespace std;
@@ -12,12 +14,14 @@ using namespace std;
 DungeonGenerator::DungeonGenerator()
 {
     fillMazeWithZeros();
+    allRooms = nullptr;
     generateMaze((int)MAZE_SIZE / 2, (int)MAZE_SIZE / 2);
 }
 
 DungeonGenerator::~DungeonGenerator()
 {
-    delete[] allRooms;
+    if (allRooms != nullptr)
+        delete[] allRooms;
 }
 
 void DungeonGenerator::fetchRooms(const char *dir)

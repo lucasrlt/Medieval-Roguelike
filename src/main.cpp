@@ -5,7 +5,10 @@
 
 using namespace std;
 
-int main() {
+int main()
+{
+    DungeonGenerator d;
+    d.displayMaze();
 
     return 0;
 }
