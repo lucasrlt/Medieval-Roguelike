@@ -16,6 +16,7 @@ DungeonGenerator::DungeonGenerator()
     fillMazeWithZeros();
     allRooms = nullptr;
     generateMaze((int)MAZE_SIZE / 2, (int)MAZE_SIZE / 2);
+    fetchRooms("../data/tilemaps/");
 }
 
 DungeonGenerator::~DungeonGenerator()
