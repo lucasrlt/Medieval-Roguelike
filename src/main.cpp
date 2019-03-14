@@ -1,14 +1,11 @@
 #include <iostream>
 #include <string.h>
 #include "DungeonGenerator.h"
-#include <SDL.h>
+#include "SDLGame.h"
 
-using namespace std;
-
-int main()
+int main(int argc, char **arg)
 {
-    DungeonGenerator d;
-    d.displayMaze();
-
+    SDLGame sj;
+    sj.SDLLoop();
     return 0;
 }
