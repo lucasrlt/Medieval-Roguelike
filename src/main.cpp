@@ -6,8 +6,7 @@
 
 int main(int argc, char **arg)
 {
-    Game g;
-    g.initDungeon();
-
+    SDLGame sg;
+    sg.SDLLoop();
     return 0;
 }

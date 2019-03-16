@@ -6,6 +6,8 @@
 #include <time.h>
 #include <iostream>
 #include <cstdio>
+#include <cassert>
+#include <cstring>
 #include <chrono>
 #include "DungeonGenerator.h"
 

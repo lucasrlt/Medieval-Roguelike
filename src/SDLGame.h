@@ -34,7 +34,7 @@ private :
     SDL_Window * window;
     SDL_Renderer * renderer;
 
-    void renderRoom(const Room& room);
+    void renderRoom(Room room);
     //TTF_Font * font;
     //Image font_im;
     //SDL_Color font_color;
@@ -46,10 +46,9 @@ public :
     ~SDLGame ();
     void SDLLoop ();
     void SDLShow ();
-    Image im_pacman;
-    Image im_mur;
-    Image im_pastille;
-    Image im_fantome;
+    //Image im_mur;
+    //Image im_pastille;
+    //Image im_fantome;
 
 
 };
