@@ -5,10 +5,8 @@
 #ifndef MEDIEVAL_ROGUELIKE_TEXTMODE_H
 #define MEDIEVAL_ROGUELIKE_TEXTMODE_H
 
+#include "../Game.h"
 
-class TextMode {
-
-};
-
+void txtLoop(Game &g);
 
 #endif //MEDIEVAL_ROGUELIKE_TEXTMODE_H
