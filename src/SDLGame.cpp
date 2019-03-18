@@ -9,7 +9,8 @@
 #include "TileMap.h"
 #include <SDL_image.h>
 #include <assert.h>
-//#include "Game.h"
+#include "Game.h"
+#include "TileMap.h"
 #include <iostream>
 using namespace std;
 
@@ -139,13 +140,6 @@ void SDLGame::SDLShow () {
     const Player& pl = game.getConstPlayer();
 //const Ennemies& en = game.getConstEnnemies();
 
-// Afficher les sprites des murs et des pastilles
-  for (x=0;x<ter.getDimX();++x)
-      for (y=0;y<ter.getDimY();++y)
-          if (ter.getXY(x,y)=='#')
-              im_mur.draw(renderer,x*TAILLE_SPRITE,y*TAILLE_SPRITE,TAILLE_SPRITE,TAILLE_SPRITE);
-          else if (ter.getXY(x,y)=='.')
-              im_pastille.draw(renderer,x*TAILLE_SPRITE,y*TAILLE_SPRITE,TAILLE_SPRITE,TAILLE_SPRITE);
 
   // Afficher le sprite de Pacman
   im_pacman.draw(renderer,pac.getX()*TAILLE_SPRITE,pac.getY()*TAILLE_SPRITE,TAILLE_SPRITE,TAILLE_SPRITE);
@@ -160,10 +154,36 @@ void SDLGame::SDLShow () {
 
 }
 */
+void SDLGame::renderRoom(Room room)
+{
+    room.tilemapName = "../data/tilemaps/B.tmx";
+    TileMap tm;
+
+    Image IM_Sprite;
+
+    int tiles[GRID_SIZE][GRID_SIZE];
+    vector<string> tileMaps;
+
+    tm.fetchRoomFromFile(room.tilemapName, tiles);
+    tm.getSpriteNames(tileMaps);
+
+    for (int x = 0; x < GRID_SIZE; ++x)
+    {
+        for (int y = 0; y < GRID_SIZE; ++y)
+        {
+            if (tiles[y][x] != 0) {
+
+                string filepath = "../data/" + tileMaps[tiles[y][x] - 1];
+                IM_Sprite.loadFromFile(filepath.c_str(), renderer);
+                IM_Sprite.draw(renderer, x * TILES_WIDTH, y * TILES_HEIGHT, TILES_WIDTH, TILES_HEIGHT);
+            }
+        }
+    }
+}
 void SDLGame::SDLLoop () {
   SDL_Event events;
   bool quit = false;
-
+  Room room;
   // tant que ce n'est pas la fin ...
   while (!quit) {
 
@@ -174,7 +194,7 @@ void SDLGame::SDLLoop () {
 
       // on affiche le jeu sur le buffer caché
       SDLShow();
-
+      renderRoom(room);
       // on permute les deux buffers (cette fonction ne doit se faire qu'une seule fois dans la boucle)
       SDL_RenderPresent(renderer);
   }
