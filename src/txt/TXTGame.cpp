@@ -2,11 +2,11 @@
 // Created by Lucas on 2019-03-14.
 //
 
-#include "TextMode.h"
+#include "TXTGame.h"
 #include <unistd.h>
 
 #include "WinTXT.h"
-#include "../TileMap.h"
+#include "../core/TileMap.h"
 
 void drawMap(Game &game, WinTXT &win)
 {
@@ -31,7 +31,7 @@ void drawMap(Game &game, WinTXT &win)
             {
                 int tiles[GRID_SIZE][GRID_SIZE];
 
-                tm.fetchRoomFromFile("../data/tilemaps/" + r.tilemapName, tiles);
+                tm.fetchRoomFromFile("data/tilemaps/" + r.tilemapName, tiles);
                 // cout << "Oui - ";
                 for (int j = 0; j < GRID_SIZE; j++)
                 {
@@ -46,15 +46,15 @@ void drawMap(Game &game, WinTXT &win)
     }
 }
 
-void txtLoop(Game &game)
+void TXTLoop(Game &g)
 {
     WinTXT win(MAZE_SIZE * GRID_SIZE, MAZE_SIZE * GRID_SIZE);
-    drawMap(game, win);
+    drawMap(g, win);
     bool ok = true;
     do
     {
         win.clear();
-        drawMap(game, win);
+        drawMap(g, win);
         win.draw();
         usleep(1000000);
 

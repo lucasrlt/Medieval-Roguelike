@@ -47,7 +47,7 @@ void TileMap::fetchRoomFromFile(const string &filename, int tabTile[GRID_SIZE][G
 
 void TileMap::getSpriteNames(vector<string> &files)
 {
-    const string filename = "../data/TileSet.tsx";
+    const string filename = "data/TileSet.tsx";
     string linesBeforeContent;
     string testContent;
     string separator;
