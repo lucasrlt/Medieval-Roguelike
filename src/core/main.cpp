@@ -8,5 +8,8 @@
 
 int main(int argc, char **arg)
 {
+    SDLGame sg;
+    sg.SDLLoop();
+
     return 0;
 }
