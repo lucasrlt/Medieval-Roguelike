@@ -6,6 +6,9 @@
 
 int main(int argc, char **arg)
 {
+    SDLGame sg;
+    sg.SDLLoop();
+
     Game g;
     g.initDungeon();
 

@@ -1,0 +1,63 @@
+/**
+ * @file Ghost.h
+ * @author Alexandre PUILLET
+ * @brief Module gérant les ennemis de type distance
+ */
+
+#include <iostream>
+#include <vector>
+#include "Entity.h"
+#include "Game.h"
+#include "Projectile.h"
+
+#ifndef MEDIEVALROGUELIKE_GHOST_H
+#define MEDIEVALROGUELIKE_GHOST_H
+
+/**
+ * @brief Classe créant les ennemis distance.
+ */
+
+class Ghost : public Entity{
+    public:
+    Ghost();
+    /**
+     * @brief Constructeur d'un ennemi distance.
+     * 
+     * @param pos position de l'ennemi
+     * @param force force de l'ennemi
+     * @param health vie de l'ennemi
+     * @param strenght puissance de l'ennemi
+     */
+    Ghost(Vector2D pos, Vector2D force, int health, int strenght, vector<Projectile> projectile);
+
+    ~Ghost();
+
+    /**
+     * @brief Récupère les dégâts de l'ennemi.
+     * 
+     * @return int 
+     */
+    int getStrenght() const;
+
+    /**
+     * @brief Vole vers l'ennemi.
+     * 
+     * @param game 
+     */
+    void flyToPlayer(Game &game);
+
+    /**
+     * @brief Tire les projectiles.
+     * @param game 
+     */
+    void fireProjectile(Game &game);
+
+    private:
+    int strenght;
+    /**
+     * @brief initialisation du tableau de projectiles.
+     */
+    vector<Projectile> projectile;
+};
+
+#endif //MEDIEVALROGUELIKE_GHOST_H
