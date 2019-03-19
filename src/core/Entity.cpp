@@ -5,11 +5,9 @@
 using namespace std;
 
 Entity::Entity(){
-    position.x = 0;
-    position.y = 0;
+    position = {0, 0};
 
-    force.x = 0;
-    force.y = 0;
+    force = {48 ,-9.81};
 
     health = 0;
 }
@@ -26,6 +24,10 @@ Entity::~Entity(){
 
 int Entity::getHealth() const {
     return health;
+}
+
+Vector2D Entity::getForce()const{
+    return force;
 }
 
 void Entity::receiveDamage(int amount) {

@@ -19,20 +19,20 @@
 
 class Weapon
 {
-  public:
-    unsigned int damages;
-    unsigned int energyCost;
-    unsigned int attackSpeed;
+public:
+  unsigned int damages;
+  unsigned int energyCost;
+  unsigned int attackSpeed;
 
-    int type;
+  int type;
 
-    float attackRange;
+  float attackRange;
 
-    std::string spriteName;
+  std::string spriteName;
 
-    Weapon();
+  Weapon();
 
-    /**
+  /**
      * @brief Arme avec des valeurs.
      * @param damages dégâts de l'arme.
      * @param energyCost coût en énergie de l'arme.
@@ -41,29 +41,29 @@ class Weapon
      * @param attackRange distance d'attaque de l'arme.
      * @param name nom de l'arme.
      */
-    Weapon(unsigned int damages, unsigned int energyCost, unsigned int attackSpeed, int type,
-           float attackRange, std::string name);
+  Weapon(unsigned int damages, unsigned int energyCost, unsigned int attackSpeed, int type,
+         float attackRange, std::string name);
 
-    ~Weapon();
+  ~Weapon();
 
-    /**
+  /**
      * @brief Récupère les dégâts de l'arme.
      * @return damages (entier > 0).
      */
-    unsigned int getDamages();
+  unsigned int getDamages();
 
-    /**
+  /**
      * @brief Affiche l'arme.
      */
-    void show();
+  void show();
 
-    /**
+  /**
      * @brief Tests du module.
      */
-    void regressionTest();
+  void regressionTest();
 
-  private:
-    // vector<Projectile> projectile;
+private:
+  // vector<Projectile> projectile;
 };
 
 #endif //MEDIEVAL_ROGUELIKE_WEAPON_H

@@ -10,11 +10,7 @@ find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 
-<<<<<<< HEAD
 add_executable(medieval_roguelike src/main.cpp src/Game.h src/Game.cpp src/Player.h src/Player.cpp src/Weapon.h src/Weapon.cpp src/DungeonGenerator.cpp src/DungeonGenerator.h src/Room.cpp src/Room.h src/Vector2D.cpp src/Vector2D.h src/Entity.cpp src/Entity.h src/TileMap.cpp src/TileMap.h src/txt/TextMode.cpp src/txt/TextMode.h src/txt/WinTXT.cpp src/txt/WinTXT.h src/SDLGame.cpp src/SDLGame.h src/Savage.cpp src/Savage.h src/Projectile.cpp src/Projectile.h)
-=======
-add_executable(medieval_roguelike src/core/main.cpp src/core/Game.h src/core/Game.cpp src/core/Player.h src/core/Player.cpp src/core/Weapon.h src/core/Weapon.cpp src/core/DungeonGenerator.cpp src/core/DungeonGenerator.h src/core/Room.cpp src/core/Room.h src/core/Vector2D.cpp src/core/Vector2D.h src/core/Entity.cpp src/core/Entity.h src/core/TileMap.cpp src/core/TileMap.h src/txt/TXTGame.cpp src/txt/TXTGame.h src/txt/WinTXT.cpp src/txt/WinTXT.h src/sdl2/SDLGame.cpp)
->>>>>>> acba2f247ea7681eaa9f464e5384528a9687efa5
 
 include_directories(${SDL2_INCLUDE_DIR}
         ${SDL2_IMAGE_INCLUDE_DIR}

@@ -20,14 +20,14 @@ const TileMap &Game::getConstTilemap() const
     return tilemap;
 }
 
-Player Game::getConstPlayer()
+Player *Game::getConstPlayer()
 {
-    return *player;
+    return player;
 }
 
 void Game::initDungeon()
 {
-    Vector2D pos(1, 1);
+    Vector2D pos(100, 100);
     Vector2D force(3, 3);
     int health = 50;
     int energy = 15;
@@ -51,4 +51,25 @@ void Game::initDungeon()
 
     tilemap.init("data/tileset.tsx");
     tilemap.fetchRoomFromFile(currentRoom.tilemapName);
+}
+
+void Game::movePlayer(char move)
+{
+    switch (move)
+    {
+    case 'r':
+        player->move({5, 0});
+        break;
+    case 'l':
+        player->move({-5, 0});
+        break;
+    default:
+        break;
+    }
+}
+
+void Game::jump()
+{
+    player->getForce();
+    player->move({0, -3});
 }

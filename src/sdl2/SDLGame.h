@@ -34,6 +34,8 @@ class SDLGame
     SDL_Renderer *renderer;
     Image tilesetImg;
     void drawCurrentRoom(const Game &g);
+    void drawPlayer(Player *player);
+
     //TTF_Font * font;
     //Image font_im;
     //SDL_Color font_color;

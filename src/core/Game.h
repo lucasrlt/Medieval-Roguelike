@@ -46,7 +46,16 @@ class Game
      *
      * @return Player
      */
-    Player getConstPlayer();
+    Player *getConstPlayer();
+
+    /**
+     * @brief Bouge le player.
+     * 
+     * @param move caractère indiquant la direction.
+     */
+    void movePlayer(char move);
+
+    void jump();
 
   private:
     Room currentRoom;
