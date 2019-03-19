@@ -31,7 +31,7 @@ class TileMap
          */
     void fetchRoomFromFile(const string &filename, int tabTiles[GRID_SIZE][GRID_SIZE]); //Room* out_room;
     //void drawTilesForRoom(Room& room, SDLMode& sdl);
-    /**
+    /** m
          * @brief Récupère les sprites des ids
          * @param files : tableau de vecteur string des sprites
          */

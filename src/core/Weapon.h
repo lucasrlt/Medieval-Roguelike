@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "Projectile.h"
+// #include "Projectile.h"
 
 /**
  @brief Module gérant les armes.
@@ -13,13 +13,13 @@
  @author Alexandre PUILLET
  */
 
-
 /**
  * @brief Classe représentant une arme.
  */
 
-class Weapon {
-public:
+class Weapon
+{
+  public:
     unsigned int damages;
     unsigned int energyCost;
     unsigned int attackSpeed;
@@ -42,7 +42,7 @@ public:
      * @param name nom de l'arme.
      */
     Weapon(unsigned int damages, unsigned int energyCost, unsigned int attackSpeed, int type,
-            float attackRange, std::string name);
+           float attackRange, std::string name);
 
     ~Weapon();
 
@@ -62,9 +62,8 @@ public:
      */
     void regressionTest();
 
-private:
-    vector<Projectile> projectile;
+  private:
+    // vector<Projectile> projectile;
 };
-
 
 #endif //MEDIEVAL_ROGUELIKE_WEAPON_H
