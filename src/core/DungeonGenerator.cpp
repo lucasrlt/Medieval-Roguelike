@@ -6,6 +6,8 @@
 #include <time.h>
 #include <iostream>
 #include <cstdio>
+#include <cassert>
+#include <cstring>
 #include <chrono>
 #include "DungeonGenerator.h"
 
@@ -16,7 +18,7 @@ DungeonGenerator::DungeonGenerator()
     fillMazeWithZeros();
     allRooms = nullptr;
     generateMaze((int)MAZE_SIZE / 2, (int)MAZE_SIZE / 2);
-    fetchRooms("../data/tilemaps/");
+    fetchRooms("data/tilemaps/");
 }
 
 DungeonGenerator::~DungeonGenerator()

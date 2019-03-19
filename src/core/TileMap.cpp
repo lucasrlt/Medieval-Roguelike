@@ -16,7 +16,7 @@ void TileMap::fetchRoomFromFile(const string &filename, int tabTile[GRID_SIZE][G
 
     if (!readFile.is_open())
     { //En cas d'erreur de l'ouverture du fichier, envoie un message d'erreur et stop le programme
-        cerr << "Erreur dans l'ouverture en lecture du fichier." << endl;
+        cerr << "TILEMAP: Erreur dans l'ouverture en lecture du fichier." << endl;
         return;
     }
 
@@ -47,7 +47,7 @@ void TileMap::fetchRoomFromFile(const string &filename, int tabTile[GRID_SIZE][G
 
 void TileMap::getSpriteNames(vector<string> &files)
 {
-    const string filename = "../data/tilemaps/TileSet.tsx";
+    const string filename = "data/TileSet.tsx";
     string linesBeforeContent;
     string testContent;
     string separator;

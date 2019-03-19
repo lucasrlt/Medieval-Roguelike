@@ -31,9 +31,6 @@ struct RoomSchema
  */
 class Room
 {
-private:
-  int dimx, dimy;
-
 public:
   RoomSchema schema;
   int *tiles;
