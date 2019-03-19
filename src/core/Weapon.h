@@ -2,6 +2,8 @@
 #define MEDIEVAL_ROGUELIKE_WEAPON_H
 
 #include <string>
+#include <vector>
+#include "Projectile.h"
 
 /**
  @brief Module gérant les armes.
@@ -61,7 +63,7 @@ public:
     void regressionTest();
 
 private:
-    //projectile Projectile[];
+    vector<Projectile> projectile;
 };
 
 

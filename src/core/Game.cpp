@@ -38,5 +38,5 @@ void Game::initDungeon(){
 
     dungeonGenerator.generateDungeon(dungeon);
 
-    currentRoom = getConstRoom(MAZE_SIZE/2, MAZE_SIZE/2);
+    currentRoom = getConstRoom((int)MAZE_SIZE/2, (int)MAZE_SIZE/2);
 }

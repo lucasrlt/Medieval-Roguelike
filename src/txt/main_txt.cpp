@@ -5,9 +5,5 @@
 
 int main(int argc, char **arg)
 {
-    Game g;
-    g.initDungeon();
 
-    TXTLoop(g);
-    return 0;
 }

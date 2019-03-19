@@ -59,6 +59,11 @@ public:
     void attack(Entity &e);
 
     /**
+     * @brief Récupère le player.
+     */
+    Player getPlayer();
+
+    /**
      * @brief Affiche les caractéristiques du personnage.
      */
     void show();
