@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "Projectile.h"
+//#include "Projectile.h"
 
 /**
  @brief Module gérant les armes.
@@ -63,7 +63,7 @@ public:
     void regressionTest();
 
 private:
-    vector<Projectile> projectile;
+    //vector<Projectile> projectile;
 };
 
 

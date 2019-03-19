@@ -7,6 +7,7 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include "Game.h"
 #include "../core/Room.h"
 
 class Image
@@ -33,6 +34,7 @@ class SDLGame
     SDL_Renderer *renderer;
 
     void renderRoom(Room room);
+    void drawPlayer(Player* player);
     //TTF_Font * font;
     //Image font_im;
     //SDL_Color font_color;

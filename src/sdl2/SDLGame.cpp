@@ -12,6 +12,7 @@
 #include "../core/Game.h"
 #include "../core/TileMap.h"
 #include <iostream>
+#include "../core/Game.h"
 using namespace std;
 
 const int dimx = GRID_SIZE * TILES_WIDTH;
@@ -197,32 +198,83 @@ void SDLGame::renderRoom(Room room)
             if (tiles[y][x] != 0)
             {
 
-                string filepath = "../data/" + tileMaps[tiles[y][x] - 1];
+                string filepath = "data/" + tileMaps[tiles[y][x] - 1];
                 IM_Sprite.loadFromFile(filepath.c_str(), renderer);
                 IM_Sprite.draw(renderer, x * TILES_WIDTH, y * TILES_HEIGHT, TILES_WIDTH, TILES_HEIGHT);
             }
         }
     }
 }
+
+void SDLGame::drawPlayer(Player* player){
+    TileMap tm;
+    Image IM_Sprite;
+
+    player->spriteName = "data/orange.jpg";
+
+    vector<string> playerSprite;
+    tm.getSpriteNames(playerSprite);
+
+    string filepath = "data/blanc.jpg";
+    IM_Sprite.loadFromFile(filepath.c_str(), renderer);
+    IM_Sprite.draw(renderer, player->position.x, player->position.y);
+}
+
 void SDLGame::SDLLoop()
 {
     SDL_Event events;
     bool quit = false;
     Room room;
+    
+    Game g;
+    g.initDungeon();
+
     // tant que ce n'est pas la fin ...
     while (!quit)
     {
+        char l = 'l';
+        char r = 'r';
 
         // tant qu'il y a des evenements à traiter (cette boucle n'est pas bloquante)
         while (SDL_PollEvent(&events))
         {
             if (events.type == SDL_QUIT)
                 quit = true; // Si l'utilisateur a clique sur la croix de fermeture
+
+            // else if(events.type == SDL_KEYDOWN){
+            //     if(events.type == SDL_SCANCODE_LEFT){
+            //         cout<<"Test gauche";
+            //         g.movePlayer(l);
+            //     }
+            //     else if(events.type == SDL_SCANCODE_RIGHT){
+            //         cout<<"Test droit";
+            //         g.movePlayer(r);
+            //     }
+            // }
+
+            else if(events.type == SDL_KEYDOWN){
+                switch (events.key.keysym.scancode){
+                    case SDL_SCANCODE_LEFT:
+                        g.movePlayer(l);  
+                        break;
+                    case SDL_SCANCODE_RIGHT:
+                        g.movePlayer(r);
+                        break;
+                    case SDL_SCANCODE_UP:
+                        g.jump();
+                        break;
+                    case SDL_SCANCODE_Q:
+                        quit = true;
+                        break;
+				    default: break;
+                } 
+            }
         }
 
         // on affiche le jeu sur le buffer caché
         SDLShow();
         renderRoom(room);
+        drawPlayer(g.getConstPlayer());
         // on permute les deux buffers (cette fonction ne doit se faire qu'une seule fois dans la boucle)
         SDL_RenderPresent(renderer);
     }

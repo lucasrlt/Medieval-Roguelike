@@ -37,6 +37,8 @@ public:
      */
     int getHealth()const;
 
+    Vector2D getForce()const;
+
     /**
      * @brief Change la vie du personnage en fonction des dégâts subits.
      * @param amount entier correspondant aux dégâts.

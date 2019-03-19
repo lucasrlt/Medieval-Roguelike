@@ -13,12 +13,12 @@ Room Game::getConstRoom(int x, int y){
     return dungeon[x][y];
 }
 
-Player Game::getConstPlayer(){
-    return *player;
+Player* Game::getConstPlayer(){
+    return player;
 }
 
 void Game::initDungeon(){
-    Vector2D pos(1, 1);
+    Vector2D pos(100, 100);
     Vector2D force(3, 3);
     int health = 50;
     int energy = 15;
@@ -39,4 +39,23 @@ void Game::initDungeon(){
     dungeonGenerator.generateDungeon(dungeon);
 
     currentRoom = getConstRoom((int)MAZE_SIZE/2, (int)MAZE_SIZE/2);
+}
+
+void Game::movePlayer(char move){
+    switch (move)
+    {
+        case 'r':
+            player->move({5, 0});
+            break;
+        case 'l':
+            player->move({-5, 0});
+            break;
+        default:
+            break;
+    }
+}
+
+void Game::jump(){
+    player->getForce();
+    player->move({0, -3});
 }
