@@ -10,7 +10,7 @@
 
 using namespace std;
 
-void TileMap::fetchRoomFromFile(const string &filename, int tabTile[GRID_SIZE][GRID_SIZE])
+void TileMap::fetchRoomFromFile(const string &filename, Tile *roomMap[GRID_SIZE][GRID_SIZE])
 {
     ifstream readFile(filename.c_str()); //Ouverture d'un flux pour lire le fichier voulu
 
@@ -37,12 +37,21 @@ void TileMap::fetchRoomFromFile(const string &filename, int tabTile[GRID_SIZE][G
             {
                 readFile >> content;
                 readFile >> separator;
-                tabTile[i][j] = content - '0';
+
+                int tileId = content - '0';
+                // TileType type = getTypeForTile(tileId);
+                Tile tile = {tileId, i * TILE_SIZE, j * TILE_SIZE, collision};
+                roomMap[i][j] = &tile;
             }
             cout << endl;
         }
         readFile.close(); //Ferme le flux
     }
+}
+
+TileType TileMap::getTypeForTile(unsigned int tileId)
+{
+    TileType type = collision;
 }
 
 void TileMap::getSpriteNames(vector<string> &files)
