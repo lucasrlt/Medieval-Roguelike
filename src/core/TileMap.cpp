@@ -5,12 +5,56 @@
 #include "TileMap.h"
 #include <iostream>
 #include <fstream>
-#include <string>
+#include <sstream>
 #include <vector>
 
 using namespace std;
 
-void TileMap::fetchRoomFromFile(const string &filename, Tile *roomMap[GRID_SIZE][GRID_SIZE])
+void TileMap::init(const string &tileset_file)
+{
+    tilesetFile = tileset_file;
+    fetchTileTypes();
+}
+
+void TileMap::fetchTileTypes()
+{
+    ifstream readFile(tilesetFile.c_str());
+
+    if (!readFile.is_open())
+    {
+        cerr << "FETCH_TILE_TYPES: erreur ouverture " << tilesetFile << endl;
+        return;
+    }
+
+    string content;
+
+    for (int k = 0; k < 3; k++)
+        getline(readFile, content);
+
+    while (!readFile.eof())
+    {
+        getline(readFile, content);
+        if (content[1] != '/') // élimine </tileset>
+        {
+            // On fetch une ligne du type <tile id="2" type="block" />
+            size_t idPos = content.find("id=\"") + 4;
+            size_t typePos = content.find("type=\"");
+            int tileId = stoi(content.substr(idPos, typePos - idPos - 2));
+
+            size_t endPos = content.find("/") - 1;
+            string tileType = content.substr(typePos + 6, endPos - typePos - 6);
+
+            if (tileType == "block")
+                tileTypes[tileId] = collision;
+            else if (tileType == "background")
+                tileTypes[tileId] = background;
+            else if (tileType == "spike")
+                tileTypes[tileId] = spike;
+        }
+    }
+}
+
+void TileMap::fetchRoomFromFile(const string &filename)
 {
     ifstream readFile(filename.c_str()); //Ouverture d'un flux pour lire le fichier voulu
 
@@ -22,74 +66,33 @@ void TileMap::fetchRoomFromFile(const string &filename, Tile *roomMap[GRID_SIZE]
 
     if (readFile)
     {
-        char content;
+        string content;
         string beforeContent;
-        char separator;
 
         for (int k = 0; k < LINES_BEFORE_GRID; k++) //Récupère les premières lignes inutiles
         {
             getline(readFile, beforeContent);
         }
 
-        for (int i = 0; i < GRID_SIZE; i++) //Récupère les ids des tiles et les stocke dans un tableau 2D
+        for (int y = 0; y < GRID_SIZE; y++) //Récupère les ids des tiles et les stocke dans un tableau 2D
         {
-            for (int j = 0; j < GRID_SIZE; j++)
+            for (int x = 0; x < GRID_SIZE; x++)
             {
-                readFile >> content;
-                readFile >> separator;
+                getline(readFile, content, ',');
+                int tileId = stoi(content);
 
-                int tileId = content - '0';
-                // TileType type = getTypeForTile(tileId);
-                Tile tile = {tileId, i * TILE_SIZE, j * TILE_SIZE, collision};
-                roomMap[i][j] = &tile;
+                TileType tileType = tileId == 0 ? background : tileTypes[tileId - 1];
+                int posX = ((tileId - 1) % TILE_SIZE) * TILE_SIZE;
+                int posY = ((int)((tileId - 1) / TILE_SIZE)) * TILE_SIZE;
+                Tile *tile = new Tile(tileId, posX, posY, tileType);
+                roomMap[x][y] = tile;
             }
-            cout << endl;
         }
         readFile.close(); //Ferme le flux
     }
 }
 
-TileType TileMap::getTypeForTile(unsigned int tileId)
+const Tile &TileMap::getXY(unsigned int x, unsigned int y) const
 {
-    TileType type = collision;
-}
-
-void TileMap::getSpriteNames(vector<string> &files)
-{
-    const string filename = "data/TileSet.tsx";
-    string linesBeforeContent;
-    string testContent;
-    string separator;
-    string sourceContent;
-    string content;
-    string spriteContent;
-
-    ifstream readFile(filename.c_str());
-
-    if (!readFile.is_open())
-    {
-        cerr << "Erreur dans l'ouverture en lecture du fichier." << endl;
-        return;
-    }
-    while (!readFile.eof())
-    {
-        readFile >> testContent;
-        if (testContent == "<image") // Si le string correspond à <image, on récupère le nom du fichier et on le rentre dans le vector
-        {
-            readFile >> separator;
-            readFile >> separator;
-            readFile >> sourceContent;
-
-            size_t sourcePos = sourceContent.find("source="); //Cherche le mot source dans la chaine sourceContent
-            content = sourceContent.substr(sourcePos + 8);    //Copie les caractères depuis le s de source jusqu'au " et le met dans le string content
-            size_t contentPos = content.find('"');
-            spriteContent = content.substr(0, contentPos);
-            files.push_back(spriteContent);
-        }
-        else
-        {
-            getline(readFile, linesBeforeContent);
-        }
-    }
-    readFile.close();
+    return *roomMap[x][y];
 }

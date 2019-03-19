@@ -14,8 +14,9 @@
 #include <iostream>
 using namespace std;
 
-const int dimx = GRID_SIZE * TILES_WIDTH;
-const int dimy = GRID_SIZE * TILES_HEIGHT;
+const int SCALE = 3;
+const int dimx = GRID_SIZE * TILE_SIZE * SCALE;
+const int dimy = GRID_SIZE * TILE_SIZE * SCALE;
 
 Image::Image()
 {
@@ -124,6 +125,8 @@ SDLGame::SDLGame()
     }
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+    tilesetImg.loadFromFile("data/tileset_img.png", renderer);
 /*
     // IMAGES //TODO : Ajouter les images
     im_pacman.loadFromFile("data/pacman.png",renderer);
@@ -177,38 +180,30 @@ void SDLGame::SDLShow()
 
 }
 */
-void SDLGame::renderRoom(Room room)
+void SDLGame::drawCurrentRoom(const Game &g)
 {
-    room.tilemapName = "data/tilemaps/B.tmx";
-    TileMap tm;
+    const TileMap &tilemap = g.getConstTilemap();
 
-    Image IM_Sprite;
-
-    int tiles[GRID_SIZE][GRID_SIZE];
-    vector<string> tileMaps;
-
-    tm.fetchRoomFromFile(room.tilemapName, tiles);
-    tm.getSpriteNames(tileMaps);
-
-    for (int x = 0; x < GRID_SIZE; ++x)
+    for (int y = 0; y < GRID_SIZE; ++y)
     {
-        for (int y = 0; y < GRID_SIZE; ++y)
+        for (int x = 0; x < GRID_SIZE; ++x)
         {
-            if (tiles[y][x] != 0)
+            const Tile &currTile = tilemap.getXY(x, y);
+            if (currTile.id != 0)
             {
-
-                string filepath = "../data/" + tileMaps[tiles[y][x] - 1];
-                IM_Sprite.loadFromFile(filepath.c_str(), renderer);
-                IM_Sprite.draw(renderer, x * TILES_WIDTH, y * TILES_HEIGHT, TILES_WIDTH, TILES_HEIGHT);
+                SDL_Rect clipRect = {currTile.posX, currTile.posY, TILE_SIZE, TILE_SIZE};
+                SDL_Rect destRect = {x * TILE_SIZE * SCALE, y * TILE_SIZE * SCALE, TILE_SIZE * SCALE, TILE_SIZE * SCALE};
+                SDL_RenderCopy(renderer, tilesetImg.texture, &clipRect, &destRect);
             }
         }
+        // cout << endl;
     }
 }
-void SDLGame::SDLLoop()
+void SDLGame::SDLLoop(Game &g)
 {
     SDL_Event events;
     bool quit = false;
-    Room room;
+
     // tant que ce n'est pas la fin ...
     while (!quit)
     {
@@ -222,7 +217,7 @@ void SDLGame::SDLLoop()
 
         // on affiche le jeu sur le buffer caché
         SDLShow();
-        renderRoom(room);
+        drawCurrentRoom(g);
         // on permute les deux buffers (cette fonction ne doit se faire qu'une seule fois dans la boucle)
         SDL_RenderPresent(renderer);
     }

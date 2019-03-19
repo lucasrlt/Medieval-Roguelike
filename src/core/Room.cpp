@@ -8,6 +8,7 @@ bool RoomSchema::operator==(const RoomSchema &schema) const
 
 Room::Room()
 {
+    tilemapName = "";
 }
 
 Room::~Room()

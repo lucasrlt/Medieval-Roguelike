@@ -11,8 +11,9 @@ using namespace std;
 
 const int TILE_SIZE = 16;
 
-const int GRID_SIZE = 16;        // largeur et hauteur d'une salle en nombre de tiles
-const int LINES_BEFORE_GRID = 6; //
+const int GRID_SIZE = 16; // largeur et hauteur d'une salle en nombre de tiles
+const int NUM_TILES = TILE_SIZE * GRID_SIZE;
+const int LINES_BEFORE_GRID = 6;
 
 enum TileType
 {
@@ -23,9 +24,11 @@ enum TileType
 
 struct Tile
 {
-     unsigned int id;
-     unsigned int posX, posY;
+     int id;
+     int posX, posY;
      TileType type;
+
+     Tile(int _id, int _posX, int _posY, TileType _type) : id(_id), posX(_posX), posY(_posY), type(_type) {}
 };
 
 /**
@@ -34,10 +37,15 @@ struct Tile
 class TileMap
 {
    private:
-     TileType getTypeForTile(unsigned int tileId);
+     string tilesetFile;
+     Tile *roomMap[GRID_SIZE][GRID_SIZE];
+     TileType tileTypes[NUM_TILES];
+
+     void fetchTileTypes();
 
    public:
-     //Sprite[*] tiles;
+     void init(const string &tilesetFile);
+     const Tile &getXY(unsigned int x, unsigned int y) const;
 
      /**
          * @brief Récupère la salle depuis le fichier
@@ -45,13 +53,7 @@ class TileMap
          * @param gridSize  : Taille d'une salle de tiles
          * @param linesBeforeGrid : Lignes de textes du fichier filename avant les tiles
          */
-     void fetchRoomFromFile(const string &filename, Tile * [GRID_SIZE][GRID_SIZE]); //Room* out_room;
-     //void drawTilesForRoom(Room& room, SDLMode& sdl);
-     /** m
-         * @brief Récupère les sprites des ids
-         * @param files : tableau de vecteur string des sprites
-         */
-     void getSpriteNames(vector<string> &files);
+     void fetchRoomFromFile(const string &filename); //Room* out_room;
 };
 
 #endif //MEDIEVAL_ROGUELIKE_TILEMAP_H

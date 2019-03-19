@@ -5,7 +5,10 @@
 
 int main(int argc, char **arg)
 {
+    Game g;
+    g.initDungeon();
+
     SDLGame sg;
-    sg.SDLLoop();
+    sg.SDLLoop(g);
     return 0;
 }

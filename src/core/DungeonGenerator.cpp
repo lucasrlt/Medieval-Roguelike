@@ -60,12 +60,12 @@ void DungeonGenerator::fetchRooms(const char *dir)
     {
         string filename = files[j];
         Room newRoom;
-        newRoom.tilemapName = filename;
+        newRoom.tilemapName = "data/tilemaps/" + filename;
 
         unsigned int i = 0;
 
         // Récupère les différentes ouvertures de la salle et crée le RoomSchema
-        while (filename[i] != '.') // les noms de fichier sont de la forme "LT_maSalle.tmx", avec L pour left et T pour top par exemple
+        while (filename[i] != '_') // les noms de fichier sont de la forme "LT_maSalle.tmx", avec L pour left et T pour top par exemple
         {
             if (filename[i] == 'B')
                 newRoom.schema.openBottom = true;
@@ -83,7 +83,7 @@ void DungeonGenerator::fetchRooms(const char *dir)
     }
 }
 
-/** 
+/**
  * MAZE PATH GENERATION
  **/
 
@@ -95,6 +95,7 @@ void DungeonGenerator::displayMaze() const
         {
             cout << maze[x][y] << ' ';
         }
+
         cout << endl;
     }
 }
@@ -175,7 +176,7 @@ void DungeonGenerator::generateMaze(unsigned int x, unsigned int y)
 }
 
 /** DUNGEON GENERATION **/
-Room DungeonGenerator::getRandomRoomForPos(unsigned int x, unsigned int y)
+Room *DungeonGenerator::getRandomRoomForPos(unsigned int x, unsigned int y)
 {
     srand(time(NULL));
 
@@ -203,11 +204,21 @@ Room DungeonGenerator::getRandomRoomForPos(unsigned int x, unsigned int y)
     }
 
     // Retourne une salle aléatoire parmi toutes les salles possibles.
-    return possibleRooms[rand() % possibleRooms.size()];
+    Room *newRoom = new Room(possibleRooms[rand() % possibleRooms.size()]);
+    return newRoom;
 }
 
-void DungeonGenerator::generateDungeon(Room dungeon[MAZE_SIZE][MAZE_SIZE])
+void DungeonGenerator::generateDungeon(Room *dungeon[MAZE_SIZE][MAZE_SIZE])
 {
+    // Met à NULL toutes les cases du donjon
+    for (int i = 0; i < 5; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            dungeon[j][i] = NULL;
+        }
+    }
+
     // Parcourt tout le tableau maze et trouve des salles adaptés à chaque case à 1.
     for (unsigned int y = 0; y < MAZE_SIZE; ++y)
     {

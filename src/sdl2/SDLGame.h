@@ -7,6 +7,7 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include "../core/Game.h"
 #include "../core/Room.h"
 
 class Image
@@ -14,10 +15,10 @@ class Image
 
   private:
     SDL_Surface *surface;
-    SDL_Texture *texture;
     bool has_changed;
 
   public:
+    SDL_Texture *texture;
     Image();
     void loadFromFile(const char *filename, SDL_Renderer *renderer);
     void loadFromCurrentSurface(SDL_Renderer *renderer);
@@ -31,8 +32,8 @@ class SDLGame
   private:
     SDL_Window *window;
     SDL_Renderer *renderer;
-
-    void renderRoom(Room room);
+    Image tilesetImg;
+    void drawCurrentRoom(const Game &g);
     //TTF_Font * font;
     //Image font_im;
     //SDL_Color font_color;
@@ -40,7 +41,7 @@ class SDLGame
   public:
     SDLGame();
     ~SDLGame();
-    void SDLLoop();
+    void SDLLoop(Game &g);
     void SDLShow();
     //Image im_mur;
     //Image im_pastille;

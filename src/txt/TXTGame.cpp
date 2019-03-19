@@ -8,61 +8,43 @@
 #include "WinTXT.h"
 #include "../core/TileMap.h"
 
-void drawMap(Game &game, WinTXT &win)
+void drawRoom(const Game &g, WinTXT &win)
 {
-    for (int y = 0; y < 40; y++)
-    {
-        for (int x = 0; x < 40; x++)
-        {
-            win.print(x, y, ' ');
-        }
-    }
+    const TileMap &tilemap = g.getConstTilemap();
 
-    Room r;
-    TileMap tm;
-    for (int y = 0; y < MAZE_SIZE; y++)
+    for (int y = 0; y < GRID_SIZE; y++)
     {
-        for (int x = 0; x < MAZE_SIZE; x++)
+        for (int x = 0; x < GRID_SIZE; x++)
         {
-            r = game.getConstRoom(x, y);
-            // cout << r.tilemapName << "     ";
-
-            if (r.tilemapName != "")
+            const Tile &tile = tilemap.getXY(x, y);
+            if (tile.id == 0 || tile.type == background)
             {
-                int tiles[GRID_SIZE][GRID_SIZE];
-
-                tm.fetchRoomFromFile("data/tilemaps/" + r.tilemapName, tiles);
-                // cout << "Oui - ";
-                for (int j = 0; j < GRID_SIZE; j++)
-                {
-                    for (int i = 0; i < GRID_SIZE; i++)
-                    {
-                        win.print(y * GRID_SIZE + i, x * GRID_SIZE + j, tiles[i][j] > 0 ? 'X' : '.');
-                    }
-                }
+                win.print(x, y, '.');
+            }
+            else
+            {
+                win.print(x, y, 'X');
             }
         }
-        // cout << endl;
     }
 }
 
 void TXTLoop(Game &g)
 {
     WinTXT win(MAZE_SIZE * GRID_SIZE, MAZE_SIZE * GRID_SIZE);
-    drawMap(g, win);
     bool ok = true;
     do
     {
         win.clear();
-        drawMap(g, win);
+        drawRoom(g, win);
         win.draw();
-        usleep(1000000);
+        usleep(10000);
 
-        // char c = win.getCh();
-        // switch (c)i
-        // {
-        // case 't':
-        //     ok = false;
-        // }
+        char c = win.getCh();
+        switch (c)
+        {
+        case 't':
+            ok = false;
+        }
     } while (ok);
 }

@@ -1,6 +1,6 @@
 /**
  * @brief Module gérant la création du jeu
- * 
+ *
  * @author Alexandre PUILLET
  * @file Game.h
  */
@@ -13,6 +13,7 @@
 #include "DungeonGenerator.h"
 #include "Vector2D.h"
 #include "Player.h"
+#include "TileMap.h"
 
 using namespace std;
 
@@ -20,12 +21,12 @@ using namespace std;
  * @brief Classe s'occupant de créer le jeu.
  */
 
-class Game{
+class Game
+{
   public:
     ~Game();
 
-    Room dungeon[MAZE_SIZE][MAZE_SIZE];
-    DungeonGenerator dungeonGenerator;
+    Room *dungeon[MAZE_SIZE][MAZE_SIZE];
 
     /**
      * @brief Initialisation du niveau, avec le personnage.
@@ -36,18 +37,22 @@ class Game{
      * @brief Récupère une salle.
      * @return Room.
      */
-    Room getConstRoom(int x, int y);
+    Room &getConstRoom(int x, int y);
+
+    const TileMap &getConstTilemap() const;
 
     /**
      * @brief Récupère un Player.
-     * 
-     * @return Player 
+     *
+     * @return Player
      */
     Player getConstPlayer();
 
   private:
     Room currentRoom;
-    Player* player;
+    Player *player;
+    TileMap tilemap;
+    DungeonGenerator dungeonGenerator;
 };
 
 #endif //MEDIVALROGUELIKE_GAME_H
