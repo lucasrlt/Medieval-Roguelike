@@ -93,6 +93,8 @@ class DungeonGenerator
      * @param dir dossier dans lequel se trouve les tilemaps représentant les salles.
      */
     void fetchRooms(const char *dir);
+
+    void regressionTest();
 };
 
 #endif //MEDIEVALROGUELIKE_DUNGEONGENERATOR_H

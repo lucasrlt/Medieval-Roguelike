@@ -229,3 +229,15 @@ void DungeonGenerator::generateDungeon(Room *dungeon[MAZE_SIZE][MAZE_SIZE])
         }
     }
 }
+
+void DungeonGenerator::regressionTest(){
+    vector<tuple<unsigned int, unsigned int>> dungeon_test;
+    for(int i = 0 ; i < MAZE_SIZE; i++){
+        for(int j = 0 ; j < MAZE_SIZE; j++){
+            findNeighbours(MAZE_SIZE, MAZE_SIZE, dungeon_test);
+            assert(dungeon_test.size() > 0);
+        }
+        cout<<"Ligne n°"<<i+1<<" ok"<<endl;
+    }
+    
+}
