@@ -33,6 +33,9 @@ void TileMap::fetchTileTypes()
     for (int k = 0; k < 3; k++)
         getline(readFile, content);
 
+    for (int i = 0; i < NUM_TILES; i++)
+        tileTypes[i] = background;
+
     while (!readFile.eof())
     {
         getline(readFile, content);
@@ -94,6 +97,12 @@ void TileMap::fetchRoomFromFile(const string &filename)
     }
 }
 
+bool TileMap::isValidPosition(const int x, const int y) const
+{
+    // cout << "Pos: " << x << " - " << y << endl;
+    return (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE && !(roomMap[x][y]->type == collision));
+}
+
 const Tile &TileMap::getXY(unsigned int x, unsigned int y) const
 {
     return *roomMap[x][y];
@@ -106,10 +115,16 @@ void TileMap::regressionTest(){
     tm.init("data/tileset.tsx");
 
     tm.fetchRoomFromFile("data/test_tilemap.tmx");
+    
+    assert(tm.roomMap[0][0]->id == 8 && tm.roomMap[0][0]->type == collision);
+    cout<<"Case [0][0] bonne"<<endl;
 
-    cout<<tm.roomMap[0][0]->id<<endl;
+    assert(tm.roomMap[1][0]->id == 116 && tm.roomMap[1][0]->type == background);
+    cout<<"Case [1][0] bonne"<<endl;
 
-    cout<<tm.roomMap[0][0]->type<<endl;
+    assert(tm.roomMap[2][0]->id == 195 && tm.roomMap[2][0]->type == spike);
+    cout<<"Case [2][0] bonne"<<endl;
 
-    assert(tm.roomMap[0][0]->id == 0); //&& roomMap[0][0]->type == collision);
+    assert(tm.roomMap[15][15]->id == 104 && tm.roomMap[15][15]->type == collision);
+    cout<<"Case [15][15] bonne"<<endl;
 }

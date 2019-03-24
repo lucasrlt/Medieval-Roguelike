@@ -4,6 +4,10 @@
  <tile id="0" type="block"/>
  <tile id="1" type="block"/>
  <tile id="2" type="block"/>
+ <tile id="3" type="spawn-l"/>
+ <tile id="4" type="spawn-r"/>
+ <tile id="5" type="spawn-b"/>
+ <tile id="6" type="spawn-t"/>
  <tile id="7" type="block"/>
  <tile id="8" type="block"/>
  <tile id="9" type="block"/>

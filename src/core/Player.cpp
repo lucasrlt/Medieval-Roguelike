@@ -4,10 +4,12 @@
 
 using namespace std;
 
-Player::Player(){
+Player::Player()
+{
     energy = 0;
     shield = 0;
     spriteName = " ";
+    currentJumpHeight = 0;
 }
 
 Player::Player(Vector2D positionInit, Vector2D forceInit, int healthInit, int energyInit, int shieldInit, Weapon weaponInit, std::string name)
@@ -19,33 +21,51 @@ Player::Player(Vector2D positionInit, Vector2D forceInit, int healthInit, int en
     spriteName = name;
 }
 
-Player::~Player(){
-
+Player::~Player()
+{
 }
 
-void Player::receiveShieldDamage(int amount){
+void Player::receiveShieldDamage(int amount)
+{
     shield -= amount;
-    if(shield < 0)
+    if (shield < 0)
         shield = 0;
 }
 
-void Player::loseEnergy(int amount){
+void Player::loseEnergy(int amount)
+{
     energy -= amount;
-    if(energy < 0)
+    if (energy < 0)
         energy = 0;
 }
 
-void Player::attack(Entity &e) {
+void Player::attack(Entity &e)
+{
     e.receiveDamage(weapon.damages);
 }
 
-void Player::show(){
-    cout << "Energie: " << energy << endl;
-    cout << "Bouclier: " << shield << endl;
-    cout << "Nom: " << spriteName << endl << endl;
+bool Player::jump(const TileMap &t)
+{
+    if (currentJumpHeight < MAX_JUMP_HEIGHT)
+    {
+        currentJumpHeight += 5;
+        moveUp(t);
+        return true;
+    }
+    currentJumpHeight = 0;
+    return false;
 }
 
-void Player::regressionTest(){
+void Player::show()
+{
+    cout << "Energie: " << energy << endl;
+    cout << "Bouclier: " << shield << endl;
+    cout << "Nom: " << spriteName << endl
+         << endl;
+}
+
+void Player::regressionTest()
+{
 
 /*
     Player p(5, 3, "JeSuisUnJoueur");
@@ -79,8 +99,12 @@ void Player::regressionTest(){
 
     w.show();
 
-    cout << endl << "Vie entité1: " << e.getHealth() << endl;
+    cout << endl
+         << "Vie entité1: " << e.getHealth() << endl;
     pa.attack(e);
     cout << "Vie entité: " << e.getHealth() << endl;
     e.show();
 }
+
+int Player::getEnergy() const { return energy; }
+int Player::getShield() const { return shield; }

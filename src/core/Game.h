@@ -37,7 +37,9 @@ class Game
      * @brief Récupère une salle.
      * @return Room.
      */
-    Room &getConstRoom(int x, int y);
+    Room &getConstRoom(int x, int y) const;
+    int getCurrentRoomX() const;
+    int getCurrentRoomY() const;
 
     const TileMap &getConstTilemap() const;
 
@@ -46,19 +48,25 @@ class Game
      *
      * @return Player
      */
-    Player *getConstPlayer();
+    Player *getConstPlayer() const;
 
     /**
      * @brief Bouge le player.
      * 
      * @param move caractère indiquant la direction.
      */
-    void movePlayer(char move);
+    void keyboardActions(char action);
 
-    void jump();
+    void automaticActions();
+
+    void checkRoomChange(char direction);
+    void changeRoom(char direction);
+    void checkSpikes();
 
   private:
+    bool isJumping;
     Room currentRoom;
+    int currRoomX, currRoomY;
     Player *player;
     TileMap tilemap;
     DungeonGenerator dungeonGenerator;
