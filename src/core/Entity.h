@@ -2,6 +2,7 @@
 #define MEDIEVAL_ROGUELIKE_AGENT_H
 
 #include "Vector2D.h"
+#include "TileMap.h"
 
 /**
  * @brief Module gérant les entités du jeu.
@@ -11,12 +12,12 @@
  * @author Alexandre PUILLET
  */
 
-
 /**
  @brief Classe représentant les caractéristiques communes des entités du jeu.
  */
-class Entity {
-public:
+class Entity
+{
+  public:
     Vector2D position;
 
     Entity();
@@ -35,9 +36,9 @@ public:
      * @brief récupère la vie de l'entité.
      * @return health (entier).
      */
-    int getHealth()const;
+    int getHealth() const;
 
-    Vector2D getForce()const;
+    Vector2D getForce() const;
 
     /**
      * @brief Change la vie du personnage en fonction des dégâts subits.
@@ -49,7 +50,11 @@ public:
      * @brief Ajoute le déplacement au personnage.
      * @param dep vecteur de déplacement.
      */
-    void move(Vector2D dep);
+    void move(Vector2D dep, const TileMap &t);
+    void moveLeft(const TileMap &t);
+    void moveRight(const TileMap &t);
+    void moveUp(const TileMap &t);
+    void moveDown(const TileMap &t, char currDirection = ' ');
 
     /**
      * @brief Ajoute une force à la force du personnage.
@@ -67,7 +72,7 @@ public:
      */
     void regressionTest();
 
-protected:
+  protected:
     Vector2D force;
     int health;
 };

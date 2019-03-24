@@ -31,6 +31,9 @@ void TileMap::fetchTileTypes()
     for (int k = 0; k < 3; k++)
         getline(readFile, content);
 
+    for (int i = 0; i < NUM_TILES; i++)
+        tileTypes[i] = background;
+
     while (!readFile.eof())
     {
         getline(readFile, content);
@@ -90,6 +93,12 @@ void TileMap::fetchRoomFromFile(const string &filename)
         }
         readFile.close(); //Ferme le flux
     }
+}
+
+bool TileMap::isValidPosition(const int x, const int y) const
+{
+    // cout << "Pos: " << x << " - " << y << endl;
+    return (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE && !roomMap[x][y]->type == collision);
 }
 
 const Tile &TileMap::getXY(unsigned int x, unsigned int y) const

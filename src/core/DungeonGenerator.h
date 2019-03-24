@@ -69,7 +69,7 @@ class DungeonGenerator
      * @param x,y coordonnées du point (x,y)
      * @return Room salle adaptée au point (x,y)
      */
-    Room* getRandomRoomForPos(unsigned int x, unsigned int y);
+    Room *getRandomRoomForPos(unsigned int x, unsigned int y);
 
   public:
     DungeonGenerator();
@@ -84,7 +84,7 @@ class DungeonGenerator
      *
      * @param dungeon tableau dans lequel les salles du donjon sont stockées.
      */
-    void generateDungeon(Room* dungeon[MAZE_SIZE][MAZE_SIZE]);
+    void generateDungeon(Room *dungeon[MAZE_SIZE][MAZE_SIZE]);
 
     /**
      * @brief Crée des salles à partir de toutes les tilemaps stockées dans le dossier dir et

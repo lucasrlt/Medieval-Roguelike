@@ -13,15 +13,15 @@ const int TILE_SIZE = 16;
 
 const int GRID_SIZE = 16; // largeur et hauteur d'une salle en nombre de tiles
 const int NUM_TILES = TILE_SIZE * GRID_SIZE;
-const int LINES_BEFORE_GRID = 6;
+const int LINES_BEFORE_GRID = 5;
 
 enum TileType
 {
      collision,
-     background,
      spike,
+     background,
 };
-
+//
 struct Tile
 {
      int id;
@@ -46,6 +46,8 @@ class TileMap
    public:
      void init(const string &tilesetFile);
      const Tile &getXY(unsigned int x, unsigned int y) const;
+
+     bool isValidPosition(const int x, const int y) const;
 
      /**
          * @brief Récupère la salle depuis le fichier

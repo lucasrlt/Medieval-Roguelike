@@ -17,10 +17,16 @@
  * @brief Classe représentant les caractéristiques d'un personnage.
  */
 
-class Player : public Entity {
-public:
+const float MAX_JUMP_HEIGHT = 40;
+
+class Player : public Entity
+{
+  private:
     int energy;
     int shield;
+    float currentJumpHeight;
+
+  public:
     Weapon weapon;
     std::string spriteName;
 
@@ -39,6 +45,9 @@ public:
     Player(Vector2D positionInit, Vector2D forceInit, int healthInit, int energyInit, int shieldInit, Weapon weaponInit, std::string name);
 
     ~Player();
+
+    int getEnergy() const;
+    int getShield() const;
 
     /**
      * @brief Enlève des points de bouclier.
@@ -72,7 +81,8 @@ public:
      * @brief Tests du module.
      */
     void regressionTest();
-};
 
+    bool jump(const TileMap &t);
+};
 
 #endif //MEDIEVAL_ROGUELIKE_PLAYER_H

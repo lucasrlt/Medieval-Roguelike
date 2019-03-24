@@ -149,16 +149,20 @@ SDLGame::SDLGame()
 SDLGame::~SDLGame()
 {
     //TTF_CloseFont(font);
+    cout << "Adieu." << endl;
     TTF_Quit();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
 }
 
-void SDLGame::SDLShow()
+void SDLGame::SDLShow(const Game &g)
 {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
+
+    drawCurrentRoom(g);
+    drawPlayer(g.getConstPlayer());
 }
 /*
     Game game;
@@ -209,7 +213,7 @@ void SDLGame::drawPlayer(Player *player)
     player->spriteName = "data/blanc.jpg";
 
     IM_Sprite.loadFromFile(player->spriteName.c_str(), renderer);
-    IM_Sprite.draw(renderer, player->position.x, player->position.y);
+    IM_Sprite.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
 }
 
 void SDLGame::SDLLoop(Game &g)
@@ -217,13 +221,10 @@ void SDLGame::SDLLoop(Game &g)
     SDL_Event events;
     bool quit = false;
     Room room;
-
+    const Uint8 *keyboard_state_array = SDL_GetKeyboardState(NULL);
     // tant que ce n'est pas la fin ...
     while (!quit)
     {
-        char l = 'l';
-        char r = 'r';
-
         // tant qu'il y a des evenements à traiter (cette boucle n'est pas bloquante)
         while (SDL_PollEvent(&events))
         {
@@ -231,31 +232,21 @@ void SDLGame::SDLLoop(Game &g)
                 quit = true; // Si l'utilisateur a clique sur la croix de fermeture
             else if (events.type == SDL_KEYDOWN)
             {
-                switch (events.key.keysym.scancode)
-                {
-                case SDL_SCANCODE_LEFT:
-                    g.movePlayer(l);
-                    break;
-                case SDL_SCANCODE_RIGHT:
-                    g.movePlayer(r);
-                    break;
-                case SDL_SCANCODE_UP:
-                    g.jump();
-                    break;
-                case SDL_SCANCODE_Q:
-                    quit = true;
-                    break;
-                default:
-                    break;
-                }
+                if (keyboard_state_array[SDL_SCANCODE_UP])
+                    g.keyboardActions('t');
+                if (keyboard_state_array[SDL_SCANCODE_LEFT])
+                    g.keyboardActions('l');
+                if (keyboard_state_array[SDL_SCANCODE_RIGHT])
+                    g.keyboardActions('r');
+                if (keyboard_state_array[SDL_SCANCODE_Q])
+                    quit = false;
             }
         }
 
-        // on affiche le jeu sur le buffer caché
-        SDLShow();
+        g.automaticActions();
 
-        drawCurrentRoom(g);
-        drawPlayer(g.getConstPlayer());
+        // on affiche le jeu sur le buffer caché
+        SDLShow(g);
 
         // on permute les deux buffers (cette fonction ne doit se faire qu'une seule fois dans la boucle)
         SDL_RenderPresent(renderer);
