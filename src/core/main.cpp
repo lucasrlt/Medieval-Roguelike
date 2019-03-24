@@ -8,8 +8,12 @@
 
 int main(int argc, char **arg)
 {
-    SDLGame sg;
-    sg.SDLLoop();
+
+    Entity e;
+    e.regressionTest();
+
+    // SDLGame sg;
+    // sg.SDLLoop();
 
     return 0;
 }

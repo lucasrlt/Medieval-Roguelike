@@ -3,10 +3,12 @@
 //
 
 #include "TileMap.h"
+#include "Room.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <assert.h>
 
 using namespace std;
 
@@ -95,4 +97,19 @@ void TileMap::fetchRoomFromFile(const string &filename)
 const Tile &TileMap::getXY(unsigned int x, unsigned int y) const
 {
     return *roomMap[x][y];
+}
+
+void TileMap::regressionTest(){
+
+    TileMap tm;
+
+    tm.init("data/tileset.tsx");
+
+    tm.fetchRoomFromFile("data/test_tilemap.tmx");
+
+    cout<<tm.roomMap[0][0]->id<<endl;
+
+    cout<<tm.roomMap[0][0]->type<<endl;
+
+    assert(tm.roomMap[0][0]->id == 0); //&& roomMap[0][0]->type == collision);
 }

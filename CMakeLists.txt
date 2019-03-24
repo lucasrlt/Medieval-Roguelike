@@ -19,4 +19,3 @@ include_directories(${SDL2_INCLUDE_DIR}
 target_link_libraries(medieval_roguelike ${SDL2_LIBRARY}
         ${SDL2_IMAGE_LIBRARIES}
         ${SDL2_TTF_LIBRARIES})
-

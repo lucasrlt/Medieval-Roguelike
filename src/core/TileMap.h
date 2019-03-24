@@ -54,6 +54,8 @@ class TileMap
          * @param linesBeforeGrid : Lignes de textes du fichier filename avant les tiles
          */
      void fetchRoomFromFile(const string &filename); //Room* out_room;
+
+     void regressionTest();
 };
 
 #endif //MEDIEVAL_ROGUELIKE_TILEMAP_H

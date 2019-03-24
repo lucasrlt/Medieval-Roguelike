@@ -8,6 +8,10 @@ SRCS_SDL = $(CORE) sdl2/SDLGame.cpp sdl2/main_sdl.cpp
 FINAL_TARGET_SDL = medieval_roguelike_sdl
 #DEFINE_SDL = -DJEU_SDL
 
+SRCS_TEST = $(CORE) core/main_test.cpp 
+FINAL_TARGET_TEST = medieval_roguelike_test
+#DEFINE_REG = -DJEU_REG
+
 ifeq ($(OS),Windows_NT)
 	INCLUDE_DIR_SDL = 	-Iextern/SDL2_mingw/SDL2-2.0.3/include \
 						-Iextern/SDL2_mingw/SDL2_ttf-2.0.12/i686-w64-mingw32/include/SDL2 \
@@ -35,7 +39,7 @@ SRC_DIR 			= src
 BIN_DIR 			= bin
 INCLUDE_DIR			= -Isrc -Isrc/core -Isrc/sdl2 -Itxt
 
-default: make_dir $(BIN_DIR)/$(FINAL_TARGET_TXT) $(BIN_DIR)/$(FINAL_TARGET_SDL)
+default: make_dir $(BIN_DIR)/$(FINAL_TARGET_TXT) $(BIN_DIR)/$(FINAL_TARGET_SDL) $(BIN_DIR)/$(FINAL_TARGET_TEST)
 
 make_dir:
 ifeq ($(OS),Windows_NT)
@@ -50,12 +54,15 @@ $(BIN_DIR)/$(FINAL_TARGET_TXT): $(SRCS_TXT:%.cpp=$(OBJ_DIR)/%.o)
 $(BIN_DIR)/$(FINAL_TARGET_SDL): $(SRCS_SDL:%.cpp=$(OBJ_DIR)/%.o)
 	$(LD) $+ -o $@ $(LDFLAGS) $(LIBS_SDL)
 
+$(BIN_DIR)/$(FINAL_TARGET_TEST): $(SRCS_TEST:%.cpp=$(OBJ_DIR)/%.o)
+	$(LD) $+ -o $@ $(LDFLAGS)
+
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CC) -c $(CPPFLAGS) $(INCLUDE_DIR_SDL) $(INCLUDE_DIR) $< -o $@
 
 clean:
 ifeq ($(OS),Windows_NT)
-	del /f $(OBJ_DIR)\txt\*.o $(OBJ_DIR)\sdl2\*.o $(OBJ_DIR)\core\*.o $(BIN_DIR)\$(FINAL_TARGET_TXT).exe $(BIN_DIR)\$(FINAL_TARGET_SDL).exe
+	del /f $(OBJ_DIR)\txt\*.o $(OBJ_DIR)\sdl2\*.o $(OBJ_DIR)\core\*.o $(BIN_DIR)\$(FINAL_TARGET_TXT).exe $(BIN_DIR)\$(FINAL_TARGET_SDL).exe $(BIN_DIR)\$(FINAL_TARGET_TEST).exe
 else
 	rm -rf $(OBJ_DIR) $(BIN_DIR)/$(FINAL_TARGET_TXT) $(BIN_DIR)/$(FINAL_TARGET_SDL)
 endif

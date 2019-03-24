@@ -7,7 +7,7 @@ using namespace std;
 Entity::Entity(){
     position = {0, 0};
 
-    force = {48 ,-9.81};
+    force = {0 ,-9.81};
 
     health = 0;
 }

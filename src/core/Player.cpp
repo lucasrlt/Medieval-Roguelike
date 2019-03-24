@@ -47,7 +47,7 @@ void Player::show(){
 
 void Player::regressionTest(){
 
-    /*
+/*
     Player p(5, 3, "JeSuisUnJoueur");
     assert(p.energy == 5 && p.shield == 3 && p.spriteName == "JeSuisUnJoueur");
     cout << "Paramètres ok" << endl;
@@ -68,7 +68,7 @@ void Player::regressionTest(){
     assert(p.energy == 5 && p.shield == 3);
     cout << "Ok" << endl;
     p.show();
-    */
+*/
 
     Vector2D v(3, 5);
     Entity e(v, v, 12);
