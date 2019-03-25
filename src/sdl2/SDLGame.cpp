@@ -222,9 +222,11 @@ void SDLGame::SDLLoop(Game &g)
     bool quit = false;
     Room room;
     const Uint8 *keyboard_state_array = SDL_GetKeyboardState(NULL);
+
     // tant que ce n'est pas la fin ...
     while (!quit)
     {
+
         // tant qu'il y a des evenements à traiter (cette boucle n'est pas bloquante)
         while (SDL_PollEvent(&events))
         {

@@ -14,11 +14,15 @@ using namespace std;
 
 TileMap::~TileMap()
 {
-    for (int i = 0; i < GRID_SIZE; i++)
+    if (tilesetFile != "")
     {
-        for (int j = 0; j < GRID_SIZE; j++)
+        for (int i = 0; i < GRID_SIZE; i++)
         {
-            delete roomMap[i][j];
+            for (int j = 0; j < GRID_SIZE; j++)
+            {
+                if (roomMap[i][j] != NULL)
+                    delete roomMap[i][j];
+            }
         }
     }
 }

@@ -8,9 +8,10 @@ using namespace std;
 Game::~Game()
 {
     delete player;
-    for(int i = 0; i < MAZE_SIZE; i++)
+    delete tilemap;
+    for (int i = 0; i < MAZE_SIZE; i++)
     {
-        for(int j = 0; j < MAZE_SIZE; j++)
+        for (int j = 0; j < MAZE_SIZE; j++)
         {
             delete dungeon[i][j];
         }
@@ -24,7 +25,7 @@ Room &Game::getConstRoom(int x, int y) const
 
 const TileMap &Game::getConstTilemap() const
 {
-    return tilemap;
+    return *tilemap;
 }
 
 Player *Game::getConstPlayer() const
@@ -70,8 +71,9 @@ void Game::initDungeon()
 
     player = new Player(pos, force, health, energy, shield, weapon, spriteName);
 
-    tilemap.init("data/tileset.tsx");
-    tilemap.fetchRoomFromFile(currentRoom.tilemapName);
+    tilemap = new TileMap();
+    tilemap->init("data/tileset.tsx");
+    tilemap->fetchRoomFromFile(currentRoom.tilemapName);
 
     isJumping = false;
 }
@@ -81,11 +83,11 @@ void Game::keyboardActions(char action)
     switch (action)
     {
     case 'r':
-        player->moveRight(tilemap);
+        player->moveRight(*tilemap);
         checkRoomChange('r');
         break;
     case 'l':
-        player->moveLeft(tilemap);
+        player->moveLeft(*tilemap);
         checkRoomChange('l');
         break;
     case 't':
@@ -101,9 +103,9 @@ void Game::automaticActions()
 {
     if (isJumping)
     {
-        isJumping = player->jump(tilemap);
+        isJumping = player->jump(*tilemap);
     }
-    player->moveDown(tilemap);
+    player->moveDown(*tilemap);
 
     checkRoomChange(false);
     checkSpikes();
@@ -111,13 +113,13 @@ void Game::automaticActions()
 
 void Game::checkSpikes()
 {
-    if (tilemap.getXY((int)player->position.x, (int)player->position.y).type == spike)
+    if (tilemap->getXY((int)player->position.x, (int)player->position.y).type == spike)
         player->receiveDamage(5);
 }
 
 void Game::checkRoomChange(char direction)
 {
-    if (tilemap.getXY(player->position.x, player->position.y).type == background)
+    if (tilemap->getXY(player->position.x, player->position.y).type == background)
     {
         if (player->position.x >= 15.0f && direction == 'r' && currRoomX < MAZE_SIZE - 1 && dungeon[currRoomX][currRoomY] != NULL)
             changeRoom('r');
@@ -154,5 +156,5 @@ void Game::changeRoom(char direction)
     }
 
     currentRoom = getConstRoom(currRoomX, currRoomY);
-    tilemap.fetchRoomFromFile(currentRoom.tilemapName);
+    tilemap->fetchRoomFromFile(currentRoom.tilemapName);
 }
