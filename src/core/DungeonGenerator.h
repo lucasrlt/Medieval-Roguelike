@@ -40,6 +40,7 @@ class DungeonGenerator
     /// @brief Remplit le tableau maze de zéros.
     void fillMazeWithZeros();
 
+   
     /**
      * @brief Compte le nombre de salles adjacentes (maze[x][y] > 0) à la position donnée en paramètre.
      *

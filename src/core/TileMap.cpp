@@ -12,6 +12,17 @@
 
 using namespace std;
 
+Tilemap::~Tilemap()
+{
+    for(int i = 0; i < GRID_SIZE; i++)
+    {
+        for int (j = 0; j < GRID_SIZE; j++)
+            {
+                delete roomMap[i][j];
+            }
+    }
+}
+
 void TileMap::init(const string &tileset_file)
 {
     tilesetFile = tileset_file;
