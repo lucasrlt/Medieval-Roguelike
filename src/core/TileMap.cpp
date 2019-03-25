@@ -12,14 +12,14 @@
 
 using namespace std;
 
-Tilemap::~Tilemap()
+TileMap::~TileMap()
 {
-    for(int i = 0; i < GRID_SIZE; i++)
+    for (int i = 0; i < GRID_SIZE; i++)
     {
-        for int (j = 0; j < GRID_SIZE; j++)
-            {
-                delete roomMap[i][j];
-            }
+        for (int j = 0; j < GRID_SIZE; j++)
+        {
+            delete roomMap[i][j];
+        }
     }
 }
 
@@ -119,23 +119,24 @@ const Tile &TileMap::getXY(unsigned int x, unsigned int y) const
     return *roomMap[x][y];
 }
 
-void TileMap::regressionTest(){
+void TileMap::regressionTest()
+{
 
     TileMap tm;
 
     tm.init("data/tileset.tsx");
 
     tm.fetchRoomFromFile("data/test_tilemap.tmx");
-    
+
     assert(tm.roomMap[0][0]->id == 8 && tm.roomMap[0][0]->type == collision);
-    cout<<"Case [0][0] bonne"<<endl;
+    cout << "Case [0][0] bonne" << endl;
 
     assert(tm.roomMap[1][0]->id == 116 && tm.roomMap[1][0]->type == background);
-    cout<<"Case [1][0] bonne"<<endl;
+    cout << "Case [1][0] bonne" << endl;
 
     assert(tm.roomMap[2][0]->id == 195 && tm.roomMap[2][0]->type == spike);
-    cout<<"Case [2][0] bonne"<<endl;
+    cout << "Case [2][0] bonne" << endl;
 
     assert(tm.roomMap[15][15]->id == 104 && tm.roomMap[15][15]->type == collision);
-    cout<<"Case [15][15] bonne"<<endl;
+    cout << "Case [15][15] bonne" << endl;
 }

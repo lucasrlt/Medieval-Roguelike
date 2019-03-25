@@ -44,10 +44,9 @@ class TileMap
      void fetchTileTypes();
 
    public:
-     
-     ~Tilemap();
+     ~TileMap();
      void init(const string &tilesetFile);
-     
+
      const Tile &getXY(unsigned int x, unsigned int y) const;
 
      bool isValidPosition(const int x, const int y) const;
