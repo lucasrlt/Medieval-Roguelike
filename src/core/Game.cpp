@@ -8,6 +8,13 @@ using namespace std;
 Game::~Game()
 {
     delete player;
+    for(int i = 0; i < MAZE_SIZE; i++)
+    {
+        for(int j = 0; j < MAZE_SIZE; j++)
+        {
+            delete dungeon[i][j];
+        }
+    }
 }
 
 Room &Game::getConstRoom(int x, int y) const
