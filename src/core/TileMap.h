@@ -22,6 +22,7 @@ enum TileType
      collision,
      spike,
      background,
+     spawn,
      spawnMonster,
 };
 //
@@ -30,6 +31,7 @@ struct Tile
      int id;
      int posX, posY;
      TileType type;
+     
 
      Tile(int _id, int _posX, int _posY, TileType _type) : id(_id), posX(_posX), posY(_posY), type(_type) {}
 };
@@ -43,10 +45,13 @@ class TileMap
      string tilesetFile;
      Tile *roomMap[GRID_SIZE][GRID_SIZE];
      TileType tileTypes[NUM_TILES];
+     
 
      void fetchTileTypes();
 
    public:
+     Point playerSpawn;
+
      ~TileMap();
      vector<Point> enemySpawns;
      void init(const string &tilesetFile);

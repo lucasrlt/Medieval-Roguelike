@@ -32,6 +32,7 @@ class SDLGame
 private:
   bool left;
   bool right;
+  bool stop;
   
   SDL_Window *window;
   SDL_Renderer *renderer;

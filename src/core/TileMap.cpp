@@ -4,6 +4,7 @@
 
 #include "TileMap.h"
 #include "Room.h"
+#include "Vector2D.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -31,6 +32,7 @@ void TileMap::init(const string &tileset_file)
 {
     tilesetFile = tileset_file;
     fetchTileTypes();
+
 }
 
 void TileMap::fetchTileTypes()
@@ -70,6 +72,8 @@ void TileMap::fetchTileTypes()
                 tileTypes[tileId] = background;
             else if (tileType == "spike")
                 tileTypes[tileId] = spike;
+            else if (tileType == "spawn")
+                tileTypes[tileId] = spawn;
             else if (tileType == "platform")
                 tileTypes[tileId] = platform;
             else if (tileType == "spawn-monster")
@@ -113,6 +117,13 @@ void TileMap::fetchRoomFromFile(const string &filename)
                 int posX = ((tileId - 1) % TILE_SIZE) * TILE_SIZE;
                 int posY = ((int)((tileId - 1) / TILE_SIZE)) * TILE_SIZE;
                 Tile *tile = new Tile(tileId, posX, posY, tileType);
+
+                if(tileType == spawn)
+                {
+                    playerSpawn.x = x;
+                    playerSpawn.y = y;
+                }
+
                 roomMap[x][y] = tile;
             }
         }

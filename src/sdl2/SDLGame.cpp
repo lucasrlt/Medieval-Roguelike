@@ -208,7 +208,6 @@ void SDLGame::drawCurrentRoom(const Game &g)
                 SDL_RenderCopy(renderer, tilesetImg.texture, &clipRect, &destRect);
             }
         }
-        // cout << endl;
     }
 }
 
@@ -228,7 +227,7 @@ void SDLGame::drawPlayer(Player *player)
         playerRight.loadFromFile(player->spriteName.c_str(), renderer);
         playerRight.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
     }
-    else{
+    else if(stop){
         player->spriteName = "data/warrior_front.png";
         playerStop.loadFromFile(player->spriteName.c_str(), renderer);
         playerStop.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
@@ -256,6 +255,9 @@ void SDLGame::SDLLoop(Game &g)
         // tant qu'il y a des evenements à traiter (cette boucle n'est pas bloquante)
         while (SDL_PollEvent(&events))
         {
+            stop = true;
+            right = false;
+            left = false;
             if (events.type == SDL_QUIT)
                 quit = true; // Si l'utilisateur a clique sur la croix de fermeture
             else if (events.type == SDL_KEYDOWN)

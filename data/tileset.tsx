@@ -116,6 +116,7 @@
  <tile id="191" type="block"/>
  <tile id="194" type="spike"/>
  <tile id="196" type="spike"/>
+ <tile id="200" type="spawn"/>
  <tile id="212" type="spike"/>
  <tile id="225" type="spike"/>
  <tile id="226" type="spike"/>
