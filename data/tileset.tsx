@@ -39,6 +39,7 @@
  <tile id="43" type="block"/>
  <tile id="44" type="block"/>
  <tile id="45" type="block"/>
+ <tile id="48" type="spawn-monster"/>
  <tile id="55" type="block"/>
  <tile id="56" type="block"/>
  <tile id="57" type="block"/>

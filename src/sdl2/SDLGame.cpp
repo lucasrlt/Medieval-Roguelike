@@ -164,8 +164,9 @@ void SDLGame::SDLShow(const Game &g)
 
     drawCurrentRoom(g);
 
-    for(int i = 0 ; i < g.getConstPlayer()->getHealth() ; i++){
-        heartSprite.draw(renderer, 1 + (i*(SCALE+20)), 0, 8 * SCALE, 8 * SCALE);
+    for (int i = 0; i < g.getConstPlayer()->getHealth(); i++)
+    {
+        heartSprite.draw(renderer, 1 + (i * (SCALE + 20)), 0, 8 * SCALE, 8 * SCALE);
     }
 
     drawPlayer(g.getConstPlayer());
@@ -240,10 +241,17 @@ void SDLGame::SDLLoop(Game &g)
     bool quit = false;
     Room room;
     const Uint8 *keyboard_state_array = SDL_GetKeyboardState(NULL);
+    Uint32 t = SDL_GetTicks(), nt;
 
     // tant que ce n'est pas la fin ...
     while (!quit)
     {
+        nt = SDL_GetTicks();
+        if (nt - t > 500)
+        {
+            g.checkSpikes();
+            t = nt;
+        }
 
         // tant qu'il y a des evenements à traiter (cette boucle n'est pas bloquante)
         while (SDL_PollEvent(&events))

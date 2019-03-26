@@ -10,5 +10,6 @@ int main(int argc, char **arg)
 
     SDLGame sg;
     sg.SDLLoop(g);
+
     return 0;
 }

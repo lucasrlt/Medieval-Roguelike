@@ -75,6 +75,8 @@ void Game::initDungeon()
     tilemap->init("data/tileset.tsx");
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
 
+    // Point ennemyPos = tilemap->enemySpawns[rand() % tilemap->enemySpawns.size()];
+
     isJumping = false;
 }
 
@@ -108,13 +110,12 @@ void Game::automaticActions()
     player->moveDown(*tilemap);
 
     checkRoomChange(false);
-    checkSpikes();
 }
 
 void Game::checkSpikes()
 {
     if (tilemap->getXY((int)player->position.x, (int)player->position.y).type == spike)
-        player->receiveDamage(5);
+        player->receiveDamage(1);
 }
 
 void Game::checkRoomChange(char direction)

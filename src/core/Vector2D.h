@@ -1,6 +1,11 @@
 #ifndef MEDIEVAL_ROGUELIKE_VECTOR2D_H
 #define MEDIEVAL_ROGUELIKE_VECTOR2D_H
 
+struct Point
+{
+    int x, y;
+};
+
 /**
  @brief Module gérant les Vecteurs 2D.
 

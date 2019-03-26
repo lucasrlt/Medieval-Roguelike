@@ -25,6 +25,10 @@ void drawRoom(const Game &g, WinTXT &win)
             {
                 win.print(x, y, '^');
             }
+            else if (tile.type == spawnMonster)
+            {
+                win.print(x, y, 'E');
+            }
             else
             {
                 win.print(x, y, 'X');
