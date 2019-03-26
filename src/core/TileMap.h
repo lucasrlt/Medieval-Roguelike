@@ -17,6 +17,7 @@ const int LINES_BEFORE_GRID = 5;
 
 enum TileType
 {
+     platform,
      collision,
      spike,
      background,
@@ -49,7 +50,7 @@ class TileMap
 
      const Tile &getXY(unsigned int x, unsigned int y) const;
 
-     bool isValidPosition(const int x, const int y) const;
+     bool isValidPosition(const int x, const int y, bool goingUp = false) const;
 
      /**
          * @brief Récupère la salle depuis le fichier

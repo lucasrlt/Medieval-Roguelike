@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.2.3" name="tileset" tilewidth="16" tileheight="16" tilecount="256" columns="16">
+<tileset version="1.2" tiledversion="1.2.2" name="tileset" tilewidth="16" tileheight="16" tilecount="256" columns="16">
  <image source="tileset_img.png" width="256" height="256"/>
- <tile id="0" type="block"/>
- <tile id="1" type="block"/>
- <tile id="2" type="block"/>
+ <tile id="0" type="platform"/>
+ <tile id="1" type="platform"/>
+ <tile id="2" type="platform"/>
  <tile id="3" type="spawn-l"/>
  <tile id="4" type="spawn-r"/>
  <tile id="5" type="spawn-b"/>
@@ -18,9 +18,9 @@
  <tile id="16" type="block"/>
  <tile id="17" type="block"/>
  <tile id="18" type="block"/>
- <tile id="20" type="block"/>
- <tile id="21" type="block"/>
- <tile id="22" type="block"/>
+ <tile id="20" type="platform"/>
+ <tile id="21" type="platform"/>
+ <tile id="22" type="platform"/>
  <tile id="23" type="block"/>
  <tile id="24" type="background"/>
  <tile id="25" type="block"/>
@@ -45,11 +45,11 @@
  <tile id="58" type="block"/>
  <tile id="61" type="block"/>
  <tile id="62" type="block"/>
- <tile id="65" type="block"/>
- <tile id="66" type="block"/>
- <tile id="67" type="block"/>
- <tile id="68" type="block"/>
- <tile id="69" type="block"/>
+ <tile id="65" type="platform"/>
+ <tile id="66" type="platform"/>
+ <tile id="67" type="platform"/>
+ <tile id="68" type="platform"/>
+ <tile id="69" type="platform"/>
  <tile id="71" type="background"/>
  <tile id="72" type="background"/>
  <tile id="73" type="block"/>

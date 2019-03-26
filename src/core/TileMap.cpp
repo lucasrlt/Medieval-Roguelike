@@ -70,6 +70,8 @@ void TileMap::fetchTileTypes()
                 tileTypes[tileId] = background;
             else if (tileType == "spike")
                 tileTypes[tileId] = spike;
+            else if (tileType == "platform")
+                tileTypes[tileId] = platform;
         }
     }
 }
@@ -112,10 +114,9 @@ void TileMap::fetchRoomFromFile(const string &filename)
     }
 }
 
-bool TileMap::isValidPosition(const int x, const int y) const
+bool TileMap::isValidPosition(const int x, const int y, bool goingUp) const
 {
-    // cout << "Pos: " << x << " - " << y << endl;
-    return (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE && !(roomMap[x][y]->type == collision));
+    return (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE && !(roomMap[x][y]->type == collision || (goingUp ? false : roomMap[x][y]->type == platform)));
 }
 
 const Tile &TileMap::getXY(unsigned int x, unsigned int y) const

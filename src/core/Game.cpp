@@ -121,20 +121,19 @@ void Game::checkRoomChange(char direction)
 {
     if (tilemap->getXY(player->position.x, player->position.y).type == background)
     {
-        if (player->position.x >= 15.0f && direction == 'r' && currRoomX < MAZE_SIZE - 1 && dungeon[currRoomX][currRoomY] != NULL)
+        if (player->position.x >= 15.0f && direction == 'r' && currentRoom.schema.openRight)
             changeRoom('r');
-        else if (player->position.x < 1.0f && direction == 'l' && currRoomX > 0)
+        else if (player->position.x < 1.0f && direction == 'l' && currentRoom.schema.openLeft)
             changeRoom('l');
-        else if (player->position.y >= 15.0f && currRoomY < MAZE_SIZE - 1)
+        else if (player->position.y >= 15.0f && currentRoom.schema.openBottom)
             changeRoom('b');
-        else if (player->position.y < 1.0f && currRoomY > 0)
+        else if (player->position.y < 1.0f && currentRoom.schema.openTop)
             changeRoom('t');
     }
 }
 
 void Game::changeRoom(char direction)
 {
-    // cout << "Ouii" << direction << endl;}
     switch (direction)
     {
     case 'r':
