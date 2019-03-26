@@ -128,6 +128,7 @@ SDLGame::SDLGame()
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     tilesetImg.loadFromFile("data/tileset_img.png", renderer);
+    heartSprite.loadFromFile("data/heart_sprite.png", renderer);
 /*
     // IMAGES //TODO : Ajouter les images
     im_pacman.loadFromFile("data/pacman.png",renderer);
@@ -162,6 +163,11 @@ void SDLGame::SDLShow(const Game &g)
     SDL_RenderClear(renderer);
 
     drawCurrentRoom(g);
+
+    for(int i = 0 ; i < g.getConstPlayer()->getHealth() ; i++){
+        heartSprite.draw(renderer, 1 + (i*(SCALE+20)), 0, 8 * SCALE, 8 * SCALE);
+    }
+
     drawPlayer(g.getConstPlayer());
 }
 /*
@@ -207,7 +213,6 @@ void SDLGame::drawCurrentRoom(const Game &g)
 
 void SDLGame::drawPlayer(Player *player)
 {
-    TileMap tm;
     Image IM_Sprite;
 
     player->spriteName = "data/blanc.jpg";

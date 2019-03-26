@@ -33,6 +33,7 @@ private:
   SDL_Window *window;
   SDL_Renderer *renderer;
   Image tilesetImg;
+  Image heartSprite;
   void drawCurrentRoom(const Game &g);
   void drawPlayer(Player *player);
 
