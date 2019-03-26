@@ -110,13 +110,12 @@ void Game::automaticActions()
     player->moveDown(*tilemap);
 
     checkRoomChange(false);
-    checkSpikes();
 }
 
 void Game::checkSpikes()
 {
     if (tilemap->getXY((int)player->position.x, (int)player->position.y).type == spike)
-        player->receiveDamage(5);
+        player->receiveDamage(1);
 }
 
 void Game::checkRoomChange(char direction)
