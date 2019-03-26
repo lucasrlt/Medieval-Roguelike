@@ -9,6 +9,7 @@
 #define MEDIEVALROGUELIKE_ROOM_H
 
 #include <string>
+#include <vector>
 using namespace std;
 
 /**
@@ -17,13 +18,12 @@ using namespace std;
  */
 struct RoomSchema
 {
-  bool openLeft = false;
-  bool openRight = false;
-  bool openBottom = false;
-  bool openTop = false;
-  
+    bool openLeft = false;
+    bool openRight = false;
+    bool openBottom = false;
+    bool openTop = false;
 
-  bool operator==(const RoomSchema &schema) const;
+    bool operator==(const RoomSchema &schema) const;
 };
 
 /**
@@ -32,13 +32,13 @@ struct RoomSchema
  */
 class Room
 {
-public:
-  RoomSchema schema;
-  int *tiles;
-  string tilemapName;
+  public:
+    RoomSchema schema;
+    int *tiles;
+    string tilemapName;
 
-  Room();
-  ~Room();
+    Room();
+    ~Room();
 };
 
 #endif //MEDIEVALROGUELIKE_ROOM_H

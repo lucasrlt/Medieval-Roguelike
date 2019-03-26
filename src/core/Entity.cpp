@@ -9,7 +9,7 @@ Entity::Entity()
 {
     position = {0, 0};
 
-    force = {0 ,-9.81};
+    force = {0, -9.81};
 
     health = 0;
 }
@@ -67,7 +67,7 @@ void Entity::moveRight(const TileMap &t)
 
 void Entity::moveUp(const TileMap &t)
 {
-    if (t.isValidPosition(position.x, position.y - 1))
+    if (t.isValidPosition(position.x, position.y - 1, true))
         position.y -= 0.5;
 }
 

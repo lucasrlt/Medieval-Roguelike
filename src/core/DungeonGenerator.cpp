@@ -237,6 +237,6 @@ void DungeonGenerator::regressionTest(){
             findNeighbours(MAZE_SIZE, MAZE_SIZE, dungeon_test);
             assert(dungeon_test.size() > 0);
         }
-        cout<<"Ligne n°"<<i+1<<" ok"<<endl;
     }
+    cout << "Test des salles adjacentes ok" << endl;
 }

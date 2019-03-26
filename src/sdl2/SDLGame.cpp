@@ -128,6 +128,7 @@ SDLGame::SDLGame()
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     tilesetImg.loadFromFile("data/tileset_img.png", renderer);
+    heartSprite.loadFromFile("data/heart_sprite.png", renderer);
 /*
     // IMAGES //TODO : Ajouter les images
     im_pacman.loadFromFile("data/pacman.png",renderer);
@@ -162,6 +163,12 @@ void SDLGame::SDLShow(const Game &g)
     SDL_RenderClear(renderer);
 
     drawCurrentRoom(g);
+
+    for (int i = 0; i < g.getConstPlayer()->getHealth(); i++)
+    {
+        heartSprite.draw(renderer, 1 + (i * (SCALE + 20)), 0, 8 * SCALE, 8 * SCALE);
+    }
+
     drawPlayer(g.getConstPlayer());
 }
 /*
@@ -206,10 +213,9 @@ void SDLGame::drawCurrentRoom(const Game &g)
 
 void SDLGame::drawPlayer(Player *player)
 {
-    TileMap tm;
     Image IM_Sprite;
 
-    player->spriteName = "data/blanc.jpg";
+    player->spriteName = "data/warrior.png";
 
     IM_Sprite.loadFromFile(player->spriteName.c_str(), renderer);
     IM_Sprite.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
@@ -221,10 +227,17 @@ void SDLGame::SDLLoop(Game &g)
     bool quit = false;
     Room room;
     const Uint8 *keyboard_state_array = SDL_GetKeyboardState(NULL);
+    Uint32 t = SDL_GetTicks(), nt;
 
     // tant que ce n'est pas la fin ...
     while (!quit)
     {
+        nt = SDL_GetTicks();
+        if (nt - t > 500)
+        {
+            g.checkSpikes();
+            t = nt;
+        }
 
         // tant qu'il y a des evenements à traiter (cette boucle n'est pas bloquante)
         while (SDL_PollEvent(&events))

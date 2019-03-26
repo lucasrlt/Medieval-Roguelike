@@ -74,6 +74,10 @@ void TileMap::fetchTileTypes()
                 tileTypes[tileId] = spike;
             else if (tileType == "spawn")
                 tileTypes[tileId] = spawn;
+            else if (tileType == "platform")
+                tileTypes[tileId] = platform;
+            else if (tileType == "spawn-monster")
+                tileTypes[tileId] = spawnMonster;
         }
     }
 }
@@ -106,6 +110,10 @@ void TileMap::fetchRoomFromFile(const string &filename)
                 int tileId = stoi(content);
 
                 TileType tileType = tileId == 0 ? background : tileTypes[tileId - 1];
+                if (tileType == spawnMonster)
+                {
+                    enemySpawns.push_back({x, y});
+                }
                 int posX = ((tileId - 1) % TILE_SIZE) * TILE_SIZE;
                 int posY = ((int)((tileId - 1) / TILE_SIZE)) * TILE_SIZE;
                 Tile *tile = new Tile(tileId, posX, posY, tileType);
@@ -123,10 +131,9 @@ void TileMap::fetchRoomFromFile(const string &filename)
     }
 }
 
-bool TileMap::isValidPosition(const int x, const int y) const
+bool TileMap::isValidPosition(const int x, const int y, bool goingUp) const
 {
-    // cout << "Pos: " << x << " - " << y << endl;
-    return (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE && !(roomMap[x][y]->type == collision));
+    return (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE && !(roomMap[x][y]->type == collision || (goingUp ? false : roomMap[x][y]->type == platform)));
 }
 
 const Tile &TileMap::getXY(unsigned int x, unsigned int y) const
