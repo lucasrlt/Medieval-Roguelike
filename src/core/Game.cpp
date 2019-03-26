@@ -60,21 +60,22 @@ void Game::initDungeon()
     currRoomY = (int)MAZE_SIZE / 2;
     currentRoom = getConstRoom((int)MAZE_SIZE / 2, (int)MAZE_SIZE / 2);
 
-    if (currentRoom.schema.openBottom)
+    /*if (currentRoom.schema.openBottom)
         pos = {7, 7};
     else if (currentRoom.schema.openLeft)
         pos = {1, 7};
     else if (currentRoom.schema.openRight)
         pos = {14, 7};
     else
-        pos = {7, 7};
+        pos = {7, 7};*/
 
-    player = new Player(pos, force, health, energy, shield, weapon, spriteName);
+    
 
     tilemap = new TileMap();
     tilemap->init("data/tileset.tsx");
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
-
+    pos = {tilemap->playerSpawn.x,tilemap->playerSpawn.y};
+    player = new Player(pos, force, health, energy, shield, weapon, spriteName);
     // Point ennemyPos = tilemap->enemySpawns[rand() % tilemap->enemySpawns.size()];
 
     isJumping = false;

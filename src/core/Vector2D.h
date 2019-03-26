@@ -1,11 +1,6 @@
 #ifndef MEDIEVAL_ROGUELIKE_VECTOR2D_H
 #define MEDIEVAL_ROGUELIKE_VECTOR2D_H
 
-struct Point
-{
-    int x, y;
-};
-
 /**
  @brief Module gérant les Vecteurs 2D.
 
@@ -13,7 +8,11 @@ struct Point
  @date 05/03/2019
  @author Alexandre PUILLET
  */
-
+struct Point
+{
+  int x;
+  int y;
+};
 /**
  * @brief Classe représentant un point de coordonnées x et y
  */
