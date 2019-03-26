@@ -215,7 +215,7 @@ void SDLGame::drawPlayer(Player *player)
 {
     Image IM_Sprite;
 
-    player->spriteName = "data/blanc.jpg";
+    player->spriteName = "data/warrior.png";
 
     IM_Sprite.loadFromFile(player->spriteName.c_str(), renderer);
     IM_Sprite.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
