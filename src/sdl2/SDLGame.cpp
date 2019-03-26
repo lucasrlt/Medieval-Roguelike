@@ -213,12 +213,25 @@ void SDLGame::drawCurrentRoom(const Game &g)
 
 void SDLGame::drawPlayer(Player *player)
 {
-    Image IM_Sprite;
+    Image playerStop;
+    Image playerRight;
+    Image playerLeft;
 
-    player->spriteName = "data/warrior.png";
-
-    IM_Sprite.loadFromFile(player->spriteName.c_str(), renderer);
-    IM_Sprite.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+    if(left){
+        player->spriteName = "data/warrior_left.png";
+        playerLeft.loadFromFile(player->spriteName.c_str(), renderer);
+        playerLeft.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+    }
+    else if(right){
+        player->spriteName = "data/warrior_right.png";
+        playerRight.loadFromFile(player->spriteName.c_str(), renderer);
+        playerRight.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+    }
+    else{
+        player->spriteName = "data/warrior_front.png";
+        playerStop.loadFromFile(player->spriteName.c_str(), renderer);
+        playerStop.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+    }
 }
 
 void SDLGame::SDLLoop(Game &g)
@@ -248,10 +261,16 @@ void SDLGame::SDLLoop(Game &g)
             {
                 if (keyboard_state_array[SDL_SCANCODE_UP])
                     g.keyboardActions('t');
-                if (keyboard_state_array[SDL_SCANCODE_LEFT])
+                if (keyboard_state_array[SDL_SCANCODE_LEFT]){
                     g.keyboardActions('l');
-                if (keyboard_state_array[SDL_SCANCODE_RIGHT])
+                    left = true;
+                    right = false;
+                }    
+                if (keyboard_state_array[SDL_SCANCODE_RIGHT]){
                     g.keyboardActions('r');
+                    right = true;
+                    left = false;
+                }
                 if (keyboard_state_array[SDL_SCANCODE_Q])
                     quit = false;
             }
