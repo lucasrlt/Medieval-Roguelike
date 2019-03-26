@@ -40,7 +40,7 @@ void Game::initDungeon()
 {
     Vector2D pos;
     Vector2D force(3, 3);
-    int health = 50;
+    int health = 10;
     int energy = 15;
     int shield = 5;
     string spriteName = "Jean-Claude";
