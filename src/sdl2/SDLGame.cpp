@@ -201,7 +201,6 @@ void SDLGame::drawCurrentRoom(const Game &g)
                 SDL_RenderCopy(renderer, tilesetImg.texture, &clipRect, &destRect);
             }
         }
-        // cout << endl;
     }
 }
 

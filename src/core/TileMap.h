@@ -45,7 +45,7 @@ class TileMap
 
    public:
      
-     ~Tilemap();
+     
      void init(const string &tilesetFile);
      
      const Tile &getXY(unsigned int x, unsigned int y) const;
