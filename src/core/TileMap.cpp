@@ -72,6 +72,8 @@ void TileMap::fetchTileTypes()
                 tileTypes[tileId] = spike;
             else if (tileType == "platform")
                 tileTypes[tileId] = platform;
+            else if (tileType == "spawn-monster")
+                tileTypes[tileId] = spawnMonster;
         }
     }
 }
@@ -104,6 +106,10 @@ void TileMap::fetchRoomFromFile(const string &filename)
                 int tileId = stoi(content);
 
                 TileType tileType = tileId == 0 ? background : tileTypes[tileId - 1];
+                if (tileType == spawnMonster)
+                {
+                    enemySpawns.push_back({x, y});
+                }
                 int posX = ((tileId - 1) % TILE_SIZE) * TILE_SIZE;
                 int posY = ((int)((tileId - 1) / TILE_SIZE)) * TILE_SIZE;
                 Tile *tile = new Tile(tileId, posX, posY, tileType);

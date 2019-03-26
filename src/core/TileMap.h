@@ -6,6 +6,7 @@
 #define MEDIEVAL_ROGUELIKE_TILEMAP_H
 #include <string>
 #include <vector>
+#include "Vector2D.h"
 
 using namespace std;
 
@@ -21,6 +22,7 @@ enum TileType
      collision,
      spike,
      background,
+     spawnMonster,
 };
 //
 struct Tile
@@ -46,6 +48,7 @@ class TileMap
 
    public:
      ~TileMap();
+     vector<Point> enemySpawns;
      void init(const string &tilesetFile);
 
      const Tile &getXY(unsigned int x, unsigned int y) const;

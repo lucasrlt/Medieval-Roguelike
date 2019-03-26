@@ -75,6 +75,8 @@ void Game::initDungeon()
     tilemap->init("data/tileset.tsx");
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
 
+    // Point ennemyPos = tilemap->enemySpawns[rand() % tilemap->enemySpawns.size()];
+
     isJumping = false;
 }
 
