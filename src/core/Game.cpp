@@ -69,12 +69,10 @@ void Game::initDungeon()
     else
         pos = {7, 7};*/
 
-    
-
     tilemap = new TileMap();
     tilemap->init("data/tileset.tsx");
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
-    pos = {tilemap->playerSpawn.x,tilemap->playerSpawn.y};
+    pos = {(float)tilemap->playerSpawn.x, (float)tilemap->playerSpawn.y};
     player = new Player(pos, force, health, energy, shield, weapon, spriteName);
     // Point ennemyPos = tilemap->enemySpawns[rand() % tilemap->enemySpawns.size()];
 
