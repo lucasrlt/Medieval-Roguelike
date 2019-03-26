@@ -56,7 +56,7 @@ void DungeonGenerator::fetchRooms(const char *dir)
 
     // pour chacune des tilemaps, on crée un objet Room et son RoomSchema associé, puis on l'ajoute
     // à allRooms.
-    for (unsigned int j = 0; j < roomCount; j++)
+    for (int j = 0; j < roomCount; j++)
     {
         string filename = files[j];
         Room newRoom;
@@ -195,7 +195,7 @@ Room *DungeonGenerator::getRandomRoomForPos(unsigned int x, unsigned int y)
 
     // Trouve toutes les salles correspondant au schéma trouvé au-desuss, et les ajoute à possibleRooms.
     vector<Room> possibleRooms;
-    for (unsigned int i = 0; i < roomCount; ++i)
+    for (int i = 0; i < roomCount; ++i)
     {
         if (allRooms[i].schema == schemaToUse)
         {
@@ -230,10 +230,13 @@ void DungeonGenerator::generateDungeon(Room *dungeon[MAZE_SIZE][MAZE_SIZE])
     }
 }
 
-void DungeonGenerator::regressionTest(){
+void DungeonGenerator::regressionTest()
+{
     vector<tuple<unsigned int, unsigned int>> dungeon_test;
-    for(int i = 0 ; i < MAZE_SIZE; i++){
-        for(int j = 0 ; j < MAZE_SIZE; j++){
+    for (int i = 0; i < MAZE_SIZE; i++)
+    {
+        for (int j = 0; j < MAZE_SIZE; j++)
+        {
             findNeighbours(MAZE_SIZE, MAZE_SIZE, dungeon_test);
             assert(dungeon_test.size() > 0);
         }

@@ -3,13 +3,14 @@
 #include <iostream>
 using namespace std;
 
-int main(){
+int main()
+{
 
-    // TileMap tm;
-    // tm.regressionTest();
+  TileMap tm;
+  tm.regressionTest();
 
-    DungeonGenerator d;
-    d.regressionTest();
+  DungeonGenerator d;
+  d.regressionTest();
 
-    return 0;
+  return 0;
 }

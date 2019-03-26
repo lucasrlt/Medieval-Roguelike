@@ -75,7 +75,7 @@ void Entity::moveDown(const TileMap &t, char currDirection)
 {
     if (t.isValidPosition(ceil(position.x), position.y + 1))
     {
-        position.y += 0.01;
+        position.y += 0.04;
     }
 }
 
