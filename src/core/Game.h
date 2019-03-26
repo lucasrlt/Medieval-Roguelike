@@ -68,7 +68,7 @@ class Game
     Room currentRoom;
     int currRoomX, currRoomY;
     Player *player;
-    TileMap tilemap;
+    TileMap *tilemap;
     DungeonGenerator dungeonGenerator;
 };
 

@@ -239,5 +239,4 @@ void DungeonGenerator::regressionTest(){
         }
         cout<<"Ligne n°"<<i+1<<" ok"<<endl;
     }
-    
 }

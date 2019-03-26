@@ -39,7 +39,7 @@ class Savage : public Entity{
     int getStrenght() const;
 
     /**
-     * @brief 
+     * @brief Fait avanancer le Savage vers le personnage.
      * 
      * @param game 
      */

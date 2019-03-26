@@ -4,6 +4,7 @@
 
 #include "TileMap.h"
 #include "Room.h"
+#include "Vector2D.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -12,10 +13,26 @@
 
 using namespace std;
 
+TileMap::~TileMap()
+{
+    if (tilesetFile != "")
+    {
+        for (int i = 0; i < GRID_SIZE; i++)
+        {
+            for (int j = 0; j < GRID_SIZE; j++)
+            {
+                if (roomMap[i][j] != NULL)
+                    delete roomMap[i][j];
+            }
+        }
+    }
+}
+
 void TileMap::init(const string &tileset_file)
 {
     tilesetFile = tileset_file;
     fetchTileTypes();
+
 }
 
 void TileMap::fetchTileTypes()
@@ -55,6 +72,8 @@ void TileMap::fetchTileTypes()
                 tileTypes[tileId] = background;
             else if (tileType == "spike")
                 tileTypes[tileId] = spike;
+            else if (tileType == "spawn")
+                tileTypes[tileId] = spawn;
         }
     }
 }
@@ -90,6 +109,13 @@ void TileMap::fetchRoomFromFile(const string &filename)
                 int posX = ((tileId - 1) % TILE_SIZE) * TILE_SIZE;
                 int posY = ((int)((tileId - 1) / TILE_SIZE)) * TILE_SIZE;
                 Tile *tile = new Tile(tileId, posX, posY, tileType);
+
+                if(tileType == spawn)
+                {
+                    playerSpawn.x = x;
+                    playerSpawn.y = y;
+                }
+
                 roomMap[x][y] = tile;
             }
         }
@@ -108,23 +134,24 @@ const Tile &TileMap::getXY(unsigned int x, unsigned int y) const
     return *roomMap[x][y];
 }
 
-void TileMap::regressionTest(){
+void TileMap::regressionTest()
+{
 
     TileMap tm;
 
     tm.init("data/tileset.tsx");
 
     tm.fetchRoomFromFile("data/test_tilemap.tmx");
-    
+
     assert(tm.roomMap[0][0]->id == 8 && tm.roomMap[0][0]->type == collision);
-    cout<<"Case [0][0] bonne"<<endl;
+    cout << "Case [0][0] bonne" << endl;
 
     assert(tm.roomMap[1][0]->id == 116 && tm.roomMap[1][0]->type == background);
-    cout<<"Case [1][0] bonne"<<endl;
+    cout << "Case [1][0] bonne" << endl;
 
     assert(tm.roomMap[2][0]->id == 195 && tm.roomMap[2][0]->type == spike);
-    cout<<"Case [2][0] bonne"<<endl;
+    cout << "Case [2][0] bonne" << endl;
 
     assert(tm.roomMap[15][15]->id == 104 && tm.roomMap[15][15]->type == collision);
-    cout<<"Case [15][15] bonne"<<endl;
+    cout << "Case [15][15] bonne" << endl;
 }

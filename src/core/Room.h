@@ -21,6 +21,7 @@ struct RoomSchema
   bool openRight = false;
   bool openBottom = false;
   bool openTop = false;
+  
 
   bool operator==(const RoomSchema &schema) const;
 };

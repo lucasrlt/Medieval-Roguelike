@@ -8,7 +8,11 @@
  @date 05/03/2019
  @author Alexandre PUILLET
  */
-
+struct Point
+{
+  int x;
+  int y;
+};
 /**
  * @brief Classe représentant un point de coordonnées x et y
  */
