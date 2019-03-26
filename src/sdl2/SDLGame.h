@@ -30,6 +30,9 @@ public:
 class SDLGame
 {
 private:
+  bool left;
+  bool right;
+  
   SDL_Window *window;
   SDL_Renderer *renderer;
   Image tilesetImg;
