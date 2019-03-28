@@ -48,6 +48,7 @@ class TileMap
      
 
      void fetchTileTypes();
+     void deleteRoomMap();
 
    public:
      Point playerSpawn;

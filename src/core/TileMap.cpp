@@ -15,6 +15,11 @@ using namespace std;
 
 TileMap::~TileMap()
 {
+    deleteRoomMap();
+}
+
+void TileMap::deleteRoomMap()
+{
     if (tilesetFile != "")
     {
         for (int i = 0; i < GRID_SIZE; i++)
@@ -32,7 +37,6 @@ void TileMap::init(const string &tileset_file)
 {
     tilesetFile = tileset_file;
     fetchTileTypes();
-
 }
 
 void TileMap::fetchTileTypes()
@@ -94,6 +98,7 @@ void TileMap::fetchRoomFromFile(const string &filename)
 
     if (readFile)
     {
+        deleteRoomMap();
         string content;
         string beforeContent;
 
@@ -118,7 +123,7 @@ void TileMap::fetchRoomFromFile(const string &filename)
                 int posY = ((int)((tileId - 1) / TILE_SIZE)) * TILE_SIZE;
                 Tile *tile = new Tile(tileId, posX, posY, tileType);
 
-                if(tileType == spawn)
+                if (tileType == spawn)
                 {
                     playerSpawn.x = x;
                     playerSpawn.y = y;

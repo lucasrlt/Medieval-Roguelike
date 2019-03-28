@@ -66,3 +66,6 @@ ifeq ($(OS),Windows_NT)
 else
 	rm -rf $(OBJ_DIR) $(BIN_DIR)/$(FINAL_TARGET_TXT) $(BIN_DIR)/$(FINAL_TARGET_SDL)
 endif
+
+grind:
+	valgrind --tool=memcheck --leak-check=full --undef-value-errors=no bin/medieval_roguelike_sdl
