@@ -213,29 +213,36 @@ void SDLGame::drawCurrentRoom(const Game &g)
 
 void SDLGame::drawPlayer(Player *player)
 {
-    Image playerStop;
-    Image playerRight;
-    Image playerLeft;
-
     if(left){
-        player->spriteName = "data/warrior_left.png";
-        playerLeft.loadFromFile(player->spriteName.c_str(), renderer);
         playerLeft.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
     }
     else if(right){
-        player->spriteName = "data/warrior_right.png";
-        playerRight.loadFromFile(player->spriteName.c_str(), renderer);
         playerRight.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
     }
     else if(stop){
-        player->spriteName = "data/warrior_front.png";
-        playerStop.loadFromFile(player->spriteName.c_str(), renderer);
         playerStop.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+        cout<<"Je suis le sprite de face"<<endl;
     }
+}
+
+void SDLGame::drawSavage(Savage *savage){
+    savageLeft.draw(renderer, savage->position.x * TILE_SIZE * SCALE, savage.position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
 }
 
 void SDLGame::SDLLoop(Game &g)
 {
+    g.getConstSavage()->spriteName = "data/warrior_back.png";    // A finir
+    playerBack.loadFromFile(g.getConstSavage()->spriteName.c_str(), renderer);
+
+    g.getConstPlayer()->spriteNameFront = "data/warrior_front.png";
+    playerStop.loadFromFile(g.getConstPlayer()->spriteNameFront.c_str(), renderer); // Charge les sprite du joueur
+
+    g.getConstPlayer()->spriteNameLeft = "data/warrior_left.png";
+    playerLeft.loadFromFile(g.getConstPlayer()->spriteNameLeft.c_str(), renderer);
+
+    g.getConstPlayer()->spriteNameRight = "data/warrior_right.png";
+    playerRight.loadFromFile(g.getConstPlayer()->spriteNameRight.c_str(), renderer);
+    
     SDL_Event events;
     bool quit = false;
     Room room;
@@ -268,11 +275,13 @@ void SDLGame::SDLLoop(Game &g)
                     g.keyboardActions('l');
                     left = true;
                     right = false;
+                    stop = false;
                 }    
                 if (keyboard_state_array[SDL_SCANCODE_RIGHT]){
                     g.keyboardActions('r');
                     right = true;
                     left = false;
+                    stop = false;
                 }
                 if (keyboard_state_array[SDL_SCANCODE_Q])
                     quit = false;

@@ -33,6 +33,14 @@ private:
   bool left;
   bool right;
   bool stop;
+
+  Image playerStop;
+  Image playerLeft;
+  Image playerRight;
+
+  Image savageStop; //Image d'attente pour le savage
+  Image savageLeft;
+  Image savageRight;
   
   SDL_Window *window;
   SDL_Renderer *renderer;
@@ -40,6 +48,7 @@ private:
   Image heartSprite;
   void drawCurrentRoom(const Game &g);
   void drawPlayer(Player *player);
+  void drawSavage(Savage *savage);
 
   //TTF_Font * font;
   //Image font_im;

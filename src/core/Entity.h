@@ -28,7 +28,7 @@ class Entity
      * @param force force de l'Agent.
      * @param health vie de l'Agent.
      */
-    Entity(Vector2D position, Vector2D force, int health);
+    Entity(Vector2D position, Vector2D force, int health, std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight);
 
     ~Entity();
 
@@ -75,6 +75,9 @@ class Entity
   protected:
     Vector2D force;
     int health;
+    std::string idleSprite;
+    std::string leftSprite;
+    std::string rightSprite;
 };
 
 #endif //MEDIEVAL_ROGUELIKE_AGENT_H

@@ -12,13 +12,20 @@ Entity::Entity()
     force = {0, -9.81};
 
     health = 0;
+
+    idleSprite = " ";
+    leftSprite = " ";
+    rightSprite = " ";
 }
 
-Entity::Entity(Vector2D positionInit, Vector2D forceInit, int healthInit)
+Entity::Entity(Vector2D positionInit, Vector2D forceInit, int healthInit, std::string idle, std::string left, std::string right)
 {
     position = positionInit;
     force = forceInit;
     health = healthInit;
+    idleSprite = idle;
+    leftSprite = left;
+    rightSprite = right;
 }
 
 Entity::~Entity()
@@ -98,26 +105,29 @@ void Entity::regressionTest()
     Vector2D pos(10, 10);
     Vector2D force(20, 20);
     int health = 50;
-    Entity a(pos, force, health);
-    assert(a.position.x == 10 && a.position.y == 10 && a.force.x == 20 && a.force.y == 20 && a.health == 50);
+    std::string nameI = "data/blanc.png";
+    std::string nameL = "data/blanc.png";
+    std::string nameR = "data/blanc.png";
+    Entity e(pos, force, health, nameI, nameL, nameR);
+    assert(e.position.x == 10 && e.position.y == 10 && e.force.x == 20 && e.force.y == 20 && e.health == 50);
     cout << "Valeurs ok" << endl;
-    a.show();
+    e.show();
 
     Vector2D posUp(5, 5);
     // a.move(posUp);
-    assert(a.position.x == 15 && a.position.y == 15);
+    assert(e.position.x == 15 && e.position.y == 15);
     cout << "move ok" << endl;
-    a.show();
+    e.show();
 
     Vector2D forceUp(5, 5);
-    a.addForce(forceUp);
-    assert(a.force.x == 25 && a.force.y == 25);
+    e.addForce(forceUp);
+    assert(e.force.x == 25 && e.force.y == 25);
     cout << "addForce ok" << endl;
-    a.show();
+    e.show();
 
     int damage = 12;
-    a.receiveDamage(damage);
-    assert(a.health == 38);
+    e.receiveDamage(damage);
+    assert(e.health == 38);
     cout << "receiveDamage ok" << endl;
-    a.show();
+    e.show();
 }

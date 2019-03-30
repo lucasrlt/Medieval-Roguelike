@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Player.h"
+#include "Savage.h"
 #include <iostream>
 #include <string>
 
@@ -8,6 +9,7 @@ using namespace std;
 Game::~Game()
 {
     delete player;
+    delete savage;
     delete tilemap;
     for (int i = 0; i < MAZE_SIZE; i++)
     {
@@ -33,6 +35,11 @@ Player *Game::getConstPlayer() const
     return player;
 }
 
+Savage *Game::getConstSavage() const
+{
+    return savage;
+}
+
 int Game::getCurrentRoomX() const { return currRoomX; }
 int Game::getCurrentRoomY() const { return currRoomY; }
 
@@ -43,7 +50,9 @@ void Game::initDungeon()
     int health = 10;
     int energy = 15;
     int shield = 5;
-    string spriteName = "Jean-Claude";
+    string spriteNameFront = "Jean-Claude Face";
+    string spriteNameLeft = "Jean-Claude Gauche";
+    string spriteNameRight = "Jean-Claude Droite";
 
     unsigned int damages = 12;
     unsigned int energyCost = 3;
@@ -51,6 +60,12 @@ void Game::initDungeon()
     int type = 1;
     float attackRange = 8;
     string weaponName = "Lance";
+
+    //Caractéristiques du Savage
+    Vector2D posSavage;
+    int healthSavage = 15;
+    int strenghtSavage = savage->getStrenght();
+    string spriteNameBack = "Jean-Sauvage Dos";
 
     Weapon weapon(damages, energyCost, attackSpeed, type, attackRange, weaponName);
 
@@ -73,9 +88,10 @@ void Game::initDungeon()
     tilemap->init("data/tileset.tsx");
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
     pos = {(float)tilemap->playerSpawn.x, (float)tilemap->playerSpawn.y};
-    player = new Player(pos, force, health, energy, shield, weapon, spriteName);
+    player = new Player(pos, force, health, energy, shield, weapon, spriteNameFront, spriteNameLeft, spriteNameRight);
     // Point ennemyPos = tilemap->enemySpawns[rand() % tilemap->enemySpawns.size()];
-
+    
+    savage = new Savage(posSavage, force, healthSavage, strenghtSavage, spriteNameFront, spriteNameLeft, spriteNameRight); //Utilier getStrenght ?
     isJumping = false;
 }
 

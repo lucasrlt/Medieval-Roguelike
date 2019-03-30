@@ -3,13 +3,12 @@
  * @author Alexandre PUILLET
  * @brief Module gérant les ennemis de type mêlée
  */
+#ifndef MEDIEVALROGUELIKE_SAVAGE_H
+#define MEDIEVALROGUELIKE_SAVAGE_H
 
 #include <iostream>
 #include "Entity.h"
 #include "Game.h"
-
-#ifndef MEDIEVALROGUELIKE_SAVAGE_H
-#define MEDIEVALROGUELIKE_SAVAGE_H
 
 /**
  * @brief Classe créant les ennemis de mêlée.
@@ -27,7 +26,8 @@ class Savage : public Entity{
      * @param health vie de l'ennemi
      * @param strenght puissance de l'ennemi
      */
-    Savage(Vector2D pos, Vector2D force, int health, int strenght);
+    Savage(Vector2D pos, Vector2D force, int health, int strenght, 
+        std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight);
 
     ~Savage();
 
@@ -39,7 +39,7 @@ class Savage : public Entity{
     int getStrenght() const;
 
     /**
-     * @brief Fait avanancer le Savage vers le personnage.
+     * @brief Fait avancer le Savage vers le personnage.
      * 
      * @param game 
      */
