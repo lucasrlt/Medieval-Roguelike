@@ -286,7 +286,13 @@ void SDLGame::SDLLoop(Game &g)
                     stop = false;
                 }
                 if (keyboard_state_array[SDL_SCANCODE_Q])
-                    quit = false;
+                {
+                    quit = true;
+                }
+                /*if (keyboard_state_array[SDL_SCANCODE_P])
+                {
+                    g.keyboardAction('p');
+                }*/
             }
         }
 

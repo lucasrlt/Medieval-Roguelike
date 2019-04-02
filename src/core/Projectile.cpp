@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Projectile.h"
+#include "Entity.h"
 
 using namespace std;
 
@@ -23,11 +24,22 @@ Projectile::~Projectile()
 {
 }
 
-void Projectile::move(Vector2D dep, Game &game)
+/* Projectile::move(Vector2D dep, Game &game)
 {
-    position.x += dep.x;
-    position.y += dep.y;
-}
+    Entity e;
+    isHit=false;
+    while(position.x != dep.x)
+    {
+        position.x += force.x;
+        if (position.x == e.position.x && position.y == e.position.y)
+        {
+            game.jesaispasebcore
+            hit(e);
+            isHit = true;
+        }
+    }
+    
+}*/
 
 void Projectile::hit(Entity &e)
 {
