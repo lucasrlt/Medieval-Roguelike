@@ -12,6 +12,8 @@
  * @author Alexandre PUILLET
  */
 
+const float GRAVITY = 3.f;
+
 /**
  @brief Classe représentant les caractéristiques communes des entités du jeu.
  */
@@ -50,7 +52,9 @@ class Entity
      * @brief Ajoute le déplacement au personnage.
      * @param dep vecteur de déplacement.
      */
-    void move(Vector2D dep, const TileMap &t);
+    void updatePosition(const TileMap &t, float dt);
+    void jump();
+    void move(Vector2D dep, const TileMap &t, float time);
     void moveLeft(const TileMap &t);
     void moveRight(const TileMap &t);
     void moveUp(const TileMap &t);
@@ -73,8 +77,9 @@ class Entity
     void regressionTest();
 
   protected:
-    Vector2D force;
+    Vector2D velocity;
     int health;
+    bool grounded;
 };
 
 #endif //MEDIEVAL_ROGUELIKE_AGENT_H

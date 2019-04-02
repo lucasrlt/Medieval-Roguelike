@@ -138,6 +138,7 @@ void TileMap::fetchRoomFromFile(const string &filename)
 
 bool TileMap::isValidPosition(const int x, const int y, bool goingUp) const
 {
+    cout << x << " : " << y << endl;
     return (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE && !(roomMap[x][y]->type == collision || (goingUp ? false : roomMap[x][y]->type == platform)));
 }
 

@@ -39,7 +39,7 @@ int Game::getCurrentRoomY() const { return currRoomY; }
 void Game::initDungeon()
 {
     Vector2D pos;
-    Vector2D force(3, 3);
+    Vector2D force(0, 0);
     int health = 10;
     int energy = 15;
     int shield = 5;
@@ -102,11 +102,11 @@ void Game::keyboardActions(char action)
 
 void Game::automaticActions()
 {
-    if (isJumping)
-    {
-        isJumping = player->jump(*tilemap);
-    }
-    player->moveDown(*tilemap);
+    // if (isJumping)
+    // {
+    //     isJumping = player->jump(*tilemap);
+    // }
+    // player->moveDown(*tilemap);
 
     checkRoomChange(false);
 }

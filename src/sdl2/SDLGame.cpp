@@ -151,7 +151,7 @@ SDLGame::SDLGame()
 SDLGame::~SDLGame()
 {
     //TTF_CloseFont(font);
-    TTF_Quit();
+    // TTF_Quit();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
@@ -237,6 +237,74 @@ void SDLGame::drawPlayer(Player *player)
     }
 }
 
+// bool checkCollision(Game &g, int x, int y)
+// {
+//     bool collision = false;
+//     Player *player = g.getConstPlayer();
+//     int x1 = (pos.x) / (TILE_SIZE * SCALE);
+//     int x2 = (pos.x + (TILE_SIZE * SCALE)) / (TILE_SIZE * SCALE) - 1;
+//     int y1 = (pos.y) / (TILE_SIZE * SCALE);
+//     int y2 = (pos.y + (TILE_SIZE * SCALE)) / (TILE_SIZE * SCALE) - 1;
+
+//     cout << x1 << ":" << y1 << "  -  " << x2 << ":" << y2 << endl;
+
+//     Tile tileAtMin = g.getConstTilemap().getXY(x1, y1);
+//     Tile tileAtMax = g.getConstTilemap().getXY(x2, y2);
+
+//     return tileAtMin.type == collision || tileAtMax.type == collision;
+
+//     // for (int y = y1; y <= y2; ++y)
+//     // {
+//     //     for (int x = x1; x <= x2; ++x)
+//     //     {
+//     //         if (g.getConstTilemap().getXY(x, y).type == collision)
+//     //         {
+//     //             cout << "Collision. " << endl;
+//     //             collision = true;
+//     //         }
+//     //     }
+//     // }
+
+//     // return collision;
+// }
+
+void getTileAt(Game &g, Vector2D pos, char dir, int &x, int &y, int &xa, int &ya)
+{
+    // bool collision = false;
+    // // Player *player = g.getConstPlayer();
+    // int x1 = (pos.x) / (TILE_SIZE * SCALE);
+    // int x2 = (pos.x + (TILE_SIZE * SCALE)) / (TILE_SIZE * SCALE);
+    // int y1 = (pos.y) / (TILE_SIZE * SCALE);
+    // int y2 = (pos.y + (TILE_SIZE * SCALE)) / (TILE_SIZE * SCALE);
+
+    // // TileMap tm = g.getConstTilemap();
+    // switch (dir)
+    // {
+    // case 'l':
+    //     x = x1;
+    //     y = y1;
+    //     cout << "l" << x1 << ":" << y1 << endl;
+    //     break;
+    // case 'r':
+    //     x = x2;
+    //     y = y2 - 1;
+    //     cout << "r" << x2 << ":" << y2 << endl;
+    //     break;
+    // case 't':
+    //     x = pos.x / (TILE_SIZE * SCALE);
+    //     y = y1;
+    //     cout << "t" << x1 << ":" << y1 << endl;
+    //     break;
+    // case 'b':
+    //     x = x1;
+    //     y = y2;
+    //     xa = x2;
+    //     ya = y2;
+    //     // cout << "b" << x2 << ":" << y2 << endl;
+    //     break;
+    // }
+}
+
 void SDLGame::SDLLoop(Game &g)
 {
     SDL_Event events;
@@ -244,16 +312,26 @@ void SDLGame::SDLLoop(Game &g)
     Room room;
     const Uint8 *keyboard_state_array = SDL_GetKeyboardState(NULL);
     Uint32 t = SDL_GetTicks(), nt;
+    float deltaTime = 0.f;
+
+    Player *p = g.getConstPlayer();
+    // p->addForce({0, 0});
+    const TileMap &tm = g.getConstTilemap();
 
     // tant que ce n'est pas la fin ...
+
     while (!quit)
     {
+
         nt = SDL_GetTicks();
+        deltaTime = (nt - t) / 1000.f;
         if (nt - t > 500)
         {
             g.checkSpikes();
-            t = nt;
         }
+        t = nt;
+
+        float move = deltaTime * 40.f;
 
         // tant qu'il y a des evenements à traiter (cette boucle n'est pas bloquante)
         while (SDL_PollEvent(&events))
@@ -262,29 +340,49 @@ void SDLGame::SDLLoop(Game &g)
             right = false;
             left = false;
             if (events.type == SDL_QUIT)
-                quit = true; // Si l'utilisateur a clique sur la croix de fermeture
+            {
+                quit = true;
+            }
             else if (events.type == SDL_KEYDOWN)
             {
                 if (keyboard_state_array[SDL_SCANCODE_UP])
-                    g.keyboardActions('t');
+                {
+                    p->jump();
+                }
                 if (keyboard_state_array[SDL_SCANCODE_LEFT])
                 {
-                    g.keyboardActions('l');
-                    left = true;
-                    right = false;
+                    p->addForce({-3, 0});
                 }
                 if (keyboard_state_array[SDL_SCANCODE_RIGHT])
                 {
-                    g.keyboardActions('r');
-                    right = true;
-                    left = false;
+                    p->addForce({3, 0});
                 }
                 if (keyboard_state_array[SDL_SCANCODE_Q])
-                    quit = false;
+                {
+                    quit = true;
+                }
+            }
+            else if (events.type == SDL_KEYUP)
+            {
+                if (keyboard_state_array[SDL_SCANCODE_UP])
+                {
+                }
+                if (keyboard_state_array[SDL_SCANCODE_LEFT])
+                {
+                }
+                if (keyboard_state_array[SDL_SCANCODE_RIGHT])
+                {
+                }
             }
         }
 
-        g.automaticActions();
+        // int x, y, xa, xb;
+        // getTileAt(g, {p->position.x * TILE_SIZE * SCALE, p->position.y * TILE_SIZE * SCALE}, 'b', x, y, xa, xb);
+        // if (tm.isValidPosition(x, y) || (left && tm.isValidPosition(x + 1, y)))
+        // p->addForce({tm});
+        // g.automaticActions();
+
+        p->updatePosition(tm, deltaTime);
 
         // on affiche le jeu sur le buffer caché
         SDLShow(g);

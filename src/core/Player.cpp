@@ -44,17 +44,17 @@ void Player::attack(Entity &e)
     e.receiveDamage(weapon.damages);
 }
 
-bool Player::jump(const TileMap &t)
-{
-    if (currentJumpHeight < MAX_JUMP_HEIGHT)
-    {
-        currentJumpHeight += 5;
-        moveUp(t);
-        return true;
-    }
-    currentJumpHeight = 0;
-    return false;
-}
+// bool Player::jump(const TileMap &t)
+// {
+//     if (currentJumpHeight < MAX_JUMP_HEIGHT)
+//     {
+//         currentJumpHeight += 5;
+//         moveUp(t);
+//         return true;
+//     }
+//     currentJumpHeight = 0;
+//     return false;
+// }
 
 void Player::show()
 {
@@ -67,7 +67,7 @@ void Player::show()
 void Player::regressionTest()
 {
 
-/*
+    /*
     Player p(5, 3, "JeSuisUnJoueur");
     assert(p.energy == 5 && p.shield == 3 && p.spriteName == "JeSuisUnJoueur");
     cout << "Paramètres ok" << endl;

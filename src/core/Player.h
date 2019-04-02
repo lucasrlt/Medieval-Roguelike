@@ -82,7 +82,7 @@ class Player : public Entity
      */
     void regressionTest();
 
-    bool jump(const TileMap &t);
+    // bool jump(const TileMap &t);
 };
 
 #endif //MEDIEVAL_ROGUELIKE_PLAYER_H
