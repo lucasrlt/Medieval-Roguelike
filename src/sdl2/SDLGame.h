@@ -38,7 +38,7 @@ private:
   Image playerLeft;
   Image playerRight;
 
-  Image savageIdle; //Image d'attente pour le savage
+  Image savageIdle;
   Image savageLeft;
   Image savageRight;
   

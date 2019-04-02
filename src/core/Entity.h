@@ -20,6 +20,10 @@ class Entity
   public:
     Vector2D position;
 
+    std::string idleSprite;
+    std::string leftSprite;
+    std::string rightSprite;
+
     Entity();
 
     /**
@@ -61,12 +65,6 @@ class Entity
      * @param _force vecteur de force.
      */
     void addForce(Vector2D _force);
-
-    string getIdleSprite() const;
-
-    string getLeftSprite() const;
-
-    string getRightSprite() const;
     /**
      * @brief Affiche l'entité.
      */
@@ -80,9 +78,6 @@ class Entity
   protected:
     Vector2D force;
     int health;
-    std::string idleSprite;
-    std::string leftSprite;
-    std::string rightSprite;
 };
 
 #endif //MEDIEVAL_ROGUELIKE_AGENT_H

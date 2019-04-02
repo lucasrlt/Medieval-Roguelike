@@ -221,7 +221,6 @@ void SDLGame::drawPlayer(Player *player)
     }
     else if(stop){
         playerIdle.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
-        cout<<"Je suis le sprite de face"<<endl;
     }
 }
 
@@ -231,17 +230,19 @@ void SDLGame::drawSavage(Savage *savage){
 
 void SDLGame::SDLLoop(Game &g)
 {
-    g.getConstSavage()->getIdleSprite() = "data/warrior_front.png";    // A finir
-    savageIdle.loadFromFile(g.getConstSavage()->getIdleSprite().c_str(), renderer);
+    Player *p = g.getConstPlayer();
 
-    g.getConstPlayer()->getIdleSprite() = "data/warrior_front.png";
-    playerIdle.loadFromFile(g.getConstPlayer()->getIdleSprite().c_str(), renderer); // Charge les sprite du joueur
+    g.getConstSavage()->idleSprite = "data/warrior_front.png";    // A finir
+    savageIdle.loadFromFile(g.getConstSavage()->idleSprite.c_str(), renderer);
 
-    g.getConstPlayer()->getLeftSprite() = "data/warrior_left.png";
-    playerLeft.loadFromFile(g.getConstPlayer()->getLeftSprite().c_str(), renderer);
+    p->idleSprite = "data/warrior_front.png";
+    playerIdle.loadFromFile(p->idleSprite.c_str(), renderer); // Charge les sprite du joueur
 
-    g.getConstPlayer()->getRightSprite() = "data/warrior_right.png";
-    playerRight.loadFromFile(g.getConstPlayer()->getRightSprite().c_str(), renderer);
+    p->leftSprite = "data/warrior_left.png";
+    playerLeft.loadFromFile(p->leftSprite.c_str(), renderer);
+
+    p->rightSprite = "data/warrior_right.png";
+    playerRight.loadFromFile(p->rightSprite.c_str(), renderer);
     
     SDL_Event events;
     bool quit = false;

@@ -11,6 +11,7 @@ Game::~Game()
     delete player;
     delete savage;
     delete tilemap;
+
     for (int i = 0; i < MAZE_SIZE; i++)
     {
         for (int j = 0; j < MAZE_SIZE; j++)
@@ -40,11 +41,6 @@ Savage *Game::getConstSavage() const
     return savage;
 }
 
-Entity *Game::getConstEntity() const
-{
-    return entity;
-}
-
 int Game::getCurrentRoomX() const { return currRoomX; }
 int Game::getCurrentRoomY() const { return currRoomY; }
 
@@ -55,9 +51,9 @@ void Game::initDungeon()
     int health = 10;
     int energy = 15;
     int shield = 5;
-    string spriteNameFront = "Jean-Claude Face";
-    string spriteNameLeft = "Jean-Claude Gauche";
-    string spriteNameRight = "Jean-Claude Droite";
+    string spriteNameFront = "data/warrior_front.png";
+    string spriteNameLeft = "data/warrior_left.png";
+    string spriteNameRight = "data/warrior_right.png";
 
     unsigned int damages = 12;
     unsigned int energyCost = 3;
@@ -70,7 +66,7 @@ void Game::initDungeon()
     Vector2D posSavage;
     int healthSavage = 15;
     int strenghtSavage = savage->getStrenght();
-    string spriteNameBack = "Jean-Sauvage Dos";
+    string spriteNameBack = "data/warrior_back.png";
 
     Weapon weapon(damages, energyCost, attackSpeed, type, attackRange, weaponName);
 

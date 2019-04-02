@@ -51,9 +51,12 @@ class Game
      */
     Player *getConstPlayer() const;
 
+    /**
+     * @brief Récupère un Savage.
+     * 
+     * @return Savage
+     */
     Savage *getConstSavage() const;
-
-    Entity *getConstEntity() const;
 
     /**
      * @brief Bouge le player.
@@ -74,7 +77,6 @@ class Game
     int currRoomX, currRoomY;
     Player *player;
     Savage *savage;
-    Entity *entity;
     TileMap *tilemap;
     DungeonGenerator dungeonGenerator;
 };

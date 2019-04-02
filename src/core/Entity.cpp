@@ -37,21 +37,6 @@ int Entity::getHealth() const
     return health;
 }
 
-string Entity::getIdleSprite()const
-{
-    return idleSprite;
-}
-
-string Entity::getLeftSprite()const
-{
-    return leftSprite;
-}
-
-string Entity::getRightSprite()const
-{
-    return rightSprite;
-}
-
 Vector2D Entity::getForce() const
 {
     return force;
