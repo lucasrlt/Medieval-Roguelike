@@ -22,6 +22,7 @@ class Projectile
 public:
   Vector2D position;
   string spriteName;
+  bool isHit;
 
   Projectile();
 
