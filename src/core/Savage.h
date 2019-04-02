@@ -3,17 +3,18 @@
  * @author Alexandre PUILLET
  * @brief Module gérant les ennemis de type mêlée
  */
-#ifndef MEDIEVALROGUELIKE_SAVAGE_H
-#define MEDIEVALROGUELIKE_SAVAGE_H
 
 #include <iostream>
 #include "Entity.h"
 #include "Game.h"
 
+#ifndef MEDIEVALROGUELIKE_SAVAGE_H
+#define MEDIEVALROGUELIKE_SAVAGE_H
+
 /**
  * @brief Classe créant les ennemis de mêlée.
  */
-
+class Game;
 class Savage : public Entity{
     public:
     Savage();

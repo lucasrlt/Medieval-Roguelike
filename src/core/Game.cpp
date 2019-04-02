@@ -1,6 +1,6 @@
-#include "Game.h"
 #include "Player.h"
 #include "Savage.h"
+#include "Game.h"
 #include <iostream>
 #include <string>
 
@@ -38,6 +38,11 @@ Player *Game::getConstPlayer() const
 Savage *Game::getConstSavage() const
 {
     return savage;
+}
+
+Entity *Game::getConstEntity() const
+{
+    return entity;
 }
 
 int Game::getCurrentRoomX() const { return currRoomX; }

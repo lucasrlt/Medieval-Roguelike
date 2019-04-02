@@ -34,11 +34,11 @@ private:
   bool right;
   bool stop;
 
-  Image playerStop;
+  Image playerIdle;
   Image playerLeft;
   Image playerRight;
 
-  Image savageStop; //Image d'attente pour le savage
+  Image savageIdle; //Image d'attente pour le savage
   Image savageLeft;
   Image savageRight;
   

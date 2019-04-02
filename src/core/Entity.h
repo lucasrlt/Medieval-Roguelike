@@ -62,6 +62,11 @@ class Entity
      */
     void addForce(Vector2D _force);
 
+    string getIdleSprite() const;
+
+    string getLeftSprite() const;
+
+    string getRightSprite() const;
     /**
      * @brief Affiche l'entité.
      */

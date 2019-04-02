@@ -220,28 +220,28 @@ void SDLGame::drawPlayer(Player *player)
         playerRight.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
     }
     else if(stop){
-        playerStop.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+        playerIdle.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
         cout<<"Je suis le sprite de face"<<endl;
     }
 }
 
 void SDLGame::drawSavage(Savage *savage){
-    savageLeft.draw(renderer, savage->position.x * TILE_SIZE * SCALE, savage.position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+    savageLeft.draw(renderer, savage->position.x * TILE_SIZE * SCALE, savage->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
 }
 
 void SDLGame::SDLLoop(Game &g)
 {
-    g.getConstSavage()->spriteName = "data/warrior_back.png";    // A finir
-    playerBack.loadFromFile(g.getConstSavage()->spriteName.c_str(), renderer);
+    g.getConstSavage()->getIdleSprite() = "data/warrior_front.png";    // A finir
+    savageIdle.loadFromFile(g.getConstSavage()->getIdleSprite().c_str(), renderer);
 
-    g.getConstPlayer()->spriteNameFront = "data/warrior_front.png";
-    playerStop.loadFromFile(g.getConstPlayer()->spriteNameFront.c_str(), renderer); // Charge les sprite du joueur
+    g.getConstPlayer()->getIdleSprite() = "data/warrior_front.png";
+    playerIdle.loadFromFile(g.getConstPlayer()->getIdleSprite().c_str(), renderer); // Charge les sprite du joueur
 
-    g.getConstPlayer()->spriteNameLeft = "data/warrior_left.png";
-    playerLeft.loadFromFile(g.getConstPlayer()->spriteNameLeft.c_str(), renderer);
+    g.getConstPlayer()->getLeftSprite() = "data/warrior_left.png";
+    playerLeft.loadFromFile(g.getConstPlayer()->getLeftSprite().c_str(), renderer);
 
-    g.getConstPlayer()->spriteNameRight = "data/warrior_right.png";
-    playerRight.loadFromFile(g.getConstPlayer()->spriteNameRight.c_str(), renderer);
+    g.getConstPlayer()->getRightSprite() = "data/warrior_right.png";
+    playerRight.loadFromFile(g.getConstPlayer()->getRightSprite().c_str(), renderer);
     
     SDL_Event events;
     bool quit = false;

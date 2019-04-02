@@ -16,7 +16,6 @@
 /**
  * @brief Classe créant les ennemis distance.
  */
-
 class Ghost : public Entity{
     public:
     Ghost();

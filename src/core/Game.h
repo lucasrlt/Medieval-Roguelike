@@ -12,8 +12,8 @@
 #include "Room.h"
 #include "DungeonGenerator.h"
 #include "Vector2D.h"
-#include "Player.h"
 #include "Savage.h"
+#include "Player.h"
 #include "TileMap.h"
 
 using namespace std;
@@ -21,7 +21,7 @@ using namespace std;
 /**
  * @brief Classe s'occupant de créer le jeu.
  */
-
+class Savage;
 class Game
 {
   public:
@@ -53,6 +53,8 @@ class Game
 
     Savage *getConstSavage() const;
 
+    Entity *getConstEntity() const;
+
     /**
      * @brief Bouge le player.
      * 
@@ -72,6 +74,7 @@ class Game
     int currRoomX, currRoomY;
     Player *player;
     Savage *savage;
+    Entity *entity;
     TileMap *tilemap;
     DungeonGenerator dungeonGenerator;
 };
