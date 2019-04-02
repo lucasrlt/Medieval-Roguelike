@@ -59,7 +59,7 @@ class Game
      */
     Savage *getConstSavage() const;
 
-    // Ghost *getConstGhost() const;
+    Ghost *getConstGhost() const;
 
     /**
      * @brief Bouge le player.

@@ -10,7 +10,7 @@ Game::~Game()
 {
     delete player;
     delete savage;
-    // delete ghost;
+    delete ghost;
     delete tilemap;
 
     for (int i = 0; i < MAZE_SIZE; i++)
@@ -42,10 +42,10 @@ Savage *Game::getConstSavage() const
     return savage;
 }
 
-// Ghost *Game::getConstGhost() const
-// {
-//     return ghost;
-// }
+Ghost *Game::getConstGhost() const
+{
+    return ghost;
+}
 
 int Game::getCurrentRoomX() const { return currRoomX; }
 int Game::getCurrentRoomY() const { return currRoomY; }
@@ -71,7 +71,7 @@ void Game::initDungeon()
     //Caractéristiques du Savage
     Vector2D posSavage;
     int healthSavage = 15;
-    int strenghtSavage = savage->getStrenght();
+    int strenghtSavage = 2;
     string idleSpriteSavage= "data/warrior_front.png";
     string leftSpriteSavage= "data/warrior_left.png";
     string rightSpriteSavage= "data/warrior_right.png";
@@ -79,7 +79,7 @@ void Game::initDungeon()
     // //Caratéristiques du Ghost
     Vector2D posGhost;
     int healthGhost = 15;
-    int strenghtGhost = ghost->getStrenght();
+    int strenghtGhost = 2;
     string idleSpriteGhost = "data/warrior_front.png";
     string leftSpriteGhost = "data/warrior_left.png";
     string rightSpriteGhost = "data/warrior_right.png";
@@ -107,8 +107,7 @@ void Game::initDungeon()
     pos = {(float)tilemap->playerSpawn.x, (float)tilemap->playerSpawn.y};
     player = new Player(pos, force, health, energy, shield, weapon, idleSpritePlayer, leftSpritePlayer, rightSpritePlayer);
 
-    // ghost = new Ghost(posGhost, force, healthGhost, strenghtGhost, idleSpriteGhost, leftSpriteGhost, rightSpriteGhost);
-    ghost = NULL;
+    ghost = new Ghost(posGhost, force, healthGhost, strenghtGhost, idleSpriteGhost, leftSpriteGhost, rightSpriteGhost);
     
     // Point ennemyPos = tilemap->enemySpawns[rand() % tilemap->enemySpawns.size()];
     
