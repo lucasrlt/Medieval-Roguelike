@@ -170,6 +170,8 @@ void SDLGame::SDLShow(const Game &g)
     }
 
     drawPlayer(g.getConstPlayer());
+    
+    drawEnemies(g.getConstSavage(), g.getConstGhost());
 }
 /*
     Game game;
@@ -224,17 +226,39 @@ void SDLGame::drawPlayer(Player *player)
     }
 }
 
-void SDLGame::drawSavage(Savage *savage){
+void SDLGame::drawEnemies(Savage *savage, Ghost *ghost){
+    // Peur que les position.x et position.y ne marchent pas
     savageLeft.draw(renderer, savage->position.x * TILE_SIZE * SCALE, savage->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+    ghostRight.draw(renderer, ghost->position.x * TILE_SIZE * SCALE, ghost->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
 }
 
 void SDLGame::SDLLoop(Game &g)
 {
     Player *p = g.getConstPlayer();
+    Savage *s = g.getConstSavage();
+    Ghost *gh = g.getConstGhost();
 
-    g.getConstSavage()->idleSprite = "data/warrior_front.png";    // A finir
-    savageIdle.loadFromFile(g.getConstSavage()->idleSprite.c_str(), renderer);
+    // Charge les sprites du Ghosts (faire tableau de Ghost après).
+    gh->idleSprite = "data/warrior_front.png";
+    ghostIdle.loadFromFile(gh->idleSprite.c_str(), renderer);
 
+    gh->leftSprite = "data/warrior_left.png";
+    ghostLeft.loadFromFile(gh->leftSprite.c_str(), renderer);
+
+    gh->idleSprite = "data/warrior_right.png";
+    ghostRight.loadFromFile(gh->rightSprite.c_str(), renderer);
+
+    // Charge les sprites du Savages (faire tableau de Savage après).
+    s->idleSprite = "data/warrior_front.png";
+    savageIdle.loadFromFile(s->idleSprite.c_str(), renderer);
+
+    s->leftSprite = "data/warrior_left.png";
+    savageLeft.loadFromFile(s->leftSprite.c_str(), renderer);
+
+    s->rightSprite = "data/warrior_right.png";
+    savageRight.loadFromFile(s->rightSprite.c_str(), renderer);
+
+    // Charge les sprites du Player.
     p->idleSprite = "data/warrior_front.png";
     playerIdle.loadFromFile(p->idleSprite.c_str(), renderer); // Charge les sprite du joueur
 

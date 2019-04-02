@@ -41,6 +41,10 @@ private:
   Image savageIdle;
   Image savageLeft;
   Image savageRight;
+
+  Image ghostIdle;
+  Image ghostLeft;
+  Image ghostRight;
   
   SDL_Window *window;
   SDL_Renderer *renderer;
@@ -48,7 +52,7 @@ private:
   Image heartSprite;
   void drawCurrentRoom(const Game &g);
   void drawPlayer(Player *player);
-  void drawSavage(Savage *savage);
+  void drawEnemies(Savage *savage, Ghost *ghost);
 
   //TTF_Font * font;
   //Image font_im;
