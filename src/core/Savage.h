@@ -6,7 +6,6 @@
 
 #include <iostream>
 #include "Entity.h"
-#include "Game.h"
 
 #ifndef MEDIEVALROGUELIKE_SAVAGE_H
 #define MEDIEVALROGUELIKE_SAVAGE_H
@@ -14,7 +13,6 @@
 /**
  * @brief Classe créant les ennemis de mêlée.
  */
-class Game;
 class Savage : public Entity{
     public:
     Savage();
@@ -44,14 +42,14 @@ class Savage : public Entity{
      * 
      * @param game 
      */
-    void runToPlayer(Game &game);
+    void runToPlayer();
 
     /**
      * @brief 
      * 
      * @param game 
      */
-    void attackPlayer(Game &game);
+    void attackPlayer();
 
     private:
     int strenght;

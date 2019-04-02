@@ -7,6 +7,7 @@ int main(int argc, char **arg)
 {
     Game g;
     g.initDungeon();
+    cout << "ALED" << endl;
 
     SDLGame sg;
     sg.SDLLoop(g);

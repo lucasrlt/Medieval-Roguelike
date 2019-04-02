@@ -13,6 +13,7 @@
 #include "DungeonGenerator.h"
 #include "Vector2D.h"
 #include "Savage.h"
+#include "Ghost.h"
 #include "Player.h"
 #include "TileMap.h"
 
@@ -58,6 +59,8 @@ class Game
      */
     Savage *getConstSavage() const;
 
+    // Ghost *getConstGhost() const;
+
     /**
      * @brief Bouge le player.
      * 
@@ -75,8 +78,11 @@ class Game
     bool isJumping;
     Room currentRoom;
     int currRoomX, currRoomY;
+
     Player *player;
     Savage *savage;
+    Ghost *ghost;
+
     TileMap *tilemap;
     DungeonGenerator dungeonGenerator;
 };

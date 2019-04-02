@@ -35,17 +35,17 @@ int Savage::getStrenght() const{
     return strenght;
 }
 
-void Savage::runToPlayer(Game &game){
-    while(position.x != game.getConstPlayer()->position.x){
-        if(position.x - game.getConstPlayer()->position.x < 0){
-            position.x += 5;
-        }
-        else if(position.x - game.getConstPlayer()->position.x > 0){
-            position.x -= 5;
-        }    
-    }
+void Savage::runToPlayer(){
+    // while(position.x != game.getConstPlayer()->position.x){
+    //     if(position.x - game.getConstPlayer()->position.x < 0){
+    //         position.x += 5;
+    //     }
+    //     else if(position.x - game.getConstPlayer()->position.x > 0){
+    //         position.x -= 5;
+    //     }    
+    // }
 }
 
-void Savage::attackPlayer(Game &g){
+void Savage::attackPlayer(){
 
 }
