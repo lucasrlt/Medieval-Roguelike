@@ -60,15 +60,6 @@ void Game::initDungeon()
     currRoomY = (int)MAZE_SIZE / 2;
     currentRoom = getConstRoom((int)MAZE_SIZE / 2, (int)MAZE_SIZE / 2);
 
-    /*if (currentRoom.schema.openBottom)
-        pos = {7, 7};
-    else if (currentRoom.schema.openLeft)
-        pos = {1, 7};
-    else if (currentRoom.schema.openRight)
-        pos = {14, 7};
-    else
-        pos = {7, 7};*/
-
     tilemap = new TileMap();
     tilemap->init("data/tileset.tsx");
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
