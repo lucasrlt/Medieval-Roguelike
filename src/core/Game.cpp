@@ -2,6 +2,7 @@
 #include "Player.h"
 #include <iostream>
 #include <string>
+#include <math.h>
 
 using namespace std;
 
@@ -76,15 +77,18 @@ void Game::keyboardActions(char action)
     {
     case 'r':
         player->moveRight(*tilemap);
+        player->movingRight = true;
+        player->movingLeft = false;
         checkRoomChange('r');
         break;
     case 'l':
         player->moveLeft(*tilemap);
+        player->movingLeft = true;
+        player->movingRight = false;
         checkRoomChange('l');
         break;
     case 't':
-        isJumping = true;
-        // checkRoomChange();
+        player->jump();
         break;
     default:
         break;
@@ -93,30 +97,25 @@ void Game::keyboardActions(char action)
 
 void Game::automaticActions()
 {
-    // if (isJumping)
-    // {
-    //     isJumping = player->jump(*tilemap);
-    // }
-    // player->moveDown(*tilemap);
-
-    checkRoomChange(false);
+    checkRoomChange(' ');
 }
 
 void Game::checkSpikes()
 {
-    if (tilemap->getXY((int)player->position.x, (int)player->position.y).type == spike)
+    if (tilemap->getXY(round(player->position.x), (int)round(player->position.y)).type == spike) {
         player->receiveDamage(1);
+    }
 }
 
 void Game::checkRoomChange(char direction)
 {
     if (tilemap->getXY(player->position.x, player->position.y).type == background)
     {
-        if (player->position.x >= 15.0f && direction == 'r' && currentRoom.schema.openRight)
+        if (player->position.x >= 14.8f && player->movingRight && currentRoom.schema.openRight)
             changeRoom('r');
-        else if (player->position.x < 1.0f && direction == 'l' && currentRoom.schema.openLeft)
+        else if (player->position.x <= 1.0f && player->movingLeft && currentRoom.schema.openLeft)
             changeRoom('l');
-        else if (player->position.y >= 15.0f && currentRoom.schema.openBottom)
+        else if (player->position.y >= 14.8f && currentRoom.schema.openBottom)
             changeRoom('b');
         else if (player->position.y < 1.0f && currentRoom.schema.openTop)
             changeRoom('t');

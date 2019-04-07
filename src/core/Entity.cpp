@@ -12,7 +12,10 @@ Entity::Entity()
     velocity = {0, 0};
 
     health = 0;
-    grounded = true;
+    grounded = false;
+
+    movingLeft = movingBottom = movingRight = movingUp = false;
+
 }
 
 Entity::Entity(Vector2D positionInit, Vector2D forceInit, int healthInit)
@@ -21,7 +24,9 @@ Entity::Entity(Vector2D positionInit, Vector2D forceInit, int healthInit)
     velocity = forceInit;
     health = healthInit;
 
-    grounded = true;
+    movingLeft = movingBottom = movingRight = movingUp = false;
+
+    grounded = false;
 }
 
 Entity::~Entity()
@@ -71,51 +76,62 @@ void Entity::move(Vector2D dep, const TileMap &t, float time)
 
 void Entity::updatePosition(const TileMap &t, float dt)
 {
-    if (grounded)
-    {
-        velocity.y = 0;
+    // Applique la gravité
+    velocity.y += GRAVITY_SPEED * dt;
+    if (velocity.y > MAX_GRAVITY)
+        velocity.y = MAX_GRAVITY;
+
+    Vector2D newPos = {position.x + velocity.x * dt, position.y + velocity.y * dt};
+
+    // Collision gauche
+    if (velocity.x < 0 && t.isValidPosition(newPos.x, newPos.y) && t.isValidPosition(newPos.x, round(newPos.y))) {
+        position.x += velocity.x * dt;
+    }  
+    // Collision droite
+    if (velocity.x > 0 && t.isValidPosition(newPos.x + 1, newPos.y)) {
+        position.x += velocity.x * dt;
     }
-    else
-    {
-        velocity.y += 10 * dt;
-        if (velocity.y > 20)
-            velocity.y = 20;
+    
+    // Si le joueur est à l'intérieur d'un bloc, on le remet au-dessus du bloc
+    if (velocity.x > 0 && velocity.y > 0 && (t.getXY(position.x, floor(position.y + 1)).type == collision || t.getXY(position.x, floor(position.y + 1)).type == platform)) {
+        position.y = floor(position.y);
     }
 
-    position.x += velocity.x * dt;
-    position.y += velocity.y * dt;
+    // Collision haut
+    if (velocity.y < 0 && t.isValidPosition(position.x, newPos.y, true)) 
+    {
+        position.y += velocity.y * dt;
+    }
+    // Collision bas  
+    if (velocity.y > 0 && 
+        ((position.x - floor(position.x) >= 0.8f ? 
+            t.isValidPosition(ceil(position.x), newPos.y + 1) : 
+            t.isValidPosition(round(position.x), newPos.y + 1) && t.isValidPosition(position.x, newPos.y + 1))))
+    {
+        position.y += velocity.y * dt;
+    }
+
+    // Vérifie si le joueur est au sol
+    if (velocity.y >= 0 && (!t.isValidPosition(round(newPos.x), newPos.y + 1) || !t.isValidPosition(newPos.x, newPos.y + 1))) {
+        grounded = true;
+    }
 }
 
 void Entity::jump()
 {
-    velocity.y = -10.f;
+    if (grounded) 
+        velocity.y = -JUMP_SPEED;
     grounded = false;
 }
 
 void Entity::moveLeft(const TileMap &t)
 {
-    // if (t.isValidPosition(position.x - 1 < 0 ? -1 : position.x - 1, position.y))
-    position.x -= moveA;
+    velocity.x += -PLAYER_SPEED;
 }
 
 void Entity::moveRight(const TileMap &t)
 {
-    // if (t.isValidPosition(position.x + 1, position.y))
-    position.x += moveA;
-}
-
-void Entity::moveUp(const TileMap &t)
-{
-    if (t.isValidPosition(position.x, position.y - 1, true))
-        position.y -= 0.5;
-}
-
-void Entity::moveDown(const TileMap &t, char currDirection)
-{
-    // if (t.isValidPosition(ceil(position.x), position.y + 1))
-    // {
-    position.y += 0.04;
-    // }
+    velocity.x += PLAYER_SPEED;
 }
 
 void Entity::addForce(Vector2D _force)

@@ -12,7 +12,10 @@
  * @author Alexandre PUILLET
  */
 
-const float GRAVITY = 3.f;
+const float MAX_GRAVITY = 8.0f;
+const float JUMP_SPEED = 10.0f;
+const float GRAVITY_SPEED = 20.0f;
+const float PLAYER_SPEED = 4.0f;
 
 /**
  @brief Classe représentant les caractéristiques communes des entités du jeu.
@@ -20,6 +23,8 @@ const float GRAVITY = 3.f;
 class Entity
 {
   public:
+    bool movingRight, movingLeft, movingUp, movingBottom;
+    
     Vector2D position;
 
     Entity();
@@ -57,8 +62,6 @@ class Entity
     void move(Vector2D dep, const TileMap &t, float time);
     void moveLeft(const TileMap &t);
     void moveRight(const TileMap &t);
-    void moveUp(const TileMap &t);
-    void moveDown(const TileMap &t, char currDirection = ' ');
 
     /**
      * @brief Ajoute une force à la force du personnage.
