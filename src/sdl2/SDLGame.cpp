@@ -237,6 +237,8 @@ void SDLGame::SDLLoop(Game &g)
     Player *p = g.getConstPlayer();
     Savage *s = g.getConstSavage();
     Ghost *gh = g.getConstGhost();
+    const TileMap &tm = g.getConstTilemap();
+
 
     // Charge les sprites du Ghosts (faire tableau de Ghost après).
     gh->idleSprite = "data/warrior_front.png";
@@ -273,9 +275,6 @@ void SDLGame::SDLLoop(Game &g)
     Room room;
     Uint32 t = SDL_GetTicks(), t2 = SDL_GetTicks(), nt;
     float deltaTime = 0.f;
-
-    Player *p = g.getConstPlayer();
-    const TileMap &tm = g.getConstTilemap();
 
     // tant que ce n'est pas la fin ...
     while (!quit)
