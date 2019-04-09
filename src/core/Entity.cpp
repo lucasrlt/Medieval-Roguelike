@@ -12,17 +12,14 @@ Entity::Entity()
     velocity = {0, 0};
 
     health = 0;
-<<<<<<< HEAD
     grounded = false;
 
     movingLeft = movingBottom = movingRight = movingUp = false;
 
-=======
 
     idleSprite = " ";
     leftSprite = " ";
     rightSprite = " ";
->>>>>>> alex-test
 }
 
 Entity::Entity(Vector2D positionInit, Vector2D forceInit, int healthInit, std::string idle, std::string left, std::string right)
@@ -30,16 +27,13 @@ Entity::Entity(Vector2D positionInit, Vector2D forceInit, int healthInit, std::s
     position = positionInit;
     velocity = forceInit;
     health = healthInit;
-<<<<<<< HEAD
 
     movingLeft = movingBottom = movingRight = movingUp = false;
 
     grounded = false;
-=======
     idleSprite = idle;
     leftSprite = left;
     rightSprite = right;
->>>>>>> alex-test
 }
 
 Entity::~Entity()
