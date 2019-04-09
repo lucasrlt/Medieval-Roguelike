@@ -38,39 +38,39 @@ const Vector2D Vector2D::operator+(const Vector2D& vec) {
     return vec2;
 }
 
-// Vector2D Vector2D::operator+(float b) {
-//     Vector2D r;
-//     r.x = x + b;
-//     r.y = y + b;
-//     return r;
-// }
+const Vector2D Vector2D::operator+(float b) {
+    Vector2D r;
+    r.x = x + b;
+    r.y = y + b;
+    return r;
+}
 
-Vector2D Vector2D::operator-(const Vector2D& vec){
+const Vector2D Vector2D::operator-(const Vector2D& vec){
     Vector2D vec2;
     vec2.x = x - vec.x;
     vec2.y = y - vec.y;
     return vec2;
 }
 
-Vector2D Vector2D::operator*(const Vector2D &vec){
+const Vector2D Vector2D::operator*(const Vector2D &vec){
     Vector2D vec2;
     vec2.x = (x * vec.x) - (y * vec.y);
     vec2.y = (x * vec.y) + (vec.x * y);
     return vec2;
 }
 
-const Vector2D Vector2D::operator/(const Vector2D &vec){
-    // Vector2D r;
-    // if(b == 0){
-    //     cout << "Erreur, division par 0" << endl;
-    //     r = {0, 0};
-    // }
-    // else {
-    //     r.x = x / b;
-    //     r.y = y / b;
-    // }
+const Vector2D Vector2D::operator/(float b){
+    Vector2D r;
+    if(b == 0){
+        cout << "Erreur, division par 0" << endl;
+        r = {0, 0};
+    }
+    else {
+        r.x = x / b;
+        r.y = y / b;
+    }
 
-    // return r;
+    return r;
 }
 
 void Vector2D::regressionTest(){
