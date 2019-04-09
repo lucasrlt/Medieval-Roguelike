@@ -275,6 +275,9 @@ void SDLGame::SDLLoop(Game &g)
     Room room;
     Uint32 t = SDL_GetTicks(), t2 = SDL_GetTicks(), nt;
     float deltaTime = 0.f;
+    right = false;
+    left = false;
+    stop = true;
 
     // tant que ce n'est pas la fin ...
     while (!quit)
@@ -294,9 +297,6 @@ void SDLGame::SDLLoop(Game &g)
         // tant qu'il y a des evenements à traiter (cette boucle n'est pas bloquante)
         while (SDL_PollEvent(&events))
         {
-            stop = true;
-            right = false;
-            left = false;
             if (events.type == SDL_QUIT)
             {
                 quit = true;
@@ -308,9 +308,13 @@ void SDLGame::SDLLoop(Game &g)
                     switch (events.key.keysym.scancode)
                     {
                     case SDL_SCANCODE_RIGHT:
+                        right = true;
+                        left = false;
                         g.keyboardActions('r');
                         break;
                     case SDL_SCANCODE_LEFT:
+                        left = true;
+                        right = false;
                         g.keyboardActions('l');
                         break;
                     case SDL_SCANCODE_UP:
@@ -327,9 +331,13 @@ void SDLGame::SDLLoop(Game &g)
                     switch (events.key.keysym.scancode)
                     {
                     case SDL_SCANCODE_RIGHT:
+                        stop = true;
+                        right = false;
                         p->moveLeft(tm);
                         break;
                     case SDL_SCANCODE_LEFT:
+                        stop = true;
+                        left = false;
                         p->moveRight(tm);
                         break;
                     default: break;
