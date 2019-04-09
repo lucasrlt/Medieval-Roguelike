@@ -90,6 +90,9 @@ void Game::keyboardActions(char action)
     case 't':
         player->jump();
         break;
+    case 'e':
+        playerShoot(player->movingRight);
+        break;
     default:
         break;
     }
@@ -98,6 +101,7 @@ void Game::keyboardActions(char action)
 void Game::automaticActions()
 {
     checkRoomChange(' ');
+    updateProjectile();
 }
 
 void Game::checkSpikes()
@@ -146,4 +150,31 @@ void Game::changeRoom(char direction)
 
     currentRoom = getConstRoom(currRoomX, currRoomY);
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
+}
+
+
+void Game::playerShoot(bool right)
+{
+    Vector2D position;
+    Vector2D velocity = {PROJECTILE_SPEED, 0};
+    if(right)
+    {
+        position = {player->position.x + PROJECTILE_OFFSET_X,player->position.y + PROJECTILE_OFFSET_Y};
+    }
+    else
+    {
+        position = {player->position.x - PROJECTILE_OFFSET_X,player->position.y + PROJECTILE_OFFSET_Y};
+        velocity.x = -PROJECTILE_SPEED;
+    }
+
+    Projectile p(position, velocity, PROJECTILE_DAMAGES, "data/blanc.jpg");
+    projectiles.push_back(p);      
+}
+
+void Game::updateProjectile()
+{
+    for(int i = 0; i < projectiles.size(); i++)
+    {
+        projectiles[i].move();
+    }
 }
