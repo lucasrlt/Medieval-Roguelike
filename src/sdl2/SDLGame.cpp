@@ -6,12 +6,12 @@
 #include <time.h>
 #include "SDLGame.h"
 #include <stdlib.h>
-#include "../core/TileMap.h"
 #include <SDL_image.h>
 #include <assert.h>
-#include "../core/Game.h"
 #include "../core/TileMap.h"
 #include <iostream>
+#include "../core/Game.h"
+#include "../core/Projectile.h"
 using namespace std;
 
 const int SCALE = 3;
@@ -171,6 +171,7 @@ void SDLGame::SDLShow(const Game &g)
     drawPlayer(g.getConstPlayer());
     
     drawEnemies(g);
+    renderProjectiles(g);
 }
 /*
     Game game;
@@ -236,6 +237,15 @@ void SDLGame::drawEnemies(const Game &game){
     
     else if(game.getConstGhost()->position.x == game.getConstPlayer()->position.x)
         ghostIdle.draw(renderer, game.getConstGhost()->position.x * TILE_SIZE * SCALE, game.getConstGhost()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+}
+
+void SDLGame::renderProjectiles(const Game &g)
+{
+    projectile.loadFromFile("data/blanc.jpg",renderer);
+    for(int i = 0; i < g.projectiles.size(); i++)
+    {
+        projectile.draw(renderer,g.projectiles[i].position.x,g.projectiles[i].position.y,16,16);
+    }
 }
 
 void SDLGame::SDLLoop(Game &g)
@@ -326,6 +336,9 @@ void SDLGame::SDLLoop(Game &g)
                         break;
                     case SDL_SCANCODE_UP:
                         g.keyboardActions('t');
+                        break;
+                    case SDL_SCANCODE_SPACE:
+                        g.keyboardActions('e');
                         break;
                     default: break;
                     }

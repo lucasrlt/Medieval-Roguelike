@@ -9,6 +9,7 @@
 #define MEDIEVALROGUELIKE_GAME_H
 
 #include <iostream>
+#include <vector>
 #include "Room.h"
 #include "DungeonGenerator.h"
 #include "Vector2D.h"
@@ -16,8 +17,14 @@
 #include "Ghost.h"
 #include "Player.h"
 #include "TileMap.h"
+#include "Projectile.h"
 
 using namespace std;
+
+const int PROJECTILE_OFFSET_X = 1;
+const int PROJECTILE_OFFSET_Y = 1;
+const int PROJECTILE_SPEED = 3;
+const int PROJECTILE_DAMAGES = 2;
 
 /**
  * @brief Classe s'occupant de créer le jeu.
@@ -27,6 +34,9 @@ class Ghost;
 class Game
 {
   public:
+
+    vector<Projectile> projectiles;
+
     ~Game();
 
     Room *dungeon[MAZE_SIZE][MAZE_SIZE];
@@ -74,6 +84,8 @@ class Game
     void checkRoomChange(char direction);
     void changeRoom(char direction);
     void checkSpikes();
+    void playerShoot(bool right);
+    void updateProjectile();
 
   private:
     bool isJumping;
