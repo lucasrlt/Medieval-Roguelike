@@ -27,6 +27,10 @@ class Entity
     
     Vector2D position;
 
+    std::string idleSprite;
+    std::string leftSprite;
+    std::string rightSprite;
+
     Entity();
 
     /**
@@ -35,7 +39,7 @@ class Entity
      * @param force force de l'Agent.
      * @param health vie de l'Agent.
      */
-    Entity(Vector2D position, Vector2D force, int health);
+    Entity(Vector2D position, Vector2D force, int health, std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight);
 
     ~Entity();
 
@@ -68,7 +72,6 @@ class Entity
      * @param _force vecteur de force.
      */
     void addForce(Vector2D _force);
-
     /**
      * @brief Affiche l'entité.
      */

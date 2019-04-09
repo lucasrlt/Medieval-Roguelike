@@ -1,5 +1,6 @@
-#include "Game.h"
 #include "Player.h"
+#include "Savage.h"
+#include "Game.h"
 #include <iostream>
 #include <string>
 #include <math.h>
@@ -9,7 +10,10 @@ using namespace std;
 Game::~Game()
 {
     delete player;
+    delete savage;
+    delete ghost;
     delete tilemap;
+
     for (int i = 0; i < MAZE_SIZE; i++)
     {
         for (int j = 0; j < MAZE_SIZE; j++)
@@ -34,6 +38,16 @@ Player *Game::getConstPlayer() const
     return player;
 }
 
+Savage *Game::getConstSavage() const
+{
+    return savage;
+}
+
+Ghost *Game::getConstGhost() const
+{
+    return ghost;
+}
+
 int Game::getCurrentRoomX() const { return currRoomX; }
 int Game::getCurrentRoomY() const { return currRoomY; }
 
@@ -44,7 +58,9 @@ void Game::initDungeon()
     int health = 10;
     int energy = 15;
     int shield = 5;
-    string spriteName = "Jean-Claude";
+    string idleSpritePlayer = "data/warrior_front.png";
+    string leftSpritePlayer = "data/warrior_left.png";
+    string rightSpritePlayer = "data/warrior_right.png";
 
     unsigned int damages = 12;
     unsigned int energyCost = 3;
@@ -52,6 +68,22 @@ void Game::initDungeon()
     int type = 1;
     float attackRange = 8;
     string weaponName = "Lance";
+
+    //Caractéristiques du Savage
+    Vector2D posSavage;
+    int healthSavage = 15;
+    int strenghtSavage = 2;
+    string idleSpriteSavage= "data/warrior_front.png";
+    string leftSpriteSavage= "data/warrior_left.png";
+    string rightSpriteSavage= "data/warrior_right.png";
+
+    // //Caratéristiques du Ghost
+    Vector2D posGhost;
+    int healthGhost = 15;
+    int strenghtGhost = 2;
+    string idleSpriteGhost = "data/warrior_front.png";
+    string leftSpriteGhost = "data/warrior_left.png";
+    string rightSpriteGhost = "data/warrior_right.png";
 
     Weapon weapon(damages, energyCost, attackSpeed, type, attackRange, weaponName);
 
@@ -65,9 +97,13 @@ void Game::initDungeon()
     tilemap->init("data/tileset.tsx");
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
     pos = {(float)tilemap->playerSpawn.x, (float)tilemap->playerSpawn.y};
-    player = new Player(pos, force, health, energy, shield, weapon, spriteName);
-    // Point ennemyPos = tilemap->enemySpawns[rand() % tilemap->enemySpawns.size()];
+    player = new Player(pos, force, health, energy, shield, weapon, idleSpritePlayer, leftSpritePlayer, rightSpritePlayer);
 
+    ghost = new Ghost(posGhost, force, healthGhost, strenghtGhost, idleSpriteGhost, leftSpriteGhost, rightSpriteGhost);
+    
+    // Point ennemyPos = tilemap->enemySpawns[rand() % tilemap->enemySpawns.size()];
+    
+    savage = new Savage(posSavage, force, healthSavage, strenghtSavage, idleSpriteSavage, leftSpriteSavage, rightSpriteSavage); //Utilier getStrenght ?
     isJumping = false;
 }
 

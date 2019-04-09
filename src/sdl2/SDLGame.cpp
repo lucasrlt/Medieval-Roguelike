@@ -170,6 +170,8 @@ void SDLGame::SDLShow(const Game &g)
     }
 
     drawPlayer(g.getConstPlayer());
+    
+    drawEnemies(g.getConstSavage(), g.getConstGhost());
 }
 /*
     Game game;
@@ -213,32 +215,59 @@ void SDLGame::drawCurrentRoom(const Game &g)
 
 void SDLGame::drawPlayer(Player *player)
 {
-    Image playerStop;
-    Image playerRight;
-    Image playerLeft;
-
-    if (left)
-    {
-        player->spriteName = "data/warrior_left.png";
-        playerLeft.loadFromFile(player->spriteName.c_str(), renderer);
+    if(left){
         playerLeft.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
     }
-    else if (right)
-    {
-        player->spriteName = "data/warrior_right.png";
-        playerRight.loadFromFile(player->spriteName.c_str(), renderer);
+    else if(right){
         playerRight.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
     }
-    else if (stop)
-    {
-        player->spriteName = "data/warrior_front.png";
-        playerStop.loadFromFile(player->spriteName.c_str(), renderer);
-        playerStop.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+    else if(stop){
+        playerIdle.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
     }
+}
+
+void SDLGame::drawEnemies(Savage *savage, Ghost *ghost){
+    // Peur que les position.x et position.y ne marchent pas
+    savageLeft.draw(renderer, savage->position.x * TILE_SIZE * SCALE, savage->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+    ghostRight.draw(renderer, ghost->position.x * TILE_SIZE * SCALE, ghost->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
 }
 
 void SDLGame::SDLLoop(Game &g)
 {
+    Player *p = g.getConstPlayer();
+    Savage *s = g.getConstSavage();
+    Ghost *gh = g.getConstGhost();
+
+    // Charge les sprites du Ghosts (faire tableau de Ghost après).
+    gh->idleSprite = "data/warrior_front.png";
+    ghostIdle.loadFromFile(gh->idleSprite.c_str(), renderer);
+
+    gh->leftSprite = "data/warrior_left.png";
+    ghostLeft.loadFromFile(gh->leftSprite.c_str(), renderer);
+
+    gh->idleSprite = "data/warrior_right.png";
+    ghostRight.loadFromFile(gh->rightSprite.c_str(), renderer);
+
+    // Charge les sprites du Savages (faire tableau de Savage après).
+    s->idleSprite = "data/warrior_front.png";
+    savageIdle.loadFromFile(s->idleSprite.c_str(), renderer);
+
+    s->leftSprite = "data/warrior_left.png";
+    savageLeft.loadFromFile(s->leftSprite.c_str(), renderer);
+
+    s->rightSprite = "data/warrior_right.png";
+    savageRight.loadFromFile(s->rightSprite.c_str(), renderer);
+
+    // Charge les sprites du Player.
+    p->idleSprite = "data/warrior_front.png";
+    playerIdle.loadFromFile(p->idleSprite.c_str(), renderer); // Charge les sprite du joueur
+
+    p->leftSprite = "data/warrior_left.png";
+    playerLeft.loadFromFile(p->leftSprite.c_str(), renderer);
+
+    p->rightSprite = "data/warrior_right.png";
+    playerRight.loadFromFile(p->rightSprite.c_str(), renderer);
+    
     SDL_Event events;
     bool quit = false;
     Room room;
