@@ -6,13 +6,12 @@
 #include <time.h>
 #include "SDLGame.h"
 #include <stdlib.h>
-#include "../core/TileMap.h"
 #include <SDL_image.h>
 #include <assert.h>
-#include "../core/Game.h"
 #include "../core/TileMap.h"
 #include <iostream>
 #include "../core/Game.h"
+#include "../core/Projectile.h"
 using namespace std;
 
 const int SCALE = 3;
@@ -172,6 +171,7 @@ void SDLGame::SDLShow(const Game &g)
     drawPlayer(g.getConstPlayer());
     
     drawEnemies(g.getConstSavage(), g.getConstGhost());
+    renderProjectiles(g);
 }
 /*
     Game game;
@@ -230,6 +230,15 @@ void SDLGame::drawEnemies(Savage *savage, Ghost *ghost){
     // Peur que les position.x et position.y ne marchent pas
     savageLeft.draw(renderer, savage->position.x * TILE_SIZE * SCALE, savage->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
     ghostRight.draw(renderer, ghost->position.x * TILE_SIZE * SCALE, ghost->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+}
+
+void SDLGame::renderProjectiles(const Game &g)
+{
+    projectile.loadFromFile("data/blanc.jpg",renderer);
+    for(int i = 0; i < g.projectiles.size(); i++)
+    {
+        projectile.draw(renderer,g.projectiles[i].position.x,g.projectiles[i].position.y,16,16);
+    }
 }
 
 void SDLGame::SDLLoop(Game &g)
