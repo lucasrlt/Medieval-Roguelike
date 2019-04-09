@@ -96,7 +96,10 @@ void Game::initDungeon()
     tilemap = new TileMap();
     tilemap->init("data/tileset.tsx");
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
+
     pos = {(float)tilemap->playerSpawn.x, (float)tilemap->playerSpawn.y};
+    posGhost = {(float)tilemap->enemySpawns[0].x, (float)tilemap->enemySpawns[0].y};
+
     player = new Player(pos, force, health, energy, shield, weapon, idleSpritePlayer, leftSpritePlayer, rightSpritePlayer);
 
     ghost = new Ghost(posGhost, force, healthGhost, strenghtGhost, idleSpriteGhost, leftSpriteGhost, rightSpriteGhost);
@@ -134,6 +137,7 @@ void Game::keyboardActions(char action)
 void Game::automaticActions()
 {
     checkRoomChange(' ');
+    ghost->flyToPlayer(player);
 }
 
 void Game::checkSpikes()

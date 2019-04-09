@@ -52,7 +52,7 @@ private:
   Image heartSprite;
   void drawCurrentRoom(const Game &g);
   void drawPlayer(Player *player);
-  void drawEnemies(Savage *savage, Ghost *ghost);
+  void drawEnemies(const Game &game);
 
   //TTF_Font * font;
   //Image font_im;

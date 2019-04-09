@@ -23,6 +23,7 @@ using namespace std;
  * @brief Classe s'occupant de créer le jeu.
  */
 class Savage;
+class Ghost;
 class Game
 {
   public:
