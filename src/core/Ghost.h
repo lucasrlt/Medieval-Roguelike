@@ -7,8 +7,7 @@
 #include <iostream>
 #include <vector>
 #include "Entity.h"
-#include "Game.h"
-#include "Projectile.h"
+// #include "Projectile.h"
 
 #ifndef MEDIEVALROGUELIKE_GHOST_H
 #define MEDIEVALROGUELIKE_GHOST_H
@@ -16,7 +15,6 @@
 /**
  * @brief Classe créant les ennemis distance.
  */
-
 class Ghost : public Entity{
     public:
     Ghost();
@@ -28,7 +26,8 @@ class Ghost : public Entity{
      * @param health vie de l'ennemi
      * @param strenght puissance de l'ennemi
      */
-    Ghost(Vector2D pos, Vector2D force, int health, int strenght, vector<Projectile> projectile);
+    Ghost(Vector2D pos, Vector2D force, int health, int strenght, /*vector<Projectile> projectile*/
+            std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight);
 
     ~Ghost();
 
@@ -44,20 +43,20 @@ class Ghost : public Entity{
      * 
      * @param game 
      */
-    void flyToPlayer(Game &game);
+    void flyToPlayer();
 
     /**
      * @brief Tire les projectiles.
      * @param game 
      */
-    void fireProjectile(Game &game);
+    void fireProjectile();
 
     private:
     int strenght;
     /**
      * @brief initialisation du tableau de projectiles.
      */
-    vector<Projectile> projectile;
+    // vector<Projectile> projectile;
 };
 
 #endif //MEDIEVALROGUELIKE_GHOST_H

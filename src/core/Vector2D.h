@@ -39,17 +39,25 @@ class Vector2D
     Vector2D(float x, float y);
 
     /**
+     @brief Surcharge opérateur pour l'addition de 2 complexes.
+    */
+    const Vector2D operator+(const Vector2D &vec);
+    const Vector2D operator+(float b);
+
+    /**
+     @brief Surcharge opérateur pour la soustraction de 2 complexes.
+    */
+    const Vector2D operator-(const Vector2D &vec);
+
+    /**
+     @brief Surcharge opérateur pour la multiplication d'un complexe avec un coefficient.
+    */
+    const Vector2D operator*(const Vector2D &vec);
+
+    /**
     @brief Surcharge opérateur pour la division d'un complexe avec un coefficient.
     */
     const Vector2D operator/(float b);
-
-    /**
-     @brief Surcharge opérateur pour l'addition de 2 complexes.
-    */
-    const Vector2D operator+(const Vector2D &b);
-    Vector2D operator+(float b);
-
-
 
     /**
      @brief Destructeur du vecteur 2D.
@@ -66,16 +74,5 @@ class Vector2D
     */
     void regressionTest();
 };
-
-
-/**
- @brief Surcharge opérateur pour la soustraction de 2 complexes.
- */
-void operator-(Vector2D &a, Vector2D b);
-
-/**
- @brief Surcharge opérateur pour la multiplication d'un complexe avec un coefficient.
- */
-void operator*(Vector2D &a, float b);
 
 #endif //MEDIEVAL_ROGUELIKE_VECTOR2D_H

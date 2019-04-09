@@ -31,29 +31,32 @@ void Vector2D::show(){
         cout << "Vecteur nul" << endl << endl;
 }
 
-const Vector2D Vector2D::operator+(const Vector2D& b) {
-    Vector2D r;
-    r.x = x + b.x;
-    r.y = y + b.y;
-    return r;
+const Vector2D Vector2D::operator+(const Vector2D& vec) {
+    Vector2D vec2;
+    vec2.x = x + vec.x;
+    vec2.y = y + vec.y;
+    return vec2;
 }
 
-Vector2D Vector2D::operator+(float b) {
+const Vector2D Vector2D::operator+(float b) {
     Vector2D r;
     r.x = x + b;
     r.y = y + b;
     return r;
 }
 
-
-void operator-(Vector2D &a, Vector2D b){
-    a.x = a.x - b.x;
-    a.y = a.y - b.y;
+const Vector2D Vector2D::operator-(const Vector2D& vec){
+    Vector2D vec2;
+    vec2.x = x - vec.x;
+    vec2.y = y - vec.y;
+    return vec2;
 }
 
-void operator*(Vector2D &a, float b){
-    a.x = a.x * b;
-    a.y = a.y * b;
+const Vector2D Vector2D::operator*(const Vector2D &vec){
+    Vector2D vec2;
+    vec2.x = (x * vec.x) - (y * vec.y);
+    vec2.y = (x * vec.y) + (vec.x * y);
+    return vec2;
 }
 
 const Vector2D Vector2D::operator/(float b){

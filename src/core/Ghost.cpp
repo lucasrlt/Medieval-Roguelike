@@ -10,15 +10,24 @@ Ghost::Ghost()
     velocity = {0, 0};
     health = 0;
     strenght = 0;
+
+    idleSprite = " ";
+    leftSprite = " ";
+    rightSprite = " ";
 }
 
-Ghost::Ghost(Vector2D posInit, Vector2D forceInit, int healthInit, int strenghtInit, vector<Projectile> tabProjectile)
-{
+Ghost::Ghost(Vector2D posInit, Vector2D forceInit, int healthInit, int strenghtInit, /*vector<Projectile> tabProjectile*/
+            std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight) 
+            {
     position = posInit;
     velocity = forceInit;
     health = healthInit;
     strenght = strenghtInit;
-    projectile = tabProjectile;
+    // projectile = tabProjectile;
+    
+    idleSprite = spriteNameIdle;
+    leftSprite = spriteNameLeft;
+    rightSprite = spriteNameRight;
 }
 
 Ghost::~Ghost()
@@ -30,6 +39,6 @@ int Ghost::getStrenght() const
     return strenght;
 }
 
-void Ghost::flyToPlayer(Game &game)
-{
+void Ghost::flyToPlayer(){
+    
 }

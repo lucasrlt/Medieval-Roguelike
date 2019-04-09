@@ -28,7 +28,6 @@ class Player : public Entity
 
   public:
     Weapon weapon;
-    std::string spriteName;
 
     Player();
 
@@ -42,7 +41,8 @@ class Player : public Entity
      * @param weaponInit arme du personnage.
      * @param name nom du personnage.
      */
-    Player(Vector2D positionInit, Vector2D forceInit, int healthInit, int energyInit, int shieldInit, Weapon weaponInit, std::string name);
+    Player(Vector2D positionInit, Vector2D forceInit, int healthInit, int energyInit, int shieldInit, 
+            Weapon weaponInit, std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight);
 
     ~Player();
 
