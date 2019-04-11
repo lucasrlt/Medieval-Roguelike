@@ -42,7 +42,7 @@ bool Ghost::checkHit(Player *player){
     if((position.x <= player->position.x + 0.75f && position.x >= player->position.x - 0.75f) && 
         (position.y <= player->position.y + 0.75f && position.y >= player->position.y - 0.75f))  
     {
-        player->receiveDamage(1);
+        player->receiveDamage(strenght);
         return true;
     }
     return false;
