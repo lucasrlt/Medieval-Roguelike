@@ -17,16 +17,36 @@ Projectile::Projectile(Vector2D posInit, Vector2D velocityInit, int damagesInit,
     velocity = velocityInit;
     damages = damagesInit;
     spriteName = name;
+    isHit = false;
 }
+
 Projectile::~Projectile()
 {
 
 }
 void Projectile::move()
 {
-    position = position + velocity;
-}
+    Vector2D newPos;
+    newPos = position + velocity;
+    if(newPos.x >= 0 && newPos.y >= 0 && newPos.x < 16 && newPos.y < 16)
+    {
+        position = newPos;
+    } 
+    else
+    {
+        isHit = true;
+    }
     
+}
+
+void Projectile::checkCollision(const TileMap &t)
+{
+    if((t.getXY(position.x,position.y).type == collision) || (t.getXY(position.x,position.y).type == platform))
+    {
+        isHit = true;
+    }
+}
+
 void Projectile::hit(Entity &e)
 {
     e.receiveDamage(damages);
