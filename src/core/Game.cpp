@@ -11,7 +11,8 @@ Game::~Game()
 {
     delete player;
     delete savage;
-    delete ghost;
+    if (ghost != NULL)
+        delete ghost;
     delete tilemap;
 
     for (int i = 0; i < MAZE_SIZE; i++)
@@ -48,6 +49,26 @@ Ghost *Game::getConstGhost() const
     return ghost;
 }
 
+void Game::spawnGhost(){
+    // if (ghost != NULL) {
+    //     cout << "coucou" << endl;
+    //     delete ghost;
+    // }
+
+    //Caratéristiques du Ghost
+    Vector2D posGhost;
+    int healthGhost = 3;
+    int strenghtGhost = 2;
+    Vector2D force(0, 0);
+    string idleSpriteGhost = "data/warrior_front.png";
+    string leftSpriteGhost = "data/warrior_left.png";
+    string rightSpriteGhost = "data/warrior_right.png";
+    posGhost = {(float)tilemap->enemySpawns[0].x, (float)tilemap->enemySpawns[0].y};
+    
+    // ghost->position = posGhost;
+    ghost = new Ghost(posGhost, force, healthGhost, strenghtGhost, idleSpriteGhost, leftSpriteGhost, rightSpriteGhost);
+}
+
 int Game::getCurrentRoomX() const { return currRoomX; }
 int Game::getCurrentRoomY() const { return currRoomY; }
 
@@ -62,7 +83,7 @@ void Game::initDungeon()
     string leftSpritePlayer = "data/warrior_left.png";
     string rightSpritePlayer = "data/warrior_right.png";
 
-    unsigned int damages = 12;
+    unsigned int damages = 1;
     unsigned int energyCost = 3;
     unsigned int attackSpeed = 5;
     int type = 1;
@@ -77,14 +98,6 @@ void Game::initDungeon()
     string leftSpriteSavage= "data/warrior_left.png";
     string rightSpriteSavage= "data/warrior_right.png";
 
-    // //Caratéristiques du Ghost
-    Vector2D posGhost;
-    int healthGhost = 3;
-    int strenghtGhost = 2;
-    string idleSpriteGhost = "data/warrior_front.png";
-    string leftSpriteGhost = "data/warrior_left.png";
-    string rightSpriteGhost = "data/warrior_right.png";
-
     Weapon weapon(damages, energyCost, attackSpeed, type, attackRange, weaponName);
 
     dungeonGenerator.generateDungeon(dungeon);
@@ -98,16 +111,21 @@ void Game::initDungeon()
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
 
     pos = {(float)tilemap->playerSpawn.x, (float)tilemap->playerSpawn.y};
-    posGhost = {(float)tilemap->enemySpawns[0].x, (float)tilemap->enemySpawns[0].y};
 
     player = new Player(pos, force, health, energy, shield, weapon, idleSpritePlayer, leftSpritePlayer, rightSpritePlayer);
-
-    ghost = new Ghost(posGhost, force, healthGhost, strenghtGhost, idleSpriteGhost, leftSpriteGhost, rightSpriteGhost);
     
     // Point ennemyPos = tilemap->enemySpawns[rand() % tilemap->enemySpawns.size()];
     
     savage = new Savage(posSavage, force, healthSavage, strenghtSavage, idleSpriteSavage, leftSpriteSavage, rightSpriteSavage); //Utilier getStrenght ?
     isJumping = false;
+
+    spawnGhost();
+}
+
+void Game::attackSword(){
+    if((player->position.x <= ghost->position.x + 1 && player->position.x >= ghost->position.x - 1) && 
+    (player->position.y <= ghost->position.y + 1 && player->position.y >= ghost->position.y - 1))
+        ghost->receiveDamage(player->weapon.damages);
 }
 
 void Game::keyboardActions(char action)
@@ -131,6 +149,9 @@ void Game::keyboardActions(char action)
         break;
     case 'e':
         playerShoot(player->movingRight);
+        break;
+    case 'h':
+        attackSword();
         break;
     default:
         break;
@@ -190,6 +211,7 @@ void Game::changeRoom(char direction)
 
     currentRoom = getConstRoom(currRoomX, currRoomY);
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
+    spawnGhost();
 }
 
 
@@ -199,19 +221,11 @@ void Game::playerShoot(bool right)
     Vector2D velocity = {PROJECTILE_SPEED, 0};
     if(right)
     {
-<<<<<<< HEAD
-        position = {player->position.x + PROJECTILE_OFFSET_X, player->position.y + PROJECTILE_OFFSET_Y};
-    }
-    else
-    {
-        position = {player->position.x - PROJECTILE_OFFSET_X, player->position.y + PROJECTILE_OFFSET_Y};
-=======
         position = {player->position.x,player->position.y};
     }
     else
     {
         position = {player->position.x,player->position.y};
->>>>>>> a5a175bce2fc8b59b47e6956a37872cf2d07ff98
         velocity.x = -PROJECTILE_SPEED;
     }
 

@@ -45,11 +45,6 @@ void Player::loseEnergy(int amount)
         energy = 0;
 }
 
-void Player::attack(Entity &e)
-{
-    e.receiveDamage(weapon.damages);
-}
-
 // bool Player::jump(const TileMap &t)
 // {
 //     if (currentJumpHeight < MAX_JUMP_HEIGHT)
@@ -107,7 +102,7 @@ void Player::regressionTest()
 
     cout << endl
          << "Vie entité1: " << e.getHealth() << endl;
-    pa.attack(e);
+   // pa.attack(e);
     cout << "Vie entité: " << e.getHealth() << endl;
     e.show();
 }

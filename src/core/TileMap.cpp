@@ -95,7 +95,7 @@ void TileMap::fetchRoomFromFile(const string &filename)
         cerr << "TILEMAP: Erreur dans l'ouverture en lecture du fichier." << endl;
         return;
     }
-
+    enemySpawns.clear();
     if (readFile)
     {
         deleteRoomMap();
