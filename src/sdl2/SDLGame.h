@@ -51,17 +51,30 @@ private:
 
   Image backgroundExterior;
   Image backgroundInterior;
+
+  TTF_Font * font;
+  Image font_im;
+  SDL_Color font_color;
+
   
   SDL_Window *window;
   SDL_Renderer *renderer;
   Image tilesetImg;
   Image heartSprite;
+
   void drawCurrentRoom(const Game &g);
   void drawPlayer(Player *player);
+
+  void drawPlayerHeart(const Game &game);
   void drawBackground(const Game& g);
   void drawEnemies(const Game &game);
-  void drawProjectiles(const Game &g);
+  void renderProjectiles(const Game &g);
+  void drawHitFilter();
+  void drawDeathScreen();
+  void drawEnemies(const Game &g);
+  void drawEnemiesHeart(const Game &g);
 
+  void drawProjectiles(const Game &g);
   //TTF_Font * font;
   //Image font_im;
   //SDL_Color font_color;

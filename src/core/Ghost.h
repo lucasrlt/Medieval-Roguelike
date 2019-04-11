@@ -42,7 +42,7 @@ class Ghost : public Entity{
      */
     int getStrenght() const;
 
-    void checkHit(Player *player);
+    bool checkHit(Player *player);
 
     /**
      * @brief Vole vers l'ennemi.
