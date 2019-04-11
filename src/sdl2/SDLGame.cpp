@@ -175,7 +175,7 @@ void SDLGame::SDLShow(const Game &g)
     drawPlayer(g.getConstPlayer());
     
     drawEnemies(g);
-    renderProjectiles(g);
+    drawProjectiles(g);
 }
 /*
     Game game;
@@ -252,7 +252,7 @@ void SDLGame::drawEnemies(const Game &game){
         ghostIdle.draw(renderer, game.getConstGhost()->position.x * TILE_SIZE * SCALE, game.getConstGhost()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
 }
 
-void SDLGame::renderProjectiles(const Game &g)
+void SDLGame::drawProjectiles(const Game &g)
 {
     projectile.loadFromFile("data/blanc.jpg",renderer);
     

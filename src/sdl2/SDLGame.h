@@ -60,7 +60,7 @@ private:
   void drawPlayer(Player *player);
   void drawBackground(const Game& g);
   void drawEnemies(const Game &game);
-  void renderProjectiles(const Game &g);
+  void drawProjectiles(const Game &g);
 
   //TTF_Font * font;
   //Image font_im;
