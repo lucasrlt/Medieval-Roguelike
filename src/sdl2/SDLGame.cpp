@@ -263,7 +263,10 @@ void SDLGame::drawProjectiles(const Game &g)
     
     for(int i = 0; i < g.projectiles.size(); i++)
     {
-        projectile.draw(renderer,g.projectiles[i].position.x * TILE_SIZE * SCALE,g.projectiles[i].position.y * TILE_SIZE * SCALE,16,16);
+        if(g.projectiles[i].isHit == false)
+        {
+            projectile.draw(renderer,g.projectiles[i].position.x * TILE_SIZE * SCALE,g.projectiles[i].position.y * TILE_SIZE * SCALE,16,16);
+        } 
     }
 }
 

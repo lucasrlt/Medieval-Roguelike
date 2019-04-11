@@ -142,6 +142,7 @@ void Game::automaticActions()
     checkRoomChange(' ');
     ghost->flyToPlayer(player);
     updateProjectile();
+    projectileHitEnnemy();
 }
 
 void Game::checkSpikes()
@@ -190,6 +191,7 @@ void Game::changeRoom(char direction)
 
     currentRoom = getConstRoom(currRoomX, currRoomY);
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
+    projectiles.clear();
 }
 
 
@@ -199,30 +201,33 @@ void Game::playerShoot(bool right)
     Vector2D velocity = {PROJECTILE_SPEED, 0};
     if(right)
     {
-<<<<<<< HEAD
-        position = {player->position.x + PROJECTILE_OFFSET_X, player->position.y + PROJECTILE_OFFSET_Y};
-    }
-    else
-    {
-        position = {player->position.x - PROJECTILE_OFFSET_X, player->position.y + PROJECTILE_OFFSET_Y};
-=======
         position = {player->position.x,player->position.y};
     }
     else
     {
         position = {player->position.x,player->position.y};
->>>>>>> a5a175bce2fc8b59b47e6956a37872cf2d07ff98
         velocity.x = -PROJECTILE_SPEED;
     }
 
     Projectile p(position, velocity, PROJECTILE_DAMAGES, "data/blanc.jpg");
     projectiles.push_back(p);      
 }
+void Game::projectileHitEnnemy()
+{
+    for(int i = 0; i < projectiles.size(); i++)
+    {
+        if((projectiles[i].position.x <= ghost->position.x + 1 && projectiles[i].position.x >= ghost->position.x - 1)
+        && (projectiles[i].position.y <= ghost->position.y + 1 && projectiles[i].position.y >= ghost->position.y - 1))
+            ghost->receiveDamage(PROJECTILE_DAMAGES);
+    }
+}
+
 
 void Game::updateProjectile()
 {
     for(int i = 0; i < projectiles.size(); i++)
     {
         projectiles[i].move();
+        projectiles[i].checkCollision(*tilemap);
     }
 }
