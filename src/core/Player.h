@@ -19,7 +19,7 @@
 
 const float MAX_JUMP_HEIGHT = 40;
 
-class Ghost;
+class Game;
 class Player : public Entity
 {
   private:

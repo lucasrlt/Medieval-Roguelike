@@ -72,6 +72,10 @@ class Game
 
     Ghost *getConstGhost() const;
 
+    void spawnGhost();
+
+    void attackSword();
+
     /**
      * @brief Bouge le player.
      * 
@@ -81,6 +85,7 @@ class Game
 
     void automaticActions();
 
+    void refreshGhost();
     void checkRoomChange(char direction);
     void changeRoom(char direction);
     void checkSpikes();

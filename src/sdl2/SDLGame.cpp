@@ -362,6 +362,9 @@ void SDLGame::SDLLoop(Game &g)
                     case SDL_SCANCODE_SPACE:
                         g.keyboardActions('e');
                         break;
+                    case SDL_SCANCODE_H:
+                        g.keyboardActions('h');
+                        break;
                     default: break;
                     }
                 }
