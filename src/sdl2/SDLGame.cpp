@@ -235,9 +235,10 @@ void SDLGame::drawEnemies(Savage *savage, Ghost *ghost){
 void SDLGame::renderProjectiles(const Game &g)
 {
     projectile.loadFromFile("data/blanc.jpg",renderer);
+    
     for(int i = 0; i < g.projectiles.size(); i++)
     {
-        projectile.draw(renderer,g.projectiles[i].position.x,g.projectiles[i].position.y,16,16);
+        projectile.draw(renderer,g.projectiles[i].position.x * TILE_SIZE * SCALE,g.projectiles[i].position.y * TILE_SIZE * SCALE,16,16);
     }
 }
 
