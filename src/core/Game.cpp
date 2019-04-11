@@ -71,7 +71,7 @@ void Game::initDungeon()
 
     //Caractéristiques du Savage
     Vector2D posSavage;
-    int healthSavage = 15;
+    int healthSavage = 7;
     int strenghtSavage = 2;
     string idleSpriteSavage= "data/warrior_front.png";
     string leftSpriteSavage= "data/warrior_left.png";
@@ -79,7 +79,7 @@ void Game::initDungeon()
 
     // //Caratéristiques du Ghost
     Vector2D posGhost;
-    int healthGhost = 15;
+    int healthGhost = 3;
     int strenghtGhost = 2;
     string idleSpriteGhost = "data/warrior_front.png";
     string leftSpriteGhost = "data/warrior_left.png";
@@ -199,11 +199,11 @@ void Game::playerShoot(bool right)
     Vector2D velocity = {PROJECTILE_SPEED, 0};
     if(right)
     {
-        position = {player->position.x + PROJECTILE_OFFSET_X,player->position.y + PROJECTILE_OFFSET_Y};
+        position = {player->position.x + PROJECTILE_OFFSET_X, player->position.y + PROJECTILE_OFFSET_Y};
     }
     else
     {
-        position = {player->position.x - PROJECTILE_OFFSET_X,player->position.y + PROJECTILE_OFFSET_Y};
+        position = {player->position.x - PROJECTILE_OFFSET_X, player->position.y + PROJECTILE_OFFSET_Y};
         velocity.x = -PROJECTILE_SPEED;
     }
 
