@@ -238,9 +238,13 @@ void Game::projectileHitEnnemy()
 {
     for(int i = 0; i < projectiles.size(); i++)
     {
-        if((projectiles[i].position.x <= ghost->position.x + 1 && projectiles[i].position.x >= ghost->position.x - 1)
-        && (projectiles[i].position.y <= ghost->position.y + 1 && projectiles[i].position.y >= ghost->position.y - 1))
+        if((projectiles[i].position.x <= ghost->position.x + 0.75 && projectiles[i].position.x >= ghost->position.x - 0.75)
+        && (projectiles[i].position.y <= ghost->position.y + 0.75 && projectiles[i].position.y >= ghost->position.y - 0.75) && projectiles[i].isHit == false)
+        {
             ghost->receiveDamage(PROJECTILE_DAMAGES);
+                projectiles[i].isHit = true;
+        }
+            
     }
 }
 
