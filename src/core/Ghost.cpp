@@ -16,14 +16,13 @@ Ghost::Ghost()
     rightSprite = " ";
 }
 
-Ghost::Ghost(Vector2D posInit, Vector2D forceInit, int healthInit, int strenghtInit, /*vector<Projectile> tabProjectile*/
+Ghost::Ghost(Vector2D posInit, Vector2D forceInit, int healthInit, int strenghtInit,
             std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight) 
             {
     position = posInit;
     velocity = {0, 0};
     health = healthInit;
     strenght = strenghtInit;
-    // projectile = tabProjectile;
     
     idleSprite = spriteNameIdle;
     leftSprite = spriteNameLeft;
@@ -42,7 +41,7 @@ int Ghost::getStrenght() const
 void Ghost::checkHit(Player *player){
     if((position.x <= player->position.x + 0.75f && position.x >= player->position.x - 0.75f) && 
     (position.y <= player->position.y + 0.75f && position.y >= player->position.y - 0.75f)) 
-        player->receiveDamage(1);
+        player->receiveDamage(strenght);
 }
 
 void Ghost::flyToPlayer(Player *player){
