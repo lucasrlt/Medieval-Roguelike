@@ -199,11 +199,19 @@ void Game::playerShoot(bool right)
     Vector2D velocity = {PROJECTILE_SPEED, 0};
     if(right)
     {
+<<<<<<< HEAD
         position = {player->position.x + PROJECTILE_OFFSET_X, player->position.y + PROJECTILE_OFFSET_Y};
     }
     else
     {
         position = {player->position.x - PROJECTILE_OFFSET_X, player->position.y + PROJECTILE_OFFSET_Y};
+=======
+        position = {player->position.x,player->position.y};
+    }
+    else
+    {
+        position = {player->position.x,player->position.y};
+>>>>>>> a5a175bce2fc8b59b47e6956a37872cf2d07ff98
         velocity.x = -PROJECTILE_SPEED;
     }
 

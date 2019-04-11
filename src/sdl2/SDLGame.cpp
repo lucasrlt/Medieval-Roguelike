@@ -129,6 +129,9 @@ SDLGame::SDLGame()
 
     tilesetImg.loadFromFile("data/tileset_img.png", renderer);
     heartSprite.loadFromFile("data/heart_sprite.png", renderer);
+    backgroundExterior.loadFromFile("data/exterior_background.png", renderer);
+    backgroundInterior.loadFromFile("data/interior_background.png", renderer);
+
 /*
     // IMAGES //TODO : Ajouter les images
     im_pacman.loadFromFile("data/pacman.png",renderer);
@@ -161,6 +164,7 @@ void SDLGame::SDLShow(const Game &g)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
 
+    drawBackground(g);
     drawCurrentRoom(g);
 
     for (int i = 0; i < g.getConstPlayer()->getHealth(); i++)
@@ -176,7 +180,7 @@ void SDLGame::SDLShow(const Game &g)
     drawPlayer(g.getConstPlayer());
     
     drawEnemies(g);
-    renderProjectiles(g);
+    drawProjectiles(g);
 }
 /*
     Game game;
@@ -199,10 +203,19 @@ void SDLGame::SDLShow(const Game &g)
 
 }
 */
+void SDLGame::drawBackground(const Game &g) {
+    const Room& r = g.getConstRoom(g.getCurrentRoomX(), g.getCurrentRoomY());
+
+    if (r.exterior) {
+        backgroundExterior.draw(renderer, 0, 0, dimx, dimy);
+    } else {
+        backgroundInterior.draw(renderer, 0, 0, dimx, dimy);
+    }
+}
+
 void SDLGame::drawCurrentRoom(const Game &g)
 {
     const TileMap &tilemap = g.getConstTilemap();
-
     for (int y = 0; y < GRID_SIZE; ++y)
     {
         for (int x = 0; x < GRID_SIZE; ++x)
@@ -244,12 +257,13 @@ void SDLGame::drawEnemies(const Game &game){
         ghostIdle.draw(renderer, game.getConstGhost()->position.x * TILE_SIZE * SCALE, game.getConstGhost()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
 }
 
-void SDLGame::renderProjectiles(const Game &g)
+void SDLGame::drawProjectiles(const Game &g)
 {
     projectile.loadFromFile("data/blanc.jpg",renderer);
+    
     for(int i = 0; i < g.projectiles.size(); i++)
     {
-        projectile.draw(renderer,g.projectiles[i].position.x,g.projectiles[i].position.y,16,16);
+        projectile.draw(renderer,g.projectiles[i].position.x * TILE_SIZE * SCALE,g.projectiles[i].position.y * TILE_SIZE * SCALE,16,16);
     }
 }
 

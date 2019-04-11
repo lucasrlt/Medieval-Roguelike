@@ -61,6 +61,7 @@ void DungeonGenerator::fetchRooms(const char *dir)
         string filename = files[j];
         Room newRoom;
         newRoom.tilemapName = "data/tilemaps/" + filename;
+        newRoom.exterior = false;
 
         unsigned int i = 0;
 
@@ -75,6 +76,8 @@ void DungeonGenerator::fetchRooms(const char *dir)
                 newRoom.schema.openRight = true;
             else if (filename[i] == 'L')
                 newRoom.schema.openLeft = true;
+            else if (filename[i] == 'E')
+                newRoom.exterior = true;
 
             i++;
         }
