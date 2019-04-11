@@ -39,10 +39,13 @@ int Ghost::getStrenght() const
     return strenght;
 }
 
-void Ghost::checkHit(Player *player){
-    if((position.x <= player->position.x + 10 && position.x >= player->position.x - 10) && 
-    (position.y <= player->position.y + 10 && position.y >= player->position.y - 10)) 
+bool Ghost::checkHit(Player *player){
+    if((position.x <= player->position.x + 0.75f && position.x >= player->position.x - 0.75f) && 
+    (position.y <= player->position.y + 0.75f && position.y >= player->position.y - 0.75f)) {
         player->receiveDamage(1);
+        return true;
+    }
+    return false;
 }
 
 void Ghost::flyToPlayer(Player *player){
@@ -50,6 +53,6 @@ void Ghost::flyToPlayer(Player *player){
     if(position.x == 0 && position.y == 0) position = {1, 1};
 
 
-    position = position + ((player->position - position) * 0.00005f);
+    position = position + ((player->position - position) * 0.005f);
     /*player->position - position;*/
 }

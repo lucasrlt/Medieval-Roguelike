@@ -142,13 +142,19 @@ void Game::automaticActions()
     checkRoomChange(' ');
     ghost->flyToPlayer(player);
     updateProjectile();
+
+    if (player->getHealth() <= 0) {
+        playerDead = true;
+    }
 }
 
-void Game::checkSpikes()
+bool Game::checkSpikes()
 {
     if (tilemap->getXY(round(player->position.x), (int)round(player->position.y)).type == spike) {
         player->receiveDamage(1);
+        return true;
     }
+    return false;
 }
 
 void Game::checkRoomChange(char direction)

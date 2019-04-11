@@ -51,6 +51,11 @@ private:
 
   Image backgroundExterior;
   Image backgroundInterior;
+
+  TTF_Font * font;
+  Image font_im;
+  SDL_Color font_color;
+
   
   SDL_Window *window;
   SDL_Renderer *renderer;
@@ -61,7 +66,8 @@ private:
   void drawBackground(const Game& g);
   void drawEnemies(const Game &game);
   void renderProjectiles(const Game &g);
-
+  void drawHitFilter();
+  void drawDeathScreen();
   //TTF_Font * font;
   //Image font_im;
   //SDL_Color font_color;

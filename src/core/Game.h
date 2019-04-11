@@ -34,6 +34,7 @@ class Ghost;
 class Game
 {
   public:
+    bool playerDead;
 
     vector<Projectile> projectiles;
 
@@ -83,7 +84,7 @@ class Game
 
     void checkRoomChange(char direction);
     void changeRoom(char direction);
-    void checkSpikes();
+    bool checkSpikes();
     void playerShoot(bool right);
     void updateProjectile();
 

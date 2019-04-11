@@ -126,11 +126,20 @@ SDLGame::SDLGame()
     }
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
     tilesetImg.loadFromFile("data/tileset_img.png", renderer);
     heartSprite.loadFromFile("data/heart_sprite.png", renderer);
     backgroundExterior.loadFromFile("data/exterior_background.png", renderer);
     backgroundInterior.loadFromFile("data/interior_background.png", renderer);
+
+    font = TTF_OpenFont("data/The Wild Breath of Zelda.otf", 75);
+    if (font == NULL) {
+        cout << "Failed to load DejaVuSansCondensed.ttf! SDL_TTF Error: " << TTF_GetError() << endl; SDL_Quit(); exit(1);
+    }
+    font_color = {255, 255, 255};
+    font_im.setSurface(TTF_RenderText_Solid(font,"VOUS ETES MORT CHEH",font_color));
+    font_im.loadFromCurrentSurface(renderer);
 
 /*
     // IMAGES //TODO : Ajouter les images
@@ -152,8 +161,8 @@ SDLGame::SDLGame()
 
 SDLGame::~SDLGame()
 {
-    //TTF_CloseFont(font);
-    // TTF_Quit();
+    TTF_CloseFont(font);
+    TTF_Quit();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
@@ -164,18 +173,22 @@ void SDLGame::SDLShow(const Game &g)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
 
-    drawBackground(g);
-    drawCurrentRoom(g);
+    if (!g.playerDead) {
+        drawBackground(g);
+        drawCurrentRoom(g);
 
-    for (int i = 0; i < g.getConstPlayer()->getHealth(); i++)
-    {
-        heartSprite.draw(renderer, 1 + (i * (SCALE + 20)), 0, 8 * SCALE, 8 * SCALE);
+        for (int i = 0; i < g.getConstPlayer()->getHealth(); i++)
+        {
+            heartSprite.draw(renderer, 1 + (i * (SCALE + 20)), 0, 8 * SCALE, 8 * SCALE);
+        }
+
+        drawPlayer(g.getConstPlayer());
+        
+        drawEnemies(g);
+        renderProjectiles(g);
+    } else {
+        drawDeathScreen();
     }
-
-    drawPlayer(g.getConstPlayer());
-    
-    drawEnemies(g);
-    renderProjectiles(g);
 }
 /*
     Game game;
@@ -261,6 +274,28 @@ void SDLGame::renderProjectiles(const Game &g)
     }
 }
 
+void SDLGame::drawHitFilter() {
+    Uint32 t = SDL_GetTicks();
+    
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 32);
+    SDL_Rect r = {0, 0, dimx, dimy};
+    SDL_RenderFillRect(renderer, &r);
+}
+
+void SDLGame::drawDeathScreen() {
+    SDL_SetRenderDrawColor(renderer, 80, 0, 0, 255);
+    
+    SDL_Rect r = {0, 0, dimx, dimy};
+    SDL_RenderFillRect(renderer, &r);
+
+    SDL_Rect positionTitre;
+    positionTitre.x = dimx / 2 - 300; 
+    positionTitre.y = dimy / 2 - 100;
+    positionTitre.w = 600;
+    positionTitre.h = 200;
+    SDL_RenderCopy(renderer,font_im.getTexture(),NULL,&positionTitre);
+}
+
 void SDLGame::SDLLoop(Game &g)
 {
     Player *p = g.getConstPlayer();
@@ -302,7 +337,7 @@ void SDLGame::SDLLoop(Game &g)
     SDL_Event events;
     bool quit = false;
     Room room;
-    Uint32 t = SDL_GetTicks(), t2 = SDL_GetTicks(), nt;
+    Uint32 t = SDL_GetTicks(), t2 = SDL_GetTicks(), nt, hitTime;
     float deltaTime = 0.f;
     right = false;
     left = false;
@@ -314,15 +349,6 @@ void SDLGame::SDLLoop(Game &g)
 
         nt = SDL_GetTicks();
         deltaTime = (nt - t) / 1000.f;
-        if (nt - t2 > 500)
-        {
-            // cout << "HEY" << endl;
-            g.checkSpikes();
-            gh->checkHit(p);
-            t2 = nt;
-        }
-        t = nt;
-
 
         // tant qu'il y a des evenements à traiter (cette boucle n'est pas bloquante)
         while (SDL_PollEvent(&events))
@@ -384,6 +410,15 @@ void SDLGame::SDLLoop(Game &g)
 
         // on affiche le jeu sur le buffer caché
         SDLShow(g);
+        if (SDL_GetTicks() - hitTime < 250 && !g.playerDead) drawHitFilter();
+
+        if (nt - t2 > 500)
+        {
+            if(g.checkSpikes() || gh->checkHit(p)) hitTime = SDL_GetTicks();
+            t2 = nt;
+        }
+        t = nt;
+
 
         // on permute les deux buffers (cette fonction ne doit se faire qu'une seule fois dans la boucle)
         SDL_RenderPresent(renderer);
