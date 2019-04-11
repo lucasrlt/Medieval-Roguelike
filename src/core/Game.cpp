@@ -58,7 +58,7 @@ void Game::spawnGhost(){
     //Caratéristiques du Ghost
     Vector2D posGhost;
     int healthGhost = 3;
-    int strenghtGhost = 2;
+    int strengthGhost = 2;
     Vector2D force(0, 0);
     string idleSpriteGhost = "data/warrior_front.png";
     string leftSpriteGhost = "data/warrior_left.png";
@@ -66,7 +66,7 @@ void Game::spawnGhost(){
     posGhost = {(float)tilemap->enemySpawns[0].x, (float)tilemap->enemySpawns[0].y};
     
     // ghost->position = posGhost;
-    ghost = new Ghost(posGhost, force, healthGhost, strenghtGhost, idleSpriteGhost, leftSpriteGhost, rightSpriteGhost);
+    ghost = new Ghost(posGhost, force, healthGhost, strengthGhost, idleSpriteGhost, leftSpriteGhost, rightSpriteGhost);
 }
 
 int Game::getCurrentRoomX() const { return currRoomX; }

@@ -16,7 +16,7 @@ Ghost::Ghost()
     rightSprite = " ";
 }
 
-Ghost::Ghost(Vector2D posInit, Vector2D forceInit, int healthInit, int strenghtInit, /*vector<Projectile> tabProjectile*/
+Ghost::Ghost(Vector2D posInit, Vector2D forceInit, int healthInit, int strenghtInit,
             std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight) 
             {
     position = posInit;

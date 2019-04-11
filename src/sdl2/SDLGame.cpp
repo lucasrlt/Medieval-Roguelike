@@ -177,18 +177,9 @@ void SDLGame::SDLShow(const Game &g)
         drawBackground(g);
         drawCurrentRoom(g);
 
-        for (int i = 0; i < g.getConstPlayer()->getHealth(); i++)
-        {
-            heartSprite.draw(renderer, 1 + (i * (SCALE + 20)), 0, 8 * SCALE, 8 * SCALE);
-        }
-
+        drawPlayerHeart(g);
         drawPlayer(g.getConstPlayer());
-        
-        for(int i = 0 ; i < g.getConstGhost()->getHealth() ; i++)
-        {
-            heartSprite.draw(renderer, (g.getConstGhost()->position.x * SCALE * 16) + (i * (SCALE + 10)) + 5, g.getConstGhost()->position.y * SCALE * 16 -20, 4 * SCALE, 4 * SCALE);
-        }
-        
+        drawEnemiesHeart(g);        
         drawEnemies(g);
         drawProjectiles(g);
     } else {
@@ -241,6 +232,20 @@ void SDLGame::drawCurrentRoom(const Game &g)
                 SDL_RenderCopy(renderer, tilesetImg.texture, &clipRect, &destRect);
             }
         }
+    }
+}
+
+void SDLGame::drawPlayerHeart(const Game &game){
+    for (int i = 0; i < game.getConstPlayer()->getHealth(); i++)
+    {
+        heartSprite.draw(renderer, 1 + (i * (SCALE + 20)), 0, 8 * SCALE, 8 * SCALE);
+    }
+}
+
+void SDLGame::drawEnemiesHeart(const Game &g){
+    for(int i = 0 ; i < g.getConstGhost()->getHealth() ; i++)
+    {
+        heartSprite.draw(renderer, (g.getConstGhost()->position.x * SCALE * 16) + (i * (SCALE + 10)) + 5, g.getConstGhost()->position.y * SCALE * 16 -20, 4 * SCALE, 4 * SCALE);
     }
 }
 
