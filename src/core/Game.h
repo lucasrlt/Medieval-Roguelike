@@ -23,7 +23,7 @@ using namespace std;
 
 const int PROJECTILE_OFFSET_X = 1;
 const int PROJECTILE_OFFSET_Y = 1;
-const int PROJECTILE_SPEED = 3;
+const float PROJECTILE_SPEED = 0.1f;
 const int PROJECTILE_DAMAGES = 2;
 
 /**
@@ -73,6 +73,10 @@ class Game
 
     Ghost *getConstGhost() const;
 
+    void spawnGhost();
+
+    void attackSword();
+
     /**
      * @brief Bouge le player.
      * 
@@ -82,6 +86,7 @@ class Game
 
     void automaticActions();
 
+    void refreshGhost();
     void checkRoomChange(char direction);
     void changeRoom(char direction);
     bool checkSpikes();

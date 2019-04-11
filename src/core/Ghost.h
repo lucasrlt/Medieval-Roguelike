@@ -8,10 +8,11 @@
 #include <vector>
 #include "Game.h"
 #include "Entity.h"
-// #include "Projectile.h"
 
 #ifndef MEDIEVALROGUELIKE_GHOST_H
 #define MEDIEVALROGUELIKE_GHOST_H
+
+float const GHOST_SPEED = 0.0000000005f;
 
 class Game;
 class Player;
@@ -29,8 +30,8 @@ class Ghost : public Entity{
      * @param health vie de l'ennemi
      * @param strenght puissance de l'ennemi
      */
-    Ghost(Vector2D pos, Vector2D force, int health, int strenght, /*vector<Projectile> projectile*/
-            std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight);
+    Ghost(Vector2D pos, Vector2D force, int health, int strenght, std::string spriteNameIdle, 
+            std::string spriteNameLeft, std::string spriteNameRight);
 
     ~Ghost();
 
@@ -58,10 +59,6 @@ class Ghost : public Entity{
 
     private:
     int strenght;
-    /**
-     * @brief initialisation du tableau de projectiles.
-     */
-    // vector<Projectile> projectile;
 };
 
 #endif //MEDIEVALROGUELIKE_GHOST_H
