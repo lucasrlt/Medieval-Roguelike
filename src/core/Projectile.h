@@ -13,6 +13,8 @@
 #ifndef MEDIEVALROGUELIKE_PROJECTILE_H
 #define MEDIEVALROGUELIKE_PROJECTILE_H
 
+
+const int UPDATE_PROJECTILE = 5;
 /**
  * @brief Classe créant les projectiles.
  */
@@ -34,7 +36,7 @@ public:
      * @param damages dégâts du projectile.
      * @param spriteName nom du sprite du projectile.
      */
-  Projectile(Vector2D position, Vector2D force, int damages, string spriteName);
+  Projectile(Vector2D position, Vector2D velocity, int damages, string spriteName);
 
   ~Projectile();
 
@@ -44,7 +46,7 @@ public:
      * @param dep déplacement du projectile.
      * @param game appelle le jeu.
      */
-  void move(Vector2D dep, Game &game);
+  void move();
 
   /**
      * @brief Touche le joueur.
@@ -55,7 +57,7 @@ public:
 
 private:
   int damages;
-  Vector2D force;
+  Vector2D velocity;
 };
 
 #endif //MEDIEVALROGUELIKE_PROJECTILE_H

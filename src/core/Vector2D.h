@@ -47,17 +47,24 @@ class Vector2D
     /**
      @brief Surcharge opérateur pour la soustraction de 2 complexes.
     */
-    const Vector2D operator-(const Vector2D &vec);
+    Vector2D operator-(const Vector2D &vec);
 
     /**
      @brief Surcharge opérateur pour la multiplication d'un complexe avec un coefficient.
     */
     const Vector2D operator*(const Vector2D &vec);
 
+    Vector2D operator*(float b);
+
     /**
     @brief Surcharge opérateur pour la division d'un complexe avec un coefficient.
     */
     const Vector2D operator/(float b);
+
+    /**
+     * @brief Crée le module du vecteur
+     */
+    const float module();
 
     /**
      @brief Destructeur du vecteur 2D.
