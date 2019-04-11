@@ -28,7 +28,7 @@ Ghost::Ghost(Vector2D posInit, Vector2D forceInit, int healthInit, int strenghtI
     leftSprite = spriteNameLeft;
     rightSprite = spriteNameRight;
 }
-
+////
 Ghost::~Ghost()
 {
 }
@@ -38,9 +38,10 @@ int Ghost::getStrenght() const
     return strenght;
 }
 
-void Ghost::checkHit(Player *player){
+bool Ghost::checkHit(Player *player){
     if((position.x <= player->position.x + 0.75f && position.x >= player->position.x - 0.75f) && 
-    (position.y <= player->position.y + 0.75f && position.y >= player->position.y - 0.75f)) 
+        (position.y <= player->position.y + 0.75f && position.y >= player->position.y - 0.75f))  
+    {
         player->receiveDamage(1);
         return true;
     }

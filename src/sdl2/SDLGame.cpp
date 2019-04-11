@@ -351,8 +351,8 @@ void SDLGame::SDLLoop(Game &g)
 
     // tant que ce n'est pas la fin ...
     while (!quit)
-    {
-
+    {       
+        gh = g.getConstGhost();
         nt = SDL_GetTicks();
         deltaTime = (nt - t) / 1000.f;
 

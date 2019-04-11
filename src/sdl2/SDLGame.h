@@ -65,14 +65,10 @@ private:
   void drawPlayer(Player *player);
   void drawBackground(const Game& g);
   void drawEnemies(const Game &game);
-<<<<<<< HEAD
   void renderProjectiles(const Game &g);
   void drawHitFilter();
   void drawDeathScreen();
-=======
   void drawProjectiles(const Game &g);
-
->>>>>>> a3aab7905bf01aa632cf1d7d09c718a8df097695
   //TTF_Font * font;
   //Image font_im;
   //SDL_Color font_color;
