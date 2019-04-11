@@ -24,7 +24,7 @@ using namespace std;
 const int PROJECTILE_OFFSET_X = 1;
 const int PROJECTILE_OFFSET_Y = 1;
 const float PROJECTILE_SPEED = 0.1f;
-const int PROJECTILE_DAMAGES = 2;
+const int PROJECTILE_DAMAGES = 1;
 
 /**
  * @brief Classe s'occupant de créer le jeu.
@@ -92,6 +92,7 @@ class Game
     bool checkSpikes();
     void playerShoot(bool right);
     void updateProjectile();
+    void projectileHitEnnemy();
 
   private:
     bool isJumping;

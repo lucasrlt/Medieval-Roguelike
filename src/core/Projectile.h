@@ -10,6 +10,7 @@
 #include "Entity.h"
 #include "Vector2D.h"
 #include "Game.h"
+#include "TileMap.h"
 #ifndef MEDIEVALROGUELIKE_PROJECTILE_H
 #define MEDIEVALROGUELIKE_PROJECTILE_H
 
@@ -47,7 +48,7 @@ public:
      * @param game appelle le jeu.
      */
   void move();
-
+  void checkCollision(const TileMap &t);
   /**
      * @brief Touche le joueur.
      * 

@@ -167,6 +167,7 @@ void Game::automaticActions()
     if (player->getHealth() <= 0) {
         playerDead = true;
     }
+    projectileHitEnnemy();
 }
 
 bool Game::checkSpikes()
@@ -217,6 +218,7 @@ void Game::changeRoom(char direction)
 
     currentRoom = getConstRoom(currRoomX, currRoomY);
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
+    projectiles.clear();
     spawnGhost();
 }
 
@@ -238,11 +240,26 @@ void Game::playerShoot(bool right)
     Projectile p(position, velocity, PROJECTILE_DAMAGES, "data/blanc.jpg");
     projectiles.push_back(p);      
 }
+void Game::projectileHitEnnemy()
+{
+    for(int i = 0; i < projectiles.size(); i++)
+    {
+        if((projectiles[i].position.x <= ghost->position.x + 0.75 && projectiles[i].position.x >= ghost->position.x - 0.75)
+        && (projectiles[i].position.y <= ghost->position.y + 0.75 && projectiles[i].position.y >= ghost->position.y - 0.75) && projectiles[i].isHit == false)
+        {
+            ghost->receiveDamage(PROJECTILE_DAMAGES);
+                projectiles[i].isHit = true;
+        }
+            
+    }
+}
+
 
 void Game::updateProjectile()
 {
     for(int i = 0; i < projectiles.size(); i++)
     {
         projectiles[i].move();
+        projectiles[i].checkCollision(*tilemap);
     }
 }
