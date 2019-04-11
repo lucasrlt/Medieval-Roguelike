@@ -67,7 +67,6 @@ private:
 
   void drawPlayerHeart(const Game &game);
   void drawBackground(const Game& g);
-  void drawEnemies(const Game &game);
   void renderProjectiles(const Game &g);
   void drawHitFilter();
   void drawDeathScreen();
