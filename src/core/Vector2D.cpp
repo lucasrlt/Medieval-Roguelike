@@ -1,6 +1,7 @@
 #include "Vector2D.h"
 #include <iostream>
 #include <assert.h>
+#include <math.h>
 
 using namespace std;
 
@@ -45,7 +46,7 @@ const Vector2D Vector2D::operator+(float b) {
     return r;
 }
 
-const Vector2D Vector2D::operator-(const Vector2D& vec){
+Vector2D Vector2D::operator-(const Vector2D& vec){
     Vector2D vec2;
     vec2.x = x - vec.x;
     vec2.y = y - vec.y;
@@ -57,6 +58,13 @@ const Vector2D Vector2D::operator*(const Vector2D &vec){
     vec2.x = (x * vec.x) - (y * vec.y);
     vec2.y = (x * vec.y) + (vec.x * y);
     return vec2;
+}
+
+Vector2D Vector2D::operator*(float b){
+    Vector2D vec;
+    vec.x = x * b;
+    vec.y = y * b;
+    return vec;
 }
 
 const Vector2D Vector2D::operator/(float b){
@@ -71,6 +79,10 @@ const Vector2D Vector2D::operator/(float b){
     }
 
     return r;
+}
+
+const float Vector2D::module(){
+    return sqrt(pow(x, 2) + pow(y, 2));
 }
 
 void Vector2D::regressionTest(){

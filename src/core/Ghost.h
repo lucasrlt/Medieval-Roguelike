@@ -6,12 +6,15 @@
 
 #include <iostream>
 #include <vector>
+#include "Game.h"
 #include "Entity.h"
 // #include "Projectile.h"
 
 #ifndef MEDIEVALROGUELIKE_GHOST_H
 #define MEDIEVALROGUELIKE_GHOST_H
 
+class Game;
+class Player;
 /**
  * @brief Classe créant les ennemis distance.
  */
@@ -38,12 +41,14 @@ class Ghost : public Entity{
      */
     int getStrenght() const;
 
+    void checkHit(Player *player);
+
     /**
      * @brief Vole vers l'ennemi.
      * 
      * @param game 
      */
-    void flyToPlayer();
+    void flyToPlayer(Player *player);
 
     /**
      * @brief Tire les projectiles.

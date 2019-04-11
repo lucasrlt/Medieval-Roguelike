@@ -36,6 +36,7 @@ class Room
     RoomSchema schema;
     int *tiles;
     string tilemapName;
+    bool exterior;
 
     Room();
     ~Room();
