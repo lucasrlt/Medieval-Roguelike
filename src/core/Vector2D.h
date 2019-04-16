@@ -59,7 +59,7 @@ class Vector2D
     /**
     @brief Surcharge opérateur pour la division d'un complexe avec un coefficient.
     */
-    const Vector2D operator/(float b);
+    Vector2D operator/(float b);
 
     /**
      * @brief Crée le module du vecteur
