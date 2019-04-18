@@ -266,7 +266,8 @@ void SDLGame::drawPlayer(Player *player)
 
 void SDLGame::drawEnemies(const Game &game){
     // savageLeft.draw(renderer, game.getConstSavage()->position.x * TILE_SIZE * SCALE, game.getConstSavage()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
-    if(game.getConstGhost()->isDead == false) {
+    if(game.getConstGhost()->isDead == false) 
+    {
         if(game.getConstGhost()->position.x < game.getConstPlayer()->position.x)
             ghostRight.draw(renderer, game.getConstGhost()->position.x * TILE_SIZE * SCALE, game.getConstGhost()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
 

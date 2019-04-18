@@ -253,7 +253,11 @@ void Game::projectileHitEnnemy()
         && (projectiles[i].position.y <= ghost->position.y + 0.75f && projectiles[i].position.y >= ghost->position.y - 0.75f) && projectiles[i].isHit == false)
         {
             ghost->receiveDamage(PROJECTILE_DAMAGES);
-                projectiles[i].isHit = true;
+            projectiles[i].isHit = true;
+            if(ghost->getHealth() <= 0)
+            {
+                ghost->isDead = true;
+            }
         }
             
     }
