@@ -82,6 +82,8 @@ void TileMap::fetchTileTypes()
                 tileTypes[tileId] = platform;
             else if (tileType == "spawn-monster")
                 tileTypes[tileId] = spawnMonster;
+            else if (tileType == "spawn-savage")
+                tileTypes[tileId] = spawnMonsterSavage;
         }
     }
 }
@@ -96,6 +98,7 @@ void TileMap::fetchRoomFromFile(const string &filename)
         return;
     }
     enemySpawns.clear();
+    savageSpawns.clear();
     if (readFile)
     {
         deleteRoomMap();
@@ -118,6 +121,10 @@ void TileMap::fetchRoomFromFile(const string &filename)
                 if (tileType == spawnMonster)
                 {
                     enemySpawns.push_back({x, y});
+                }
+                if (tileType == spawnMonsterSavage)
+                {
+                    savageSpawns.push_back({x, y});
                 }
                 int posX = ((tileId - 1) % TILE_SIZE) * TILE_SIZE;
                 int posY = ((int)((tileId - 1) / TILE_SIZE)) * TILE_SIZE;

@@ -70,6 +70,21 @@ void Game::spawnGhost(){
     ghost = new Ghost(posGhost, force, healthGhost, strengthGhost, isDead, idleSpriteGhost, leftSpriteGhost, rightSpriteGhost);
 }
 
+void Game::spawnSavage(){
+    //Caratéristiques du Savage
+    Vector2D posSavage;
+    int healthSavage = 5;
+    int strengthSavage = 1;
+    bool isDeadSavage = false;
+    Vector2D force(0, 0);
+    string idleSpriteSavage = "data/warrior_front.png";
+    string leftSpriteSavage = "data/warrior_left.png";
+    string rightSpriteSavage = "data/warrior_right.png";
+    posSavage = {(float)tilemap->savageSpawns[0].x, (float)tilemap->savageSpawns[0].y};
+    
+    savage = new Savage(posSavage, force, healthSavage, strengthSavage, isDeadSavage, idleSpriteSavage, leftSpriteSavage, rightSpriteSavage);
+}
+
 int Game::getCurrentRoomX() const { return currRoomX; }
 int Game::getCurrentRoomY() const { return currRoomY; }
 
@@ -91,14 +106,6 @@ void Game::initDungeon()
     float attackRange = 8;
     string weaponName = "Lance";
 
-    //Caractéristiques du Savage
-    Vector2D posSavage;
-    int healthSavage = 7;
-    int strenghtSavage = 2;
-    string idleSpriteSavage= "data/warrior_front.png";
-    string leftSpriteSavage= "data/warrior_left.png";
-    string rightSpriteSavage= "data/warrior_right.png";
-
     Weapon weapon(damages, energyCost, attackSpeed, type, attackRange, weaponName);
 
     dungeonGenerator.generateDungeon(dungeon);
@@ -116,19 +123,29 @@ void Game::initDungeon()
     player = new Player(pos, force, health, energy, shield, weapon, idleSpritePlayer, leftSpritePlayer, rightSpritePlayer);
     
     // Point ennemyPos = tilemap->enemySpawns[rand() % tilemap->enemySpawns.size()];
-    
-    savage = new Savage(posSavage, force, healthSavage, strenghtSavage, idleSpriteSavage, leftSpriteSavage, rightSpriteSavage); //Utilier getStrenght ?
-    isJumping = false;
+        isJumping = false;
 
     spawnGhost();
+    spawnSavage();
 }
 
 void Game::attackSword(){
     if((player->position.x <= ghost->position.x + 1 && player->position.x >= ghost->position.x - 1) && 
-    (player->position.y <= ghost->position.y + 1 && player->position.y >= ghost->position.y - 1)){
+    (player->position.y <= ghost->position.y + 1 && player->position.y >= ghost->position.y - 1))
+    {
         ghost->receiveDamage(player->weapon.damages);
-        if(ghost->getHealth() <= 0){
+        if(ghost->getHealth() <= 0)
+        {
             ghost->isDead = true;
+        }
+    }
+    if((player->position.x <= savage->position.x + 1 && player->position.x >= savage->position.x - 1) && 
+    (player->position.y <= savage->position.y + 1 && player->position.y >= savage->position.y - 1))
+    {
+        savage->receiveDamage(player->weapon.damages);
+        if(savage->getHealth() <= 0)
+        {
+           savage->isDeadSavage = true;
         }
     }
 }
@@ -225,6 +242,7 @@ void Game::changeRoom(char direction)
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
     projectiles.clear();
     spawnGhost();
+    spawnSavage();
 }
 
 
@@ -259,7 +277,16 @@ void Game::projectileHitEnnemy()
                 ghost->isDead = true;
             }
         }
-            
+          
+        if((projectiles[i].position.x <= savage->position.x + 0.75f && projectiles[i].position.x >= savage->position.x - 0.75f)
+        && (projectiles[i].position.y <= savage->position.y + 0.75f && projectiles[i].position.y >= savage->position.y - 0.75f) && projectiles[i].isHit == false)
+        {
+            savage->receiveDamage(PROJECTILE_DAMAGES); 
+            if(savage->getHealth() <= 0)
+            {
+                savage -> isDeadSavage = true;
+            } 
+        }
     }
 }
 

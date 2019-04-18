@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.2" tiledversion="1.2.2" name="tileset" tilewidth="16" tileheight="16" tilecount="256" columns="16">
+<tileset version="1.2" tiledversion="1.2.3" name="tileset" tilewidth="16" tileheight="16" tilecount="256" columns="16">
  <image source="tileset_img.png" width="256" height="256"/>
  <tile id="0" type="platform"/>
  <tile id="1" type="platform"/>
@@ -40,6 +40,7 @@
  <tile id="44" type="block"/>
  <tile id="45" type="block"/>
  <tile id="48" type="spawn-monster"/>
+ <tile id="49" type="spawn-savage"/>
  <tile id="55" type="block"/>
  <tile id="56" type="block"/>
  <tile id="57" type="block"/>

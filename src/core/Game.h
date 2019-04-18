@@ -74,6 +74,7 @@ class Game
     Ghost *getConstGhost() const;
 
     void spawnGhost();
+    void spawnSavage();
 
     void attackSword();
 
