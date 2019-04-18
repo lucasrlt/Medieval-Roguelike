@@ -11,7 +11,7 @@ Game::~Game()
 {
     delete player;
     delete savage;
-    if (ghost != NULL)
+    if (ghost != NULL || ghost->isDead == true)
         delete ghost;
     delete tilemap;
 
@@ -59,6 +59,7 @@ void Game::spawnGhost(){
     Vector2D posGhost;
     int healthGhost = 3;
     int strengthGhost = 2;
+    bool isDead = false;
     Vector2D force(0, 0);
     string idleSpriteGhost = "data/warrior_front.png";
     string leftSpriteGhost = "data/warrior_left.png";
@@ -66,7 +67,7 @@ void Game::spawnGhost(){
     posGhost = {(float)tilemap->enemySpawns[0].x, (float)tilemap->enemySpawns[0].y};
     
     // ghost->position = posGhost;
-    ghost = new Ghost(posGhost, force, healthGhost, strengthGhost, idleSpriteGhost, leftSpriteGhost, rightSpriteGhost);
+    ghost = new Ghost(posGhost, force, healthGhost, strengthGhost, isDead, idleSpriteGhost, leftSpriteGhost, rightSpriteGhost);
 }
 
 int Game::getCurrentRoomX() const { return currRoomX; }
@@ -124,8 +125,12 @@ void Game::initDungeon()
 
 void Game::attackSword(){
     if((player->position.x <= ghost->position.x + 1 && player->position.x >= ghost->position.x - 1) && 
-    (player->position.y <= ghost->position.y + 1 && player->position.y >= ghost->position.y - 1))
+    (player->position.y <= ghost->position.y + 1 && player->position.y >= ghost->position.y - 1)){
         ghost->receiveDamage(player->weapon.damages);
+        if(ghost->getHealth() <= 0){
+            ghost->isDead = true;
+        }
+    }
 }
 
 void Game::keyboardActions(char action)
@@ -253,7 +258,6 @@ void Game::projectileHitEnnemy()
             
     }
 }
-
 
 void Game::updateProjectile()
 {

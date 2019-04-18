@@ -243,9 +243,11 @@ void SDLGame::drawPlayerHeart(const Game &game){
 }
 
 void SDLGame::drawEnemiesHeart(const Game &g){
-    for(int i = 0 ; i < g.getConstGhost()->getHealth() ; i++)
-    {
-        heartSprite.draw(renderer, (g.getConstGhost()->position.x * SCALE * 16) + (i * (SCALE + 10)) + 5, g.getConstGhost()->position.y * SCALE * 16 -20, 4 * SCALE, 4 * SCALE);
+    if(g.getConstGhost()->isDead == false){
+        for(int i = 0 ; i < g.getConstGhost()->getHealth() ; i++)
+        {
+            heartSprite.draw(renderer, (g.getConstGhost()->position.x * SCALE * 16) + (i * (SCALE + 10)) + 5, g.getConstGhost()->position.y * SCALE * 16 -20, 4 * SCALE, 4 * SCALE);
+        }
     }
 }
 
@@ -264,15 +266,16 @@ void SDLGame::drawPlayer(Player *player)
 
 void SDLGame::drawEnemies(const Game &game){
     // savageLeft.draw(renderer, game.getConstSavage()->position.x * TILE_SIZE * SCALE, game.getConstSavage()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
-    
-    if(game.getConstGhost()->position.x < game.getConstPlayer()->position.x)
-        ghostRight.draw(renderer, game.getConstGhost()->position.x * TILE_SIZE * SCALE, game.getConstGhost()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+    if(game.getConstGhost()->isDead == false) {
+        if(game.getConstGhost()->position.x < game.getConstPlayer()->position.x)
+            ghostRight.draw(renderer, game.getConstGhost()->position.x * TILE_SIZE * SCALE, game.getConstGhost()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
 
-    else if(game.getConstGhost()->position.x > game.getConstPlayer()->position.x)
-        ghostLeft.draw(renderer, game.getConstGhost()->position.x * TILE_SIZE * SCALE, game.getConstGhost()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+        else if(game.getConstGhost()->position.x > game.getConstPlayer()->position.x)
+            ghostLeft.draw(renderer, game.getConstGhost()->position.x * TILE_SIZE * SCALE, game.getConstGhost()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
     
-    else if(game.getConstGhost()->position.x == game.getConstPlayer()->position.x)
-        ghostIdle.draw(renderer, game.getConstGhost()->position.x * TILE_SIZE * SCALE, game.getConstGhost()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+        else if(game.getConstGhost()->position.x == game.getConstPlayer()->position.x)
+            ghostIdle.draw(renderer, game.getConstGhost()->position.x * TILE_SIZE * SCALE, game.getConstGhost()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+    }
 }
 
 void SDLGame::drawProjectiles(const Game &g)
