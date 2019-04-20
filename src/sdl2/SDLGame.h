@@ -34,6 +34,7 @@ private:
   bool left;
   bool right;
   bool stop;
+  bool drawBigMap;
 
   Image projectile;
 
@@ -73,6 +74,17 @@ private:
   void drawEnemies(const Game &g);
   void drawEnemiesHeart(const Game &g);
 
+
+  /**
+   * @brief Affiche la carte du niveau sur l'écran du joueur.
+   * 
+   * @param g instance du jeu.
+   * @param minimap si minimap est vrai, affiche la map sous forme miniature en haut à droite de l'aécran.
+   * Sinon, affiche la map au centre de l'écran.
+   */
+  void drawMap(const Game& g, bool minimap = true);
+  
+  
   void drawProjectiles(const Game &g);
   //TTF_Font * font;
   //Image font_im;
