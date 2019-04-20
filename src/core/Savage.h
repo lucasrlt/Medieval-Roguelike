@@ -5,10 +5,15 @@
  */
 
 #include <iostream>
+#include <vector>
+#include "Game.h"
 #include "Entity.h"
 
 #ifndef MEDIEVALROGUELIKE_SAVAGE_H
 #define MEDIEVALROGUELIKE_SAVAGE_H
+
+class Game;
+class Player;
 
 /**
  * @brief Classe créant les ennemis de mêlée.
@@ -16,7 +21,7 @@
 class Savage : public Entity{
     public:
     Savage();
-
+    bool isDeadSavage;
     /**
      * @brief Constructeur d'un ennemi de mêlée.
      * 
@@ -25,8 +30,8 @@ class Savage : public Entity{
      * @param health vie de l'ennemi
      * @param strenght puissance de l'ennemi
      */
-    Savage(Vector2D pos, Vector2D force, int health, int strenght, 
-        std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight);
+    Savage(Vector2D posInit, Vector2D forceInit, int healthInit, int strenghtInit, bool isDeadCheck,
+            std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight);
 
     ~Savage();
 
@@ -43,7 +48,7 @@ class Savage : public Entity{
      * @param game 
      */
     void runToPlayer();
-
+    bool checkHit(Player *player);
     /**
      * @brief 
      * 

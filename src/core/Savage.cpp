@@ -14,15 +14,15 @@ Savage::Savage()
     rightSprite = " ";
 }
 
-Savage::Savage(Vector2D posInit, Vector2D forceInit, int healthInit, int strenghtInit, std::string spriteNameIdle, 
-            std::string spriteNameLeft, std::string spriteNameRight) 
-            : Entity(posInit, forceInit, healthInit, spriteNameIdle, spriteNameLeft, spriteNameRight)
-{
+Savage::Savage(Vector2D posInit, Vector2D forceInit, int healthInit, int strenghtInit, bool isDeadCheck,
+            std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight) 
+            {
     position = posInit;
-    velocity = forceInit;
+    velocity = {0, 0};
     health = healthInit;
     strenght = strenghtInit;
-
+    isDeadSavage = isDeadCheck;
+    
     idleSprite = spriteNameIdle;
     leftSprite = spriteNameLeft;
     rightSprite = spriteNameRight;
@@ -35,6 +35,17 @@ Savage::~Savage()
 int Savage::getStrenght() const
 {
     return strenght;
+}
+
+bool Savage::checkHit(Player *player){
+    if(isDeadSavage == false){
+        if((position.x <= player->position.x + 0.75f && position.x >= player->position.x - 0.75f) && 
+            (position.y <= player->position.y + 0.75f && position.y >= player->position.y - 0.75f))  
+        {
+            player->receiveDamage(strenght);
+            return true;
+        } 
+    }   
 }
 
 void Savage::runToPlayer(){

@@ -12,7 +12,7 @@
 #ifndef MEDIEVALROGUELIKE_GHOST_H
 #define MEDIEVALROGUELIKE_GHOST_H
 
-float const GHOST_SPEED = 0.005f;
+float const GHOST_SPEED = 0.05f;
 
 class Game;
 class Player;
@@ -21,6 +21,8 @@ class Player;
  */
 class Ghost : public Entity{
     public:
+    bool isDead;
+    
     Ghost();
     /**
      * @brief Constructeur d'un ennemi distance.
@@ -30,7 +32,7 @@ class Ghost : public Entity{
      * @param health vie de l'ennemi
      * @param strenght puissance de l'ennemi
      */
-    Ghost(Vector2D pos, Vector2D force, int health, int strenght, std::string spriteNameIdle, 
+    Ghost(Vector2D pos, Vector2D force, int health, int strenght, bool isDead, std::string spriteNameIdle, 
             std::string spriteNameLeft, std::string spriteNameRight);
 
     ~Ghost();
@@ -58,7 +60,7 @@ class Ghost : public Entity{
     void fireProjectile();
 
     private:
-    int strenght;
+    int strenght;   
 };
 
 #endif //MEDIEVALROGUELIKE_GHOST_H

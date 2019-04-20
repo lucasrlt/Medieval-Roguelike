@@ -67,7 +67,7 @@ Vector2D Vector2D::operator*(float b){
     return vec;
 }
 
-const Vector2D Vector2D::operator/(float b){
+Vector2D Vector2D::operator/(float b){
     Vector2D r;
     if(b == 0){
         cout << "Erreur, division par 0" << endl;
