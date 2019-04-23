@@ -35,6 +35,9 @@ private:
   bool right;
   bool stop;
   bool drawBigMap;
+  
+  bool withSound;
+  struct Mix_Chunk * sound;
 
   Image projectile;
 
@@ -49,6 +52,8 @@ private:
   Image ghostIdle;
   Image ghostLeft;
   Image ghostRight;
+
+  Image itemIdle;
 
   Image backgroundExterior;
   Image backgroundInterior;
@@ -73,6 +78,7 @@ private:
   void drawDeathScreen();
   void drawEnemies(const Game &g);
   void drawEnemiesHeart(const Game &g);
+  void drawItemsRegen(const Game &g);
 
 
   /**

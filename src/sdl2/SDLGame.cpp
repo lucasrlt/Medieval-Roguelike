@@ -7,6 +7,7 @@
 #include "SDLGame.h"
 #include <stdlib.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include <assert.h>
 #include "../core/TileMap.h"
 #include <iostream>
@@ -115,6 +116,16 @@ SDLGame::SDLGame()
         SDL_Quit();
         exit(1);
     }
+    if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+    {
+        cout << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << endl;
+        cout << "No sound !!!" << endl;
+        //SDL_Quit();exit(1);
+        withSound = false;
+    }
+    else{
+        withSound = true;
+    }
 
     // Creation de la fenetre
     window = SDL_CreateWindow("Medieval Rogue-Like", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, dimx, dimy, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
@@ -140,6 +151,15 @@ SDLGame::SDLGame()
     font_color = {255, 255, 255};
     font_im.setSurface(TTF_RenderText_Solid(font,"VOUS ETES MORT CHEH",font_color));
     font_im.loadFromCurrentSurface(renderer);
+
+    // SONS
+    if (withSound)
+    {
+        sound = Mix_LoadWAV("data/sounds/goat.wav");
+        if (sound == NULL) {
+            cout << "Failed to load goat.wav ! SDL_mixer Error: " << Mix_GetError() << endl; SDL_Quit(); exit(1);
+        }
+    }
 
 /*
     // IMAGES //TODO : Ajouter les images
@@ -182,6 +202,7 @@ void SDLGame::SDLShow(const Game &g)
         drawEnemiesHeart(g);        
         drawEnemies(g);
         drawProjectiles(g);
+        drawItemsRegen(g);
         drawMap(g, !drawBigMap);
     } else {
         drawDeathScreen();
@@ -233,6 +254,14 @@ void SDLGame::drawCurrentRoom(const Game &g)
                 SDL_RenderCopy(renderer, tilesetImg.texture, &clipRect, &destRect);
             }
         }
+    }
+}
+
+void SDLGame::drawItemsRegen(const Game &game){
+    Item *item = game.getConstItems();
+
+    if(item != NULL && !item->isTaken){
+        itemIdle.draw(renderer, item->position.x * SCALE * 16, (item->position.y + 0.5f) * SCALE * 16, 8 * SCALE, 8 * SCALE);
     }
 }
 
@@ -410,9 +439,13 @@ void SDLGame::SDLLoop(Game &g)
     Player *p = g.getConstPlayer();
     Savage *s = g.getConstSavage();
     Ghost *gh = g.getConstGhost();
+    Item *item = g.getConstItems();
     const TileMap &tm = g.getConstTilemap();
     drawBigMap = false;
 
+    // Charge le sprite de l'item qui rend les points de vie.
+    // item->itemName = "data/burger.png";
+    itemIdle.loadFromFile("data/burger.png", renderer);
 
     // Charge les sprites du Ghosts (faire tableau de Ghost après).
     gh->idleSprite = "data/warrior_front.png";
@@ -436,7 +469,7 @@ void SDLGame::SDLLoop(Game &g)
 
     // Charge les sprites du Player.
     p->idleSprite = "data/warrior_front.png";
-    playerIdle.loadFromFile(p->idleSprite.c_str(), renderer); // Charge les sprite du joueur
+    playerIdle.loadFromFile(p->idleSprite.c_str(), renderer);
 
     p->leftSprite = "data/warrior_left.png";
     playerLeft.loadFromFile(p->leftSprite.c_str(), renderer);
@@ -493,6 +526,9 @@ void SDLGame::SDLLoop(Game &g)
                     case SDL_SCANCODE_H:
                         g.keyboardActions('h');
                         break;
+                    case SDL_SCANCODE_D:
+                        g.keyboardActions('d');
+                        break;
                     case SDL_SCANCODE_TAB:
                         drawBigMap = true;
                         break;
@@ -530,12 +566,16 @@ void SDLGame::SDLLoop(Game &g)
 
         // on affiche le jeu sur le buffer caché
         SDLShow(g);
+
         if (SDL_GetTicks() - hitTime < 250 && !g.playerDead) drawHitFilter();
 
         if (nt - t2 > 500)
         {
             if(g.checkSpikes() || gh->checkHit(p) || s->checkHit(p))
             {
+                if(withSound)
+                    Mix_PlayChannel(-1,sound,0);
+                    
                 hitTime = SDL_GetTicks();
                 t2 = nt;
             } 

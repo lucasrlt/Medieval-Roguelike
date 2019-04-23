@@ -84,6 +84,8 @@ void TileMap::fetchTileTypes()
                 tileTypes[tileId] = spawnMonster;
             else if (tileType == "spawn-savage")
                 tileTypes[tileId] = spawnMonsterSavage;
+            else if(tileType == "regen-hp")
+                tileTypes[tileId] = regenItem;
         }
     }
 }
@@ -97,8 +99,11 @@ void TileMap::fetchRoomFromFile(const string &filename)
         cerr << "TILEMAP: Erreur dans l'ouverture en lecture du fichier." << endl;
         return;
     }
+    
     enemySpawns.clear();
     savageSpawns.clear();
+    itemSpawns.clear();
+
     if (readFile)
     {
         deleteRoomMap();
@@ -126,6 +131,10 @@ void TileMap::fetchRoomFromFile(const string &filename)
                 {
                     savageSpawns.push_back({x, y});
                 }
+                if(tileType == regenItem)
+                {
+                    itemSpawns.push_back({x, y});
+                }
                 int posX = ((tileId - 1) % TILE_SIZE) * TILE_SIZE;
                 int posY = ((int)((tileId - 1) / TILE_SIZE)) * TILE_SIZE;
                 Tile *tile = new Tile(tileId, posX, posY, tileType);
@@ -135,7 +144,6 @@ void TileMap::fetchRoomFromFile(const string &filename)
                     playerSpawn.x = x;
                     playerSpawn.y = y;
                 }
-
                 roomMap[x][y] = tile;
             }
         }
