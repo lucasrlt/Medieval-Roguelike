@@ -63,14 +63,6 @@ const float moveA = 0.15f;
 
 void Entity::move(Vector2D dep, const TileMap &t, float time)
 {
-    // if (t.isValidPosition(position.x + dep.x + (dep.x == 0 ? 0 : dep.x > 0 ? 1 : 0), position.y + dep.y + (dep.y == 0 ? 0 : dep.y > 0 ? 1 : 0)))
-    // {
-
-    // cout << dep.x << endl;
-    // position.x += dep.x;
-    // position.y += dep.y;
-    // }
-
     if (t.isValidPosition(position.x + velocity.x * time, (position.y + velocity.y * time) + 1))
     {
         position.x += velocity.x * time;

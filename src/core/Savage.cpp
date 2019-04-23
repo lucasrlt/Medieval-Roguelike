@@ -48,17 +48,18 @@ bool Savage::checkHit(Player *player){
     }   
 }
 
-void Savage::runToPlayer(){
-    // while(position.x != game.getConstPlayer()->position.x){
-    //     if(position.x - game.getConstPlayer()->position.x < 0){
-    //         position.x += 5;
-    //     }
-    //     else if(position.x - game.getConstPlayer()->position.x > 0){
-    //         position.x -= 5;
-    //     }    
-    // }
-}
+void Savage::runToPlayer(Player *player, const TileMap &t,float dt)
+{
+    Vector2D newPos;
+    
+    newPos.x = player->position.x - position.x;
+    float m = newPos.module();
+    if(newPos.y == 0)
+    {
+        newPos = {newPos.x,1};
+    }
+    velocity.x = (newPos.x / m) * SAVAGE_SPEED;
+    //cout << velocity.x <<endl;
 
-void Savage::attackPlayer(){
-
+    updatePosition(t,dt);
 }

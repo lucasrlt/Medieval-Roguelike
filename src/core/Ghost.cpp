@@ -60,8 +60,6 @@ void Ghost::flyToPlayer(Player *player){
     float m = newPos.module();
     if(position.x == 0 && position.y == 0) position = {1, 1};
 
-    // position = position + ((newPos / m) * GHOST_SPEED);
-
     position.x = position.x + ((newPos.x / m) * GHOST_SPEED);
     position.y = position.y + ((newPos.y / m) * GHOST_SPEED);
 }

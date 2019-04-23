@@ -39,8 +39,12 @@ private:
   bool withSound;
   struct Mix_Chunk * sound;
 
+  Uint32 lastTickTime;
+
   Image projectile;
 
+  Image playerImages;
+  int currPlayerSprite;
   Image playerIdle;
   Image playerLeft;
   Image playerRight;

@@ -152,6 +152,7 @@ SDLGame::SDLGame()
     font_im.setSurface(TTF_RenderText_Solid(font,"VOUS ETES MORT CHEH",font_color));
     font_im.loadFromCurrentSurface(renderer);
 
+<<<<<<< HEAD
     // SONS
     if (withSound)
     {
@@ -176,8 +177,10 @@ SDLGame::SDLGame()
     font_color.r = 50;font_color.g = 50;font_color.b = 255;
     font_im.setSurface(TTF_RenderText_Solid(font,"Pacman",font_color));
     font_im.loadFromCurrentSurface(renderer);
+=======
+>>>>>>> dce8998638654f80c9d5e1bc59cd2b2fea759a1c
 
-*/}
+}
 
 SDLGame::~SDLGame()
 {
@@ -208,27 +211,7 @@ void SDLGame::SDLShow(const Game &g)
         drawDeathScreen();
     }
 }
-/*
-    Game game;
-    int x,y;
-    const Room& ro = game.getConstRoom();
-    const Player& pl = game.getConstPlayer();
-//const Ennemies& en = game.getConstEnnemies();
 
-
-  // Afficher le sprite de Pacman
-  im_pacman.draw(renderer,pac.getX()*TAILLE_SPRITE,pac.getY()*TAILLE_SPRITE,TAILLE_SPRITE,TAILLE_SPRITE);
-
-  // Afficher le sprite du Fantome
-  im_fantome.draw(renderer,fan.getX()*TAILLE_SPRITE,fan.getY()*TAILLE_SPRITE,TAILLE_SPRITE,TAILLE_SPRITE);
-
-  // Ecrire un titre par dessus
-  SDL_Rect positionTitre;
-  positionTitre.x = 270;positionTitre.y = 49;positionTitre.w = 100;positionTitre.h = 30;
-  SDL_RenderCopy(renderer,font_im.getTexture(),NULL,&positionTitre);
-
-}
-*/
 void SDLGame::drawBackground(const Game &g) {
     const Room& r = g.getConstRoom(g.getCurrentRoomX(), g.getCurrentRoomY());
 
@@ -279,7 +262,7 @@ void SDLGame::drawEnemiesHeart(const Game &g){
             heartSprite.draw(renderer, (g.getConstGhost()->position.x * SCALE * 16) + (i * (SCALE + 10)) + 5, g.getConstGhost()->position.y * SCALE * 16 -20, 4 * SCALE, 4 * SCALE);
         }
     }
-    if(g.getConstSavage()->isDeadSavage == false){
+    if(g.getConstSavage() != NULL && g.getConstSavage()->isDeadSavage == false){
         for(int i = 0 ; i < g.getConstSavage()->getHealth() ; i++)
         {
             heartSprite.draw(renderer, (g.getConstSavage()->position.x * SCALE * 16) + (i * (SCALE + 10)) -8, g.getConstSavage()->position.y * SCALE * 16 -20, 4 * SCALE, 4 * SCALE);
@@ -289,13 +272,19 @@ void SDLGame::drawEnemiesHeart(const Game &g){
 
 void SDLGame::drawPlayer(Player *player)
 {
-    if(left){
+    const int numSprites = 9;
+
+    Uint32 currentTime = SDL_GetTicks();
+    Uint32 interval = currentTime - lastTickTime;
+
+    // SDL_Rect clipRect = {currPlayerSprite * }
+    if (left) {
         playerLeft.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
     }
-    else if(right){
+    else if (right) {
         playerRight.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
     }
-    else if(stop){
+    else if (stop) {
         playerIdle.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
     }
 }
@@ -313,7 +302,7 @@ void SDLGame::drawEnemies(const Game &game){
         else if(game.getConstGhost()->position.x == game.getConstPlayer()->position.x)
             ghostIdle.draw(renderer, game.getConstGhost()->position.x * TILE_SIZE * SCALE, game.getConstGhost()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
     }
-    if(game.getConstSavage()->isDeadSavage == false) 
+    if(game.getConstSavage() != NULL && game.getConstSavage()->isDeadSavage == false) 
     {
         if(game.getConstSavage()->position.x < game.getConstPlayer()->position.x)
             savageRight.draw(renderer, game.getConstSavage()->position.x * TILE_SIZE * SCALE, game.getConstSavage()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
@@ -458,14 +447,14 @@ void SDLGame::SDLLoop(Game &g)
     ghostRight.loadFromFile(gh->rightSprite.c_str(), renderer);
 
     // Charge les sprites du Savages (faire tableau de Savage après).
-    s->idleSprite = "data/warrior_front.png";
-    savageIdle.loadFromFile(s->idleSprite.c_str(), renderer);
+    // s->idleSprite = "data/warrior_front.png";
+    savageIdle.loadFromFile("data/warrior_front.png", renderer);
 
-    s->leftSprite = "data/warrior_left.png";
-    savageLeft.loadFromFile(s->leftSprite.c_str(), renderer);
+    // s->leftSprite = "data/warrior_left.png";
+    savageLeft.loadFromFile("data/warrior_left.png", renderer);
 
-    s->rightSprite = "data/warrior_right.png";
-    savageRight.loadFromFile(s->rightSprite.c_str(), renderer);
+    // s->rightSprite = "data/warrior_right.png";
+    savageRight.loadFromFile("data/warrior_right.png", renderer);
 
     // Charge les sprites du Player.
     p->idleSprite = "data/warrior_front.png";
@@ -489,11 +478,12 @@ void SDLGame::SDLLoop(Game &g)
     // tant que ce n'est pas la fin ...
     while (!quit)
     {       
+        lastTickTime = SDL_GetTicks();
+
         gh = g.getConstGhost();
         s = g.getConstSavage();
         nt = SDL_GetTicks();
         deltaTime = (nt - t) / 1000.f;
-
         // tant qu'il y a des evenements à traiter (cette boucle n'est pas bloquante)
         while (SDL_PollEvent(&events))
         {
@@ -518,6 +508,7 @@ void SDLGame::SDLLoop(Game &g)
                         g.keyboardActions('l');
                         break;
                     case SDL_SCANCODE_UP:
+                    case SDL_SCANCODE_Q:
                         g.keyboardActions('t');
                         break;
                     case SDL_SCANCODE_SPACE:
@@ -538,8 +529,7 @@ void SDLGame::SDLLoop(Game &g)
             }
             else if (events.type == SDL_KEYUP)
             {
-                if (events.key.repeat == 0)
-                {
+                if (events.key.repeat == 0) {
                     switch (events.key.keysym.scancode)
                     {
                     case SDL_SCANCODE_RIGHT:
@@ -562,7 +552,7 @@ void SDLGame::SDLLoop(Game &g)
         }
 
         p->updatePosition(tm, deltaTime);
-        g.automaticActions();
+        g.automaticActions(deltaTime);
 
         // on affiche le jeu sur le buffer caché
         SDLShow(g);
@@ -571,7 +561,7 @@ void SDLGame::SDLLoop(Game &g)
 
         if (nt - t2 > 500)
         {
-            if(g.checkSpikes() || gh->checkHit(p) || s->checkHit(p))
+            if(g.checkSpikes() || gh->checkHit(p) || (s != NULL && s->checkHit(p)))
             {
                 if(withSound)
                     Mix_PlayChannel(-1,sound,0);
