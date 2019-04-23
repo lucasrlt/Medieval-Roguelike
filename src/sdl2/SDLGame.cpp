@@ -541,7 +541,7 @@ void SDLGame::SDLLoop(Game &g)
 
         if (nt - t2 > 500)
         {
-            if(g.checkSpikes() || gh->checkHit(p) || s->checkHit(p))
+            if(g.checkSpikes() || gh->checkHit(p) || (s != NULL && s->checkHit(p)))
             {
                 hitTime = SDL_GetTicks();
                 t2 = nt;
