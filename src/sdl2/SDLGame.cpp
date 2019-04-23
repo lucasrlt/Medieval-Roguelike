@@ -182,6 +182,7 @@ void SDLGame::SDLShow(const Game &g)
         drawEnemiesHeart(g);        
         drawEnemies(g);
         drawProjectiles(g);
+        drawMap(g, !drawBigMap);
     } else {
         drawDeathScreen();
     }
@@ -310,8 +311,6 @@ void SDLGame::drawProjectiles(const Game &g)
 }
 
 void SDLGame::drawHitFilter() {
-    Uint32 t = SDL_GetTicks();
-    
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 32);
     SDL_Rect r = {0, 0, dimx, dimy};
     SDL_RenderFillRect(renderer, &r);
@@ -331,12 +330,88 @@ void SDLGame::drawDeathScreen() {
     SDL_RenderCopy(renderer,font_im.getTexture(),NULL,&positionTitre);
 }
 
+void SDLGame::drawMap(const Game& g, bool minimap) {
+    SDL_Rect r = {0, 0, 0, 0}; // sera utilisé pour l'affichage des rectangles
+
+
+    // le viewport est le rectangle dans le quel est dessiné la carte
+    const int viewportOffset = minimap ? 580 : 175;
+    const int viewportWidth = dimx - viewportOffset * (minimap ? 1 : 2) - (minimap ? 10 : 0);
+
+    
+    const int roomWidth = viewportWidth / 5, doorWidth = roomWidth / 4; // largeur d'une salle et d'une porte
+    const int borderWidth = 4;
+
+    const unsigned char mapOpacity = minimap ? 96 : 255;
+    
+    int roomPosX, roomPosY;
+
+    Room *room;
+    for (int y = 0; y < MAZE_SIZE; y++) { // boucle sur toutes les salles du dnjon
+        for (int x = 0; x < MAZE_SIZE; x++) {
+            room = g.dungeon[x][y];
+
+            roomPosX = x * (viewportWidth / MAZE_SIZE) + viewportOffset; // position initiale d'une salle
+            roomPosY = y * (viewportWidth / MAZE_SIZE) + (minimap ? 10 : viewportOffset);
+
+            if (room != NULL) {
+                SDL_SetRenderDrawColor(renderer, 0, 0, 0, mapOpacity);
+                r.x = roomPosX;
+                r.y = roomPosY;
+                r.w = r.h = roomWidth;
+                SDL_RenderFillRect(renderer, &r); // dessine la bordure 
+
+                SDL_SetRenderDrawColor(renderer, 192, 192, 192, mapOpacity);
+                r.x = roomPosX + borderWidth;
+                r.y = roomPosY + borderWidth;
+                r.w = r.h = roomWidth - 2 * borderWidth;
+                SDL_RenderFillRect(renderer, &r); // dessine l'intérieur de la salle
+
+                // affiche le sprite du joueur dans la salle actuelle
+                if (x == g.getCurrentRoomX() && y == g.getCurrentRoomY()) {
+                    playerIdle.draw(renderer, roomPosX + roomWidth / 2 - (doorWidth * 1.5) / 2, 
+                                              roomPosY + roomWidth / 2 - (doorWidth * 1.5) / 2, 
+                                              doorWidth * 1.5, 
+                                              doorWidth * 1.5);
+                }
+
+
+                SDL_SetRenderDrawColor(renderer, 192, 192, 192, mapOpacity);
+                r.w = r.h = doorWidth;
+
+                // pour chaque salle, on dessine un carré à chacune des ouvertures
+                // afin de couper la bordure noire pour rendre l'ouverture visible. 
+                r.y = roomPosY + roomWidth / 2 - doorWidth / 2; // les portes droite/gauche ont la même pos y
+                if (room->schema.openLeft) {
+                    r.x = roomPosX - doorWidth / 2;
+                    SDL_RenderFillRect(renderer, &r);
+                } 
+                if (room->schema.openRight) {
+                    r.x = roomPosX + roomWidth - doorWidth / 2;
+                    SDL_RenderFillRect(renderer, &r);
+                }
+
+                r.x = roomPosX + roomWidth / 2 - doorWidth / 2; // les portes haut/bas ont la même pos x
+                if (room->schema.openTop) {
+                    r.y = roomPosY - doorWidth / 2;
+                    SDL_RenderFillRect(renderer, &r);
+                }
+                if (room->schema.openBottom) {
+                    r.y = roomPosY + roomWidth - doorWidth / 2;
+                    SDL_RenderFillRect(renderer, &r);
+                }
+            }
+        }
+    }
+}
+
 void SDLGame::SDLLoop(Game &g)
 {
     Player *p = g.getConstPlayer();
     Savage *s = g.getConstSavage();
     Ghost *gh = g.getConstGhost();
     const TileMap &tm = g.getConstTilemap();
+    drawBigMap = false;
 
 
     // Charge les sprites du Ghosts (faire tableau de Ghost après).
@@ -418,6 +493,9 @@ void SDLGame::SDLLoop(Game &g)
                     case SDL_SCANCODE_H:
                         g.keyboardActions('h');
                         break;
+                    case SDL_SCANCODE_TAB:
+                        drawBigMap = true;
+                        break;
                     default: break;
                     }
                 }
@@ -437,6 +515,9 @@ void SDLGame::SDLLoop(Game &g)
                         stop = true;
                         left = false;
                         p->moveRight(tm);
+                        break;
+                    case SDL_SCANCODE_TAB:
+                        drawBigMap = false;
                         break;
                     default: break;
                     }

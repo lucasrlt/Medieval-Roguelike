@@ -48,7 +48,8 @@ bool Ghost::checkHit(Player *player){
             player->receiveDamage(strenght);
             return true;
         } 
-    }   
+    }
+    return false;
 }
 
 
