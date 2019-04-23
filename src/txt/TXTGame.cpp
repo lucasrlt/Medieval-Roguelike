@@ -126,7 +126,7 @@ void TXTLoop(Game &g)
         case 'm':
             showMap = !showMap;
         }
-        g.automaticActions();
+        g.automaticActions(1);
         // cout << endl;
 
     } while (ok);

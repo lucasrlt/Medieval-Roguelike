@@ -526,7 +526,7 @@ void SDLGame::SDLLoop(Game &g)
         }
 
         p->updatePosition(tm, deltaTime);
-        g.automaticActions();
+        g.automaticActions(deltaTime);
 
         // on affiche le jeu sur le buffer caché
         SDLShow(g);

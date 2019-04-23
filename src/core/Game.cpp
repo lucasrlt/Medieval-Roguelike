@@ -74,7 +74,7 @@ void Game::spawnSavage(){
     //Caratéristiques du Savage
     Vector2D posSavage;
     int healthSavage = 5;
-    int strengthSavage = 1;
+    int strengthSavage = 3;
     bool isDeadSavage = false;
     Vector2D force(0, 0);
     string idleSpriteSavage = "data/warrior_front.png";
@@ -180,10 +180,11 @@ void Game::keyboardActions(char action)
     }
 }
 
-void Game::automaticActions()
+void Game::automaticActions(float dt)
 {
     checkRoomChange(' ');
     ghost->flyToPlayer(player);
+    savage->runToPlayer(player,getConstTilemap(),dt);
     updateProjectile();
 
     if (player->getHealth() <= 0) {
@@ -282,6 +283,8 @@ void Game::projectileHitEnnemy()
         && (projectiles[i].position.y <= savage->position.y + 0.75f && projectiles[i].position.y >= savage->position.y - 0.75f) && projectiles[i].isHit == false)
         {
             savage->receiveDamage(PROJECTILE_DAMAGES); 
+            projectiles[i].isHit = true;
+            
             if(savage->getHealth() <= 0)
             {
                 savage -> isDeadSavage = true;
