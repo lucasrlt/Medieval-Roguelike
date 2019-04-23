@@ -36,8 +36,12 @@ private:
   bool stop;
   bool drawBigMap;
 
+  Uint32 lastTickTime;
+
   Image projectile;
 
+  Image playerImages;
+  int currPlayerSprite;
   Image playerIdle;
   Image playerLeft;
   Image playerRight;
