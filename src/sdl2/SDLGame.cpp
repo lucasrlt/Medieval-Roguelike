@@ -260,13 +260,19 @@ void SDLGame::drawEnemiesHeart(const Game &g){
 
 void SDLGame::drawPlayer(Player *player)
 {
-    if(left){
+    const int numSprites = 9;
+
+    Uint32 currentTime = SDL_GetTicks();
+    Uint32 interval = currentTime - lastTickTime;
+
+    // SDL_Rect clipRect = {currPlayerSprite * }
+    if (left) {
         playerLeft.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
     }
-    else if(right){
+    else if (right) {
         playerRight.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
     }
-    else if(stop){
+    else if (stop) {
         playerIdle.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
     }
 }
@@ -456,11 +462,12 @@ void SDLGame::SDLLoop(Game &g)
     // tant que ce n'est pas la fin ...
     while (!quit)
     {       
+        lastTickTime = SDL_GetTicks();
+
         gh = g.getConstGhost();
         s = g.getConstSavage();
         nt = SDL_GetTicks();
         deltaTime = (nt - t) / 1000.f;
-
         // tant qu'il y a des evenements à traiter (cette boucle n'est pas bloquante)
         while (SDL_PollEvent(&events))
         {
@@ -485,6 +492,7 @@ void SDLGame::SDLLoop(Game &g)
                         g.keyboardActions('l');
                         break;
                     case SDL_SCANCODE_UP:
+                    case SDL_SCANCODE_Q:
                         g.keyboardActions('t');
                         break;
                     case SDL_SCANCODE_SPACE:
@@ -502,8 +510,7 @@ void SDLGame::SDLLoop(Game &g)
             }
             else if (events.type == SDL_KEYUP)
             {
-                if (events.key.repeat == 0)
-                {
+                if (events.key.repeat == 0) {
                     switch (events.key.keysym.scancode)
                     {
                     case SDL_SCANCODE_RIGHT:
