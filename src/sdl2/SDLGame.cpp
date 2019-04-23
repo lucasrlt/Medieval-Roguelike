@@ -141,23 +141,8 @@ SDLGame::SDLGame()
     font_im.setSurface(TTF_RenderText_Solid(font,"VOUS ETES MORT CHEH",font_color));
     font_im.loadFromCurrentSurface(renderer);
 
-/*
-    // IMAGES //TODO : Ajouter les images
-    im_pacman.loadFromFile("data/pacman.png",renderer);
-    im_mur.loadFromFile("data/mur.png",renderer);
-    im_pastille.loadFromFile("data/pastille.png",renderer);
-    im_fantome.loadFromFile("data/fantome.png",renderer);
 
-    // FONTS
-    font = TTF_OpenFont("data/DejaVuSansCondensed.ttf",50);
-    if (font == NULL) {
-        cout << "Failed to load DejaVuSansCondensed.ttf! SDL_TTF Error: " << TTF_GetError() << endl; SDL_Quit(); exit(1);
-    }*//*
-    font_color.r = 50;font_color.g = 50;font_color.b = 255;
-    font_im.setSurface(TTF_RenderText_Solid(font,"Pacman",font_color));
-    font_im.loadFromCurrentSurface(renderer);
-
-*/}
+}
 
 SDLGame::~SDLGame()
 {
@@ -187,27 +172,7 @@ void SDLGame::SDLShow(const Game &g)
         drawDeathScreen();
     }
 }
-/*
-    Game game;
-    int x,y;
-    const Room& ro = game.getConstRoom();
-    const Player& pl = game.getConstPlayer();
-//const Ennemies& en = game.getConstEnnemies();
 
-
-  // Afficher le sprite de Pacman
-  im_pacman.draw(renderer,pac.getX()*TAILLE_SPRITE,pac.getY()*TAILLE_SPRITE,TAILLE_SPRITE,TAILLE_SPRITE);
-
-  // Afficher le sprite du Fantome
-  im_fantome.draw(renderer,fan.getX()*TAILLE_SPRITE,fan.getY()*TAILLE_SPRITE,TAILLE_SPRITE,TAILLE_SPRITE);
-
-  // Ecrire un titre par dessus
-  SDL_Rect positionTitre;
-  positionTitre.x = 270;positionTitre.y = 49;positionTitre.w = 100;positionTitre.h = 30;
-  SDL_RenderCopy(renderer,font_im.getTexture(),NULL,&positionTitre);
-
-}
-*/
 void SDLGame::drawBackground(const Game &g) {
     const Room& r = g.getConstRoom(g.getCurrentRoomX(), g.getCurrentRoomY());
 
