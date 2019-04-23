@@ -15,6 +15,7 @@
 class Game;
 class Player;
 
+float const SAVAGE_SPEED = 3;
 /**
  * @brief Classe créant les ennemis de mêlée.
  */
@@ -47,14 +48,14 @@ class Savage : public Entity{
      * 
      * @param game 
      */
-    void runToPlayer();
+    void runToPlayer(Player *player,const TileMap &t,float dt);
     bool checkHit(Player *player);
     /**
      * @brief 
      * 
      * @param game 
      */
-    void attackPlayer();
+    //void attackPlayer();
 
     private:
     int strenght;

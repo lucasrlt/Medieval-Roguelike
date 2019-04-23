@@ -10,8 +10,9 @@ using namespace std;
 Game::~Game()
 {
     delete player;
-    delete savage;
-    if (ghost != NULL || ghost->isDead == true)
+    if(savage != NULL)
+        delete savage;
+    if (ghost != NULL)
         delete ghost;
     delete tilemap;
 
@@ -74,15 +75,21 @@ void Game::spawnSavage(){
     //Caratéristiques du Savage
     Vector2D posSavage;
     int healthSavage = 5;
-    int strengthSavage = 1;
+    int strengthSavage = 3;
     bool isDeadSavage = false;
     Vector2D force(0, 0);
     string idleSpriteSavage = "data/warrior_front.png";
     string leftSpriteSavage = "data/warrior_left.png";
     string rightSpriteSavage = "data/warrior_right.png";
-    posSavage = {(float)tilemap->savageSpawns[0].x, (float)tilemap->savageSpawns[0].y};
-    
-    savage = new Savage(posSavage, force, healthSavage, strengthSavage, isDeadSavage, idleSpriteSavage, leftSpriteSavage, rightSpriteSavage);
+
+    if(tilemap->savageSpawns.size() > 0)
+    {
+        posSavage = {(float)tilemap->savageSpawns[0].x, (float)tilemap->savageSpawns[0].y};
+        savage = new Savage(posSavage, force, healthSavage, strengthSavage, isDeadSavage, idleSpriteSavage,
+                             leftSpriteSavage, rightSpriteSavage);
+    } 
+    else 
+        savage = NULL; 
 }
 
 int Game::getCurrentRoomX() const { return currRoomX; }
@@ -139,7 +146,7 @@ void Game::attackSword(){
             ghost->isDead = true;
         }
     }
-    if((player->position.x <= savage->position.x + 1 && player->position.x >= savage->position.x - 1) && 
+    if(savage != NULL && (player->position.x <= savage->position.x + 1 && player->position.x >= savage->position.x - 1) && 
     (player->position.y <= savage->position.y + 1 && player->position.y >= savage->position.y - 1))
     {
         savage->receiveDamage(player->weapon.damages);
@@ -180,10 +187,12 @@ void Game::keyboardActions(char action)
     }
 }
 
-void Game::automaticActions()
+void Game::automaticActions(float dt)
 {
     checkRoomChange(' ');
     ghost->flyToPlayer(player);
+    if (savage != NULL)
+        savage->runToPlayer(player,getConstTilemap(),dt);
     updateProjectile();
 
     if (player->getHealth() <= 0) {
@@ -278,10 +287,12 @@ void Game::projectileHitEnnemy()
             }
         }
           
-        if((projectiles[i].position.x <= savage->position.x + 0.75f && projectiles[i].position.x >= savage->position.x - 0.75f)
+        if(savage != NULL && (projectiles[i].position.x <= savage->position.x + 0.75f && projectiles[i].position.x >= savage->position.x - 0.75f)
         && (projectiles[i].position.y <= savage->position.y + 0.75f && projectiles[i].position.y >= savage->position.y - 0.75f) && projectiles[i].isHit == false)
         {
             savage->receiveDamage(PROJECTILE_DAMAGES); 
+            projectiles[i].isHit = true;
+            
             if(savage->getHealth() <= 0)
             {
                 savage -> isDeadSavage = true;

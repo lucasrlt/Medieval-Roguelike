@@ -85,7 +85,7 @@ class Game
      */
     void keyboardActions(char action);
 
-    void automaticActions();
+    void automaticActions(float dt);
 
     void refreshGhost();
     void checkRoomChange(char direction);
