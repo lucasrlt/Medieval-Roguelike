@@ -250,7 +250,7 @@ void SDLGame::drawEnemiesHeart(const Game &g){
             heartSprite.draw(renderer, (g.getConstGhost()->position.x * SCALE * 16) + (i * (SCALE + 10)) + 5, g.getConstGhost()->position.y * SCALE * 16 -20, 4 * SCALE, 4 * SCALE);
         }
     }
-    if(g.getConstSavage()->isDeadSavage == false){
+    if(g.getConstSavage() != NULL && g.getConstSavage()->isDeadSavage == false){
         for(int i = 0 ; i < g.getConstSavage()->getHealth() ; i++)
         {
             heartSprite.draw(renderer, (g.getConstSavage()->position.x * SCALE * 16) + (i * (SCALE + 10)) -8, g.getConstSavage()->position.y * SCALE * 16 -20, 4 * SCALE, 4 * SCALE);
@@ -284,7 +284,7 @@ void SDLGame::drawEnemies(const Game &game){
         else if(game.getConstGhost()->position.x == game.getConstPlayer()->position.x)
             ghostIdle.draw(renderer, game.getConstGhost()->position.x * TILE_SIZE * SCALE, game.getConstGhost()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
     }
-    if(game.getConstSavage()->isDeadSavage == false) 
+    if(game.getConstSavage() != NULL && game.getConstSavage()->isDeadSavage == false) 
     {
         if(game.getConstSavage()->position.x < game.getConstPlayer()->position.x)
             savageRight.draw(renderer, game.getConstSavage()->position.x * TILE_SIZE * SCALE, game.getConstSavage()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
@@ -425,14 +425,14 @@ void SDLGame::SDLLoop(Game &g)
     ghostRight.loadFromFile(gh->rightSprite.c_str(), renderer);
 
     // Charge les sprites du Savages (faire tableau de Savage après).
-    s->idleSprite = "data/warrior_front.png";
-    savageIdle.loadFromFile(s->idleSprite.c_str(), renderer);
+    // s->idleSprite = "data/warrior_front.png";
+    savageIdle.loadFromFile("data/warrior_front.png", renderer);
 
-    s->leftSprite = "data/warrior_left.png";
-    savageLeft.loadFromFile(s->leftSprite.c_str(), renderer);
+    // s->leftSprite = "data/warrior_left.png";
+    savageLeft.loadFromFile("data/warrior_left.png", renderer);
 
-    s->rightSprite = "data/warrior_right.png";
-    savageRight.loadFromFile(s->rightSprite.c_str(), renderer);
+    // s->rightSprite = "data/warrior_right.png";
+    savageRight.loadFromFile("data/warrior_right.png", renderer);
 
     // Charge les sprites du Player.
     p->idleSprite = "data/warrior_front.png";
