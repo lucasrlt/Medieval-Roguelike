@@ -37,10 +37,10 @@ private:
   bool drawBigMap;
   bool isSelectionScreen;
   
-  bool withSound;
+  /*bool withSound;
   struct _Mix_Music *backGroundMusic;
   struct _Mix_Music *deathMusic;
-  struct Mix_Chunk *hitPlayerSound;
+  struct Mix_Chunk *hitPlayerSound;*/
 
   Uint32 lastTickTime;
 
