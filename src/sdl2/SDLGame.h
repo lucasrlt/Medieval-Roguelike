@@ -37,7 +37,9 @@ private:
   bool drawBigMap;
   
   bool withSound;
-  struct Mix_Chunk * sound;
+  struct _Mix_Music *backGroundMusic;
+  struct _Mix_Music *deathMusic;
+  struct Mix_Chunk *hitPlayerSound;
 
   Uint32 lastTickTime;
 

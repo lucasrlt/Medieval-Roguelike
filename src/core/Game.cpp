@@ -10,12 +10,8 @@ using namespace std;
 Game::~Game()
 {
     delete player;
-<<<<<<< HEAD
-    delete savage;
-=======
     if(savage != NULL)
         delete savage;
->>>>>>> dce8998638654f80c9d5e1bc59cd2b2fea759a1c
     if (ghost != NULL)
         delete ghost;
     if (item != NULL){
@@ -94,11 +90,6 @@ void Game::spawnSavage(){
     string leftSpriteSavage = "data/warrior_left.png";
     string rightSpriteSavage = "data/warrior_right.png";
 
-<<<<<<< HEAD
-    posSavage = {(float)tilemap->savageSpawns[0].x, (float)tilemap->savageSpawns[0].y};
-    
-    savage = new Savage(posSavage, force, healthSavage, strengthSavage, isDeadSavage, idleSpriteSavage, leftSpriteSavage, rightSpriteSavage);
-=======
     if(tilemap->savageSpawns.size() > 0)
     {
         posSavage = {(float)tilemap->savageSpawns[0].x, (float)tilemap->savageSpawns[0].y};
@@ -107,7 +98,6 @@ void Game::spawnSavage(){
     } 
     else 
         savage = NULL; 
->>>>>>> dce8998638654f80c9d5e1bc59cd2b2fea759a1c
 }
 
 void Game::spawnRegenItem(){
@@ -178,12 +168,7 @@ void Game::attackSword(){
             ghost->isDead = true;
         }
     }
-<<<<<<< HEAD
-
-    if((player->position.x <= savage->position.x + 1 && player->position.x >= savage->position.x - 1) && 
-=======
     if(savage != NULL && (player->position.x <= savage->position.x + 1 && player->position.x >= savage->position.x - 1) && 
->>>>>>> dce8998638654f80c9d5e1bc59cd2b2fea759a1c
     (player->position.y <= savage->position.y + 1 && player->position.y >= savage->position.y - 1))
     {
         savage->receiveDamage(player->weapon.damages);

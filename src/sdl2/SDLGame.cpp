@@ -152,13 +152,23 @@ SDLGame::SDLGame()
     font_im.setSurface(TTF_RenderText_Solid(font,"VOUS ETES MORT CHEH",font_color));
     font_im.loadFromCurrentSurface(renderer);
 
-<<<<<<< HEAD
     // SONS
     if (withSound)
     {
-        sound = Mix_LoadWAV("data/sounds/goat.wav");
-        if (sound == NULL) {
-            cout << "Failed to load goat.wav ! SDL_mixer Error: " << Mix_GetError() << endl; SDL_Quit(); exit(1);
+        hitPlayerSound = Mix_LoadWAV("data/sounds/hitPlayer.wav");
+        backGroundMusic = Mix_LoadMUS("data/sounds/backGroundMusic.wav");
+        deathMusic = Mix_LoadMUS("data/sounds/deathMusic.wav");
+
+        if (hitPlayerSound == NULL) {
+            cout << "Failed to load hitPlayer.wav ! SDL_mixer Error: " << Mix_GetError() << endl; SDL_Quit(); exit(1);
+        }
+
+        if (backGroundMusic == NULL) {
+            cout << "Failed to load backGroundMusic.wav ! SDL_mixer Error: " << Mix_GetError() << endl; SDL_Quit(); exit(1);
+        }
+
+        if(deathMusic == NULL){            
+            cout << "Failed to load deathMusic.wav ! SDL_mixer Error: " << Mix_GetError() << endl; SDL_Quit(); exit(1);
         }
     }
 
@@ -173,12 +183,11 @@ SDLGame::SDLGame()
     font = TTF_OpenFont("data/DejaVuSansCondensed.ttf",50);
     if (font == NULL) {
         cout << "Failed to load DejaVuSansCondensed.ttf! SDL_TTF Error: " << TTF_GetError() << endl; SDL_Quit(); exit(1);
-    }*//*
+    }
     font_color.r = 50;font_color.g = 50;font_color.b = 255;
     font_im.setSurface(TTF_RenderText_Solid(font,"Pacman",font_color));
     font_im.loadFromCurrentSurface(renderer);
-=======
->>>>>>> dce8998638654f80c9d5e1bc59cd2b2fea759a1c
+    */
 
 }
 
@@ -199,7 +208,6 @@ void SDLGame::SDLShow(const Game &g)
     if (!g.playerDead) {
         drawBackground(g);
         drawCurrentRoom(g);
-
         drawPlayerHeart(g);
         drawPlayer(g.getConstPlayer());
         drawEnemiesHeart(g);        
@@ -209,6 +217,7 @@ void SDLGame::SDLShow(const Game &g)
         drawMap(g, !drawBigMap);
     } else {
         drawDeathScreen();
+        withSound = false;
     }
 }
 
@@ -475,9 +484,12 @@ void SDLGame::SDLLoop(Game &g)
     left = false;
     stop = true;
 
+    Mix_Volume(-1, MIX_MAX_VOLUME/5);
+    Mix_PlayMusic(backGroundMusic, -1);
+
     // tant que ce n'est pas la fin ...
     while (!quit)
-    {       
+    {    
         lastTickTime = SDL_GetTicks();
 
         gh = g.getConstGhost();
@@ -560,12 +572,12 @@ void SDLGame::SDLLoop(Game &g)
         if (SDL_GetTicks() - hitTime < 250 && !g.playerDead) drawHitFilter();
 
         if (nt - t2 > 500)
-        {
+        {   
             if(g.checkSpikes() || gh->checkHit(p) || (s != NULL && s->checkHit(p)))
             {
                 if(withSound)
-                    Mix_PlayChannel(-1,sound,0);
-                    
+                    Mix_PlayChannel(-1,hitPlayerSound,0);
+
                 hitTime = SDL_GetTicks();
                 t2 = nt;
             } 
@@ -578,4 +590,7 @@ void SDLGame::SDLLoop(Game &g)
 
         SDL_Delay(16);
     }
+
+    Mix_FreeMusic(backGroundMusic);
+    Mix_CloseAudio();
 }
