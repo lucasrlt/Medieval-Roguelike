@@ -47,6 +47,7 @@
  <tile id="58" type="block"/>
  <tile id="61" type="block"/>
  <tile id="62" type="block"/>
+ <tile id="64" type="regen-hp"/>
  <tile id="65" type="platform"/>
  <tile id="66" type="platform"/>
  <tile id="67" type="platform"/>

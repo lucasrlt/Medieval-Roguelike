@@ -18,6 +18,7 @@
 #include "Player.h"
 #include "TileMap.h"
 #include "Projectile.h"
+#include "Item.h"
 
 using namespace std;
 
@@ -73,10 +74,14 @@ class Game
 
     Ghost *getConstGhost() const;
 
+    Item *getConstItems() const;
+
     void spawnGhost();
     void spawnSavage();
+    void spawnRegenItem();
 
     void attackSword();
+    void takeItem();
 
     /**
      * @brief Bouge le player.
@@ -103,6 +108,7 @@ class Game
     Player *player;
     Savage *savage;
     Ghost *ghost;
+    Item *item;
 
     TileMap *tilemap;
     DungeonGenerator dungeonGenerator;

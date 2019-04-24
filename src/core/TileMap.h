@@ -25,6 +25,7 @@ enum TileType
      spawn,
      spawnMonster,
      spawnMonsterSavage,
+     regenItem
 };
 //
 struct Tile
@@ -57,6 +58,7 @@ class TileMap
      ~TileMap();
      vector<Point> enemySpawns;
      vector<Point> savageSpawns;
+     vector<Point> itemSpawns;
      void init(const string &tilesetFile);
 
      const Tile &getXY(unsigned int x, unsigned int y) const;

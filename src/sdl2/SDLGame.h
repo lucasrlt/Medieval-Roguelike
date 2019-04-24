@@ -36,6 +36,11 @@ private:
   bool stop;
   bool drawBigMap;
   bool isSelectionScreen;
+  
+  bool withSound;
+  struct _Mix_Music *backGroundMusic;
+  struct _Mix_Music *deathMusic;
+  struct Mix_Chunk *hitPlayerSound;
 
   Uint32 lastTickTime;
 
@@ -54,6 +59,8 @@ private:
   Image ghostIdle;
   Image ghostLeft;
   Image ghostRight;
+
+  Image itemIdle;
 
   Image backgroundExterior;
   Image backgroundInterior;
@@ -87,6 +94,7 @@ private:
   void drawSelectionScreen();
   void drawEnemies(const Game &g);
   void drawEnemiesHeart(const Game &g);
+  void drawItemsRegen(const Game &g);
 
 
   /**
