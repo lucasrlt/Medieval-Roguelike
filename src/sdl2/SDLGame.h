@@ -35,6 +35,7 @@ private:
   bool right;
   bool stop;
   bool drawBigMap;
+  bool isSelectionScreen;
 
   Uint32 lastTickTime;
 
@@ -57,8 +58,16 @@ private:
   Image backgroundExterior;
   Image backgroundInterior;
 
+  Image deathScreen;
+  Image newGame;
+  
+  Image selectionScreen;
+  Image playButtonFont;
+  Image font_gameName;
+  Image htpButtonFont;
+  Image contactButtonFont;
+
   TTF_Font * font;
-  Image font_im;
   SDL_Color font_color;
 
   
@@ -75,6 +84,7 @@ private:
   void renderProjectiles(const Game &g);
   void drawHitFilter();
   void drawDeathScreen();
+  void drawSelectionScreen();
   void drawEnemies(const Game &g);
   void drawEnemiesHeart(const Game &g);
 
