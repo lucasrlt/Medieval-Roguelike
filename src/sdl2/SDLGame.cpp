@@ -138,26 +138,11 @@ SDLGame::SDLGame()
         cout << "Failed to load DejaVuSansCondensed.ttf! SDL_TTF Error: " << TTF_GetError() << endl; SDL_Quit(); exit(1);
     }
     font_color = {255, 255, 255};
-    font_im.setSurface(TTF_RenderText_Solid(font,"VOUS ETES MORT CHEH",font_color));
-    font_im.loadFromCurrentSurface(renderer);
+    //font_im.setSurface(TTF_RenderText_Solid(font,"VOUS ETES MORT CHEH",font_color));
+    //font_im.loadFromCurrentSurface(renderer);
 
-/*
-    // IMAGES //TODO : Ajouter les images
-    im_pacman.loadFromFile("data/pacman.png",renderer);
-    im_mur.loadFromFile("data/mur.png",renderer);
-    im_pastille.loadFromFile("data/pastille.png",renderer);
-    im_fantome.loadFromFile("data/fantome.png",renderer);
 
-    // FONTS
-    font = TTF_OpenFont("data/DejaVuSansCondensed.ttf",50);
-    if (font == NULL) {
-        cout << "Failed to load DejaVuSansCondensed.ttf! SDL_TTF Error: " << TTF_GetError() << endl; SDL_Quit(); exit(1);
-    }*//*
-    font_color.r = 50;font_color.g = 50;font_color.b = 255;
-    font_im.setSurface(TTF_RenderText_Solid(font,"Pacman",font_color));
-    font_im.loadFromCurrentSurface(renderer);
-
-*/}
+}
 
 SDLGame::~SDLGame()
 {
@@ -173,41 +158,25 @@ void SDLGame::SDLShow(const Game &g)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
 
-    if (!g.playerDead) {
-        drawBackground(g);
-        drawCurrentRoom(g);
-
-        drawPlayerHeart(g);
-        drawPlayer(g.getConstPlayer());
-        drawEnemiesHeart(g);        
-        drawEnemies(g);
-        drawProjectiles(g);
-        drawMap(g, !drawBigMap);
-    } else {
+    /*if(isSelectionScreen)
+        drawSelectionScreen();
+    else*/
+        if (!g.playerDead) 
+        {
+            drawBackground(g);
+            drawCurrentRoom(g);
+            drawPlayerHeart(g);
+            drawPlayer(g.getConstPlayer());
+            drawEnemiesHeart(g);        
+            drawEnemies(g);
+            drawProjectiles(g);
+            drawMap(g, !drawBigMap);
+        } 
+    else {
         drawDeathScreen();
     }
 }
-/*
-    Game game;
-    int x,y;
-    const Room& ro = game.getConstRoom();
-    const Player& pl = game.getConstPlayer();
-//const Ennemies& en = game.getConstEnnemies();
 
-
-  // Afficher le sprite de Pacman
-  im_pacman.draw(renderer,pac.getX()*TAILLE_SPRITE,pac.getY()*TAILLE_SPRITE,TAILLE_SPRITE,TAILLE_SPRITE);
-
-  // Afficher le sprite du Fantome
-  im_fantome.draw(renderer,fan.getX()*TAILLE_SPRITE,fan.getY()*TAILLE_SPRITE,TAILLE_SPRITE,TAILLE_SPRITE);
-
-  // Ecrire un titre par dessus
-  SDL_Rect positionTitre;
-  positionTitre.x = 270;positionTitre.y = 49;positionTitre.w = 100;positionTitre.h = 30;
-  SDL_RenderCopy(renderer,font_im.getTexture(),NULL,&positionTitre);
-
-}
-*/
 void SDLGame::drawBackground(const Game &g) {
     const Room& r = g.getConstRoom(g.getCurrentRoomX(), g.getCurrentRoomY());
 
@@ -327,17 +296,80 @@ void SDLGame::drawHitFilter() {
 }
 
 void SDLGame::drawDeathScreen() {
-    SDL_SetRenderDrawColor(renderer, 80, 0, 0, 255);
-    
-    SDL_Rect r = {0, 0, dimx, dimy};
-    SDL_RenderFillRect(renderer, &r);
+    deathScreen.loadFromFile("data/deathscreen.jpg", renderer);
+    deathScreen.draw(renderer,0,0,dimx,dimy);
 
-    SDL_Rect positionTitre;
-    positionTitre.x = dimx / 2 - 300; 
-    positionTitre.y = dimy / 2 - 100;
-    positionTitre.w = 600;
-    positionTitre.h = 200;
-    SDL_RenderCopy(renderer,font_im.getTexture(),NULL,&positionTitre);
+    //font_color = {255, 0, 0};
+
+    newGame.setSurface(TTF_RenderText_Solid(font,"NOUVELLE PARTIE",font_color));
+    newGame.loadFromCurrentSurface(renderer);
+
+    SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
+
+    SDL_Rect newGameButton;
+    newGameButton.x = dimx / 2 - 100; 
+    newGameButton.y = dimy / 2 + 200;
+    newGameButton.w = 200;
+    newGameButton.h = 50;
+
+    SDL_RenderFillRect(renderer,&newGameButton);
+    SDL_RenderCopy(renderer,newGame.getTexture(),NULL,&newGameButton);
+}
+
+void SDLGame::drawSelectionScreen() 
+{
+    
+    selectionScreen.loadFromFile("data/pixelart-1556009879434-1876.jpg", renderer);
+    selectionScreen.draw(renderer,0,0,dimx,dimy);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200);
+
+
+    playButtonFont.setSurface(TTF_RenderText_Solid(font,"NOUVELLE PARTIE",font_color));
+    playButtonFont.loadFromCurrentSurface(renderer);
+
+    SDL_Rect playButton;
+    playButton.x = dimx / 2 - 120; 
+    playButton.y = dimy / 2;
+    playButton.w = 200;
+    playButton.h = 50;
+
+    font_gameName.setSurface(TTF_RenderText_Solid(font,"MEDIEVAL ROGUE-LIKE",font_color));
+    font_gameName.loadFromCurrentSurface(renderer);
+
+    SDL_Rect gameTitle;
+    gameTitle.x = 0; 
+    gameTitle.y = 0;
+    gameTitle.w = dimx;
+    gameTitle.h = 150;
+
+    htpButtonFont.setSurface(TTF_RenderText_Solid(font,"COMMENT JOUER?",font_color));
+    htpButtonFont.loadFromCurrentSurface(renderer);
+
+    SDL_Rect htpButton;
+    htpButton.x = dimx / 2 - 120; 
+    htpButton.y = dimy / 2 + 100;
+    htpButton.w = 200;
+    htpButton.h = 50;
+
+    contactButtonFont.setSurface(TTF_RenderText_Solid(font,"NOUS CONTACTER",font_color));
+    contactButtonFont.loadFromCurrentSurface(renderer);
+
+    SDL_Rect contactButton;
+    contactButton.x = dimx / 2 - 120; 
+    contactButton.y = dimy / 2 + 200;
+    contactButton.w = 200;
+    contactButton.h = 50;
+
+    SDL_RenderFillRect(renderer,&playButton);
+    SDL_RenderFillRect(renderer,&gameTitle);
+    SDL_RenderFillRect(renderer,&htpButton);
+    SDL_RenderFillRect(renderer,&contactButton);
+
+    SDL_RenderCopy(renderer,playButtonFont.getTexture(),NULL,&playButton);
+    SDL_RenderCopy(renderer,font_gameName.getTexture(),NULL,&gameTitle);
+    SDL_RenderCopy(renderer,htpButtonFont.getTexture(),NULL,&htpButton);
+    SDL_RenderCopy(renderer,contactButtonFont.getTexture(),NULL,&contactButton);
+
 }
 
 void SDLGame::drawMap(const Game& g, bool minimap) {
@@ -424,6 +456,7 @@ void SDLGame::SDLLoop(Game &g)
     drawBigMap = false;
     isPlayerAttacking = false;
 
+    isSelectionScreen = true;
 
     // Charge les sprites du Ghosts (faire tableau de Ghost après).
     gh->idleSprite = "data/warrior_front.png";

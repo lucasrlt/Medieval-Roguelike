@@ -1,4 +1,4 @@
-CORE =  core/Entity.cpp core/Game.cpp core/Projectile.cpp core/Weapon.cpp core/Player.cpp core/Room.cpp core/Vector2D.cpp core/DungeonGenerator.cpp core/TileMap.cpp core/Ghost.cpp core/Savage.cpp
+CORE =  core/Entity.cpp core/Game.cpp core/Projectile.cpp core/Weapon.cpp core/Player.cpp core/Room.cpp core/Vector2D.cpp core/DungeonGenerator.cpp core/TileMap.cpp core/Ghost.cpp core/Savage.cpp core/Item.cpp
 
 SRCS_TXT = $(CORE) txt/TXTGame.cpp txt/WinTXT.cpp txt/main_txt.cpp
 FINAL_TARGET_TXT = medieval_roguelike_txt
@@ -27,7 +27,7 @@ ifeq ($(OS),Windows_NT)
 
 else
 	INCLUDE_DIR_SDL = -I/usr/include/SDL2 -I/usr/local/include/SDL2
-	LIBS_SDL = -lSDL2 -lSDL2_ttf -lSDL2_image
+	LIBS_SDL = -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer
 endif
 
 CC					= g++

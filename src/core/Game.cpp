@@ -14,6 +14,9 @@ Game::~Game()
         delete savage;
     if (ghost != NULL)
         delete ghost;
+    if (item != NULL){
+        delete item;
+    }
     delete tilemap;
 
     for (int i = 0; i < MAZE_SIZE; i++)
@@ -47,7 +50,12 @@ Savage *Game::getConstSavage() const
 
 Ghost *Game::getConstGhost() const
 {
-    return ghost;
+    return ghost;   
+}
+
+Item *Game::getConstItems() const
+{
+    return item;
 }
 
 void Game::spawnGhost(){
@@ -92,6 +100,19 @@ void Game::spawnSavage(){
         savage = NULL; 
 }
 
+void Game::spawnRegenItem(){
+    string pathName = "data/burger.png";
+    bool isTakenItem = false;
+    Vector2D posItem;
+    if (tilemap->itemSpawns.size() > 0) {
+        posItem = {(float)tilemap->itemSpawns[0].x, (float)tilemap->itemSpawns[0].y};
+        item = new Item(posItem, pathName, isTakenItem);
+    }
+    else{
+        item = NULL;
+    }
+}
+
 int Game::getCurrentRoomX() const { return currRoomX; }
 int Game::getCurrentRoomY() const { return currRoomY; }
 
@@ -134,6 +155,7 @@ void Game::initDungeon()
 
     spawnGhost();
     spawnSavage();
+    spawnRegenItem();
 }
 
 void Game::attackSword(){
@@ -153,6 +175,16 @@ void Game::attackSword(){
         if(savage->getHealth() <= 0)
         {
            savage->isDeadSavage = true;
+        }
+    }
+}
+
+void Game::takeItem(){
+    if((player->position.x <= item->position.x + 1 && player->position.x >= item->position.x - 1) && 
+    (player->position.y <= item->position.y + 1 && player->position.y >= item->position.y - 1)){
+        if(!item->isTaken){
+            item->isTaken = true;
+            player->receiveDamage(-3);
         }
     }
 }
@@ -182,6 +214,9 @@ void Game::keyboardActions(char action)
     case 'h':
         attackSword();
         break;
+    case 'd':
+        takeItem();
+        break;
     default:
         break;
     }
@@ -199,6 +234,10 @@ void Game::automaticActions(float dt)
         playerDead = true;
     }
     projectileHitEnnemy();
+
+    if(item != NULL){
+        takeItem();
+    }
 }
 
 bool Game::checkSpikes()
@@ -252,6 +291,7 @@ void Game::changeRoom(char direction)
     projectiles.clear();
     spawnGhost();
     spawnSavage();
+    spawnRegenItem();
 }
 
 
@@ -272,6 +312,7 @@ void Game::playerShoot(bool right)
     Projectile p(position, velocity, PROJECTILE_DAMAGES, "data/blanc.jpg");
     projectiles.push_back(p);      
 }
+
 void Game::projectileHitEnnemy()
 {
     for(int i = 0; i < projectiles.size(); i++)
