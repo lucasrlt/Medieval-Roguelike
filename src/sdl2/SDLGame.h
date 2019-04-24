@@ -34,13 +34,21 @@ private:
   bool left;
   bool right;
   bool stop;
+  bool isPlayerAttacking;
+  bool isPlayerShooting;
   bool drawBigMap;
 
   Uint32 lastTickTime;
+  Uint32 playerAttackTime;
+  Uint32 playerShootTime;
 
-  Image projectile;
+  Image projectileLeft;
+  Image projectileRight;
 
   Image playerImages;
+  Image playerAttackAnimation;
+  Image playerShootAnimation;
+
   int currPlayerSprite;
   Image playerIdle;
   Image playerLeft;

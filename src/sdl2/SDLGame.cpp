@@ -260,21 +260,25 @@ void SDLGame::drawEnemiesHeart(const Game &g){
 
 void SDLGame::drawPlayer(Player *player)
 {
-    const int numSprites = 9;
+    int direction = (left ? 0 : (right ? 2 : 1));
+    const int numSprites = 7;
+    const int spriteWidth = 258;
 
-    Uint32 currentTime = SDL_GetTicks();
-    Uint32 interval = currentTime - lastTickTime;
+    if (SDL_GetTicks() - lastTickTime > 100) {
+        currPlayerSprite++;
+        if (currPlayerSprite > numSprites) currPlayerSprite = 0;
 
-    // SDL_Rect clipRect = {currPlayerSprite * }
-    if (left) {
-        playerLeft.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+        lastTickTime = SDL_GetTicks();
     }
-    else if (right) {
-        playerRight.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
-    }
-    else if (stop) {
-        playerIdle.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
-    }
+
+    SDL_Rect clipRect = {currPlayerSprite * spriteWidth, direction * spriteWidth, spriteWidth, spriteWidth};
+    SDL_Rect destRect = {(int) (player->position.x * TILE_SIZE * SCALE), 
+                         (int) (player->position.y * TILE_SIZE * SCALE),
+                        TILE_SIZE * SCALE,
+                        TILE_SIZE * SCALE};
+
+    Image imgToDisplay = (isPlayerAttacking ? playerAttackAnimation : (isPlayerShooting ? playerShootAnimation : playerImages));
+    SDL_RenderCopy(renderer, imgToDisplay.getTexture(), &clipRect, &destRect);
 }
 
 void SDLGame::drawEnemies(const Game &game){
@@ -304,14 +308,14 @@ void SDLGame::drawEnemies(const Game &game){
 }
 
 void SDLGame::drawProjectiles(const Game &g)
-{
-    projectile.loadFromFile("data/blanc.jpg",renderer);
-    
+{    
+    Image imgToDisplay;
     for(int i = 0; i < g.projectiles.size(); i++)
     {
         if(g.projectiles[i].isHit == false)
         {
-            projectile.draw(renderer,g.projectiles[i].position.x * TILE_SIZE * SCALE,g.projectiles[i].position.y * TILE_SIZE * SCALE,16,16);
+            imgToDisplay = g.projectiles[i].isGoingRight() ? projectileRight : projectileLeft;
+            imgToDisplay.draw(renderer,g.projectiles[i].position.x * TILE_SIZE * SCALE,g.projectiles[i].position.y * TILE_SIZE * SCALE,16,16);
         } 
     }
 }
@@ -418,6 +422,7 @@ void SDLGame::SDLLoop(Game &g)
     Ghost *gh = g.getConstGhost();
     const TileMap &tm = g.getConstTilemap();
     drawBigMap = false;
+    isPlayerAttacking = false;
 
 
     // Charge les sprites du Ghosts (faire tableau de Ghost après).
@@ -449,6 +454,13 @@ void SDLGame::SDLLoop(Game &g)
 
     p->rightSprite = "data/warrior_right.png";
     playerRight.loadFromFile(p->rightSprite.c_str(), renderer);
+
+    projectileRight.loadFromFile("data/arrow_right.png",renderer);
+    projectileLeft.loadFromFile("data/arrow_left.png", renderer);
+
+    playerImages.loadFromFile("data/player_sprites.png", renderer);
+    playerAttackAnimation.loadFromFile("data/player_attack_sprites.png", renderer);
+    playerShootAnimation.loadFromFile("data/player_shoot_sprites.png", renderer);
     
     SDL_Event events;
     bool quit = false;
@@ -460,9 +472,9 @@ void SDLGame::SDLLoop(Game &g)
     stop = true;
 
     // tant que ce n'est pas la fin ...
+        lastTickTime = SDL_GetTicks();
     while (!quit)
     {       
-        lastTickTime = SDL_GetTicks();
 
         gh = g.getConstGhost();
         s = g.getConstSavage();
@@ -496,10 +508,17 @@ void SDLGame::SDLLoop(Game &g)
                         g.keyboardActions('t');
                         break;
                     case SDL_SCANCODE_SPACE:
-                        g.keyboardActions('e');
+                        if (!isPlayerShooting) {
+                            g.keyboardActions('e');
+                            isPlayerShooting = true;
+                            playerShootTime = SDL_GetTicks();
+                        }
                         break;
                     case SDL_SCANCODE_H:
                         g.keyboardActions('h');
+
+                        isPlayerAttacking = true;
+                        playerAttackTime = SDL_GetTicks();
                         break;
                     case SDL_SCANCODE_TAB:
                         drawBigMap = true;
@@ -548,6 +567,15 @@ void SDLGame::SDLLoop(Game &g)
             } 
         }
         t = nt;
+
+        if (isPlayerAttacking && SDL_GetTicks() - playerAttackTime > 800) {
+            isPlayerAttacking = false;
+        }
+
+
+        if (isPlayerShooting && SDL_GetTicks() - playerShootTime > 500) {
+            isPlayerShooting = false;
+        }
 
 
         // on permute les deux buffers (cette fonction ne doit se faire qu'une seule fois dans la boucle)

@@ -12,6 +12,8 @@ Player::Player()
     leftSprite = " ";
     rightSprite = " ";
     currentJumpHeight = 0;
+
+    movingRight = true;
 }
 
 Player::Player(Vector2D positionInit, Vector2D forceInit, int healthInit, int energyInit, int shieldInit, 
@@ -25,6 +27,8 @@ Player::Player(Vector2D positionInit, Vector2D forceInit, int healthInit, int en
     idleSprite = spriteNameIdle;
     leftSprite = spriteNameLeft;
     rightSprite = spriteNameRight;
+
+    movingRight = true;
 }
 
 Player::~Player()
