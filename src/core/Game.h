@@ -83,6 +83,7 @@ class Game
     void attackSword();
     void takeItem();
 
+
     /**
      * @brief Bouge le player.
      * 

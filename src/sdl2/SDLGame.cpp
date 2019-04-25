@@ -158,23 +158,30 @@ void SDLGame::SDLShow(const Game &g)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
 
-    /*if(isSelectionScreen)
+    bool newGame = clickOnButton();
+    
+    if(isSelectionScreen)
         drawSelectionScreen();
-    else*/
-        if (!g.playerDead) 
+        if(newGame)
         {
-            drawBackground(g);
-            drawCurrentRoom(g);
-            drawPlayerHeart(g);
-            drawPlayer(g.getConstPlayer());
-            drawEnemiesHeart(g);        
-            drawEnemies(g);
-            drawProjectiles(g);
-            drawMap(g, !drawBigMap);
-        } 
-    else {
-        drawDeathScreen();
-    }
+            isSelectionScreen = false;
+            if (!g.playerDead) 
+            {
+                drawBackground(g);
+                drawCurrentRoom(g);
+                drawPlayerHeart(g);
+                drawPlayer(g.getConstPlayer());
+                drawEnemiesHeart(g);        
+                drawEnemies(g);
+                drawProjectiles(g);
+                drawMap(g, !drawBigMap);
+            } 
+            else 
+            {
+                drawDeathScreen();
+            }
+        }
+        
 }
 
 void SDLGame::drawBackground(const Game &g) {
@@ -367,6 +374,20 @@ void SDLGame::drawSelectionScreen()
     SDL_RenderCopy(renderer,contactButtonFont.getTexture(),NULL,&contactButton);
 
 }
+
+bool SDLGame::clickOnButton()
+{
+    int xm,ym;
+    SDL_GetMouseState(&xm,&ym);
+
+    if((xm > dimx/2-120) && (xm < dimx/2 + 80) && (ym > dimy/2) && (ym < dimy/2 + 50))
+    {
+        return true;
+    }
+
+    return false;
+}
+
 
 void SDLGame::drawMap(const Game& g, bool minimap) {
     SDL_Rect r = {0, 0, 0, 0}; // sera utilisé pour l'affichage des rectangles
@@ -562,6 +583,19 @@ void SDLGame::SDLLoop(Game &g)
                     }
                 }
             }
+            else if (events.type == SDL_MOUSEBUTTONDOWN)
+            {
+                switch (events.key.keysym.scancode)
+                {
+                    case SDL_BUTTON_LEFT:
+                //SDL_GetMouseState(&xm,&ym);
+                    clickOnButton();
+                    break;
+
+                    default: break;
+                }
+            }
+            
         }
 
         p->updatePosition(tm, deltaTime);

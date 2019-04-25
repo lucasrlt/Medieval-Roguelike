@@ -96,7 +96,7 @@ private:
   void drawEnemiesHeart(const Game &g);
   void drawItemsRegen(const Game &g);
 
-
+  bool clickOnButton();
   /**
    * @brief Affiche la carte du niveau sur l'écran du joueur.
    * 
