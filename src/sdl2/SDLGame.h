@@ -8,38 +8,27 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
+#include "Image.h"
+#include "Animator.h"
 #include "../core/Game.h"
 #include "../core/Room.h"
 
-
-class Image
-{
-
-private:
-  SDL_Surface *surface;
-  bool has_changed;
-
-public:
-  SDL_Texture *texture;
-  Image();
-  void loadFromFile(const char *filename, SDL_Renderer *renderer);
-  void loadFromCurrentSurface(SDL_Renderer *renderer);
-  void draw(SDL_Renderer *renderer, int x, int y, int w = -1, int h = -1);
-  SDL_Texture *getTexture() const;
-  void setSurface(SDL_Surface *surf);
-};
+const int SCALE = 3;
+const int dimx = GRID_SIZE * TILE_SIZE * SCALE;
+const int dimy = GRID_SIZE * TILE_SIZE * SCALE;
+const int numSprites = 7;
 
 class SDLGame
 {
 private:
+  /* ==== GESTION DE L'ETAT DU JEU ==== */
   bool left;
   bool right;
   bool stop;
-  bool isPlayerAttacking;
-  bool isPlayerShooting;
   bool drawBigMap;
   bool isSelectionScreen;
   
+  /* ==== GESTION DU SON ==== */
   bool withSound;
   struct _Mix_Music *backGroundMusic;
   struct _Mix_Music *deathMusic;
@@ -47,29 +36,27 @@ private:
   struct Mix_Chunk *playerAttackSwordSound;
   struct Mix_Chunk *playerProjectileSound;
 
+  /* ==== GESTION DES ANIMATIONS ==== */
+  bool isGhostAttacking;
+  Animator ghostAnimator;
+
+  bool isSavageAttacking;
+  Animator savageAnimator;
+
+  bool isPlayerAttacking;
+  bool isPlayerShooting;
+  Animator playerAnimator;
+
+  /* ---- GESTION DU TEMPS ---- */
   Uint32 lastTickTime;
   Uint32 playerAttackTime;
   Uint32 playerShootTime;
 
+  /* ==== IMAGES ==== */
+  Image playerIdle;
+  
   Image projectileLeft;
   Image projectileRight;
-
-  Image playerImages;
-  Image playerAttackAnimation;
-  Image playerShootAnimation;
-
-  int currPlayerSprite;
-  Image playerIdle;
-  Image playerLeft;
-  Image playerRight;
-
-  Image savageIdle;
-  Image savageLeft;
-  Image savageRight;
-
-  Image ghostIdle;
-  Image ghostLeft;
-  Image ghostRight;
 
   Image itemIdle;
 
@@ -94,6 +81,7 @@ private:
   Image tilesetImg;
   Image heartSprite;
 
+  /* ==== FONCTIONS D'AFFICHAGE ==== */
   void drawCurrentRoom(const Game &g);
   void drawPlayer(Player *player);
 
@@ -107,6 +95,18 @@ private:
   void drawEnemiesHeart(const Game &g);
   void drawItemsRegen(const Game &g);
 
+  /**
+   * @brief Dessine un ennemi (fantôme ou sauvage) avec son animation.
+   * 
+   * @param pos position absolue de l'ennemi
+   * @param animator animator lié à l'ennemi
+   * @param goingRight direction de l'ennemi (droite/gauche)
+   * @param isAttacking si vrai, l'animation d'attaque est affichée
+   * @param isDead  si vrai, affiche l'animation de mort
+   */
+  void drawEnemy(Vector2D pos, Animator animator, bool goingRight, bool isAttacking, bool isDead);
+
+
 
   /**
    * @brief Affiche la carte du niveau sur l'écran du joueur.
@@ -119,18 +119,13 @@ private:
   
   
   void drawProjectiles(const Game &g);
-  //TTF_Font * font;
-  //Image font_im;
-  //SDL_Color font_color;
+
 
 public:
   SDLGame();
   ~SDLGame();
   void SDLLoop(Game &g);
   void SDLShow(const Game &g);
-  //Image im_mur;
-  //Image im_pastille;
-  //Image im_fantome;
 };
 
 #endif //MEDIEVAL_ROGUELIKE_SDLGAME_H

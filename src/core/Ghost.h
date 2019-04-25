@@ -21,7 +21,6 @@ class Player;
  */
 class Ghost : public Entity{
     public:
-    bool isDead;
     
     Ghost();
     /**

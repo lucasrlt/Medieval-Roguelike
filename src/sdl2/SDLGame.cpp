@@ -14,91 +14,6 @@
 #include "../core/Projectile.h"
 using namespace std;
 
-const int SCALE = 3;
-const int dimx = GRID_SIZE * TILE_SIZE * SCALE;
-const int dimy = GRID_SIZE * TILE_SIZE * SCALE;
-
-Image::Image()
-{
-    surface = nullptr;
-    texture = nullptr;
-    has_changed = false;
-}
-
-void Image::loadFromFile(const char *filename, SDL_Renderer *renderer)
-{
-    surface = IMG_Load(filename);
-    if (surface == nullptr)
-    {
-        string nfn = string("../") + filename;
-        cout << "Error: cannot load " << filename << ". Trying " << nfn << endl;
-        surface = IMG_Load(nfn.c_str());
-        if (surface == nullptr)
-        {
-            nfn = string("../") + nfn;
-            surface = IMG_Load(nfn.c_str());
-        }
-    }
-    if (surface == nullptr)
-    {
-        cout << "Error: cannot load " << filename << endl;
-        exit(1);
-    }
-
-    SDL_Surface *surfaceCorrectPixelFormat = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_ARGB8888, 0);
-    SDL_FreeSurface(surface);
-    surface = surfaceCorrectPixelFormat;
-
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
-    if (texture == nullptr)
-    {
-        cout << "Error: problem to create the texture of " << filename << endl;
-        exit(1);
-    }
-    SDL_FreeSurface(surfaceCorrectPixelFormat);
-}
-
-void Image::loadFromCurrentSurface(SDL_Renderer *renderer)
-{
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
-    if (texture == nullptr)
-    {
-        cout << "Error: problem to create the texture from surface " << endl;
-        exit(1);
-    }
-}
-
-void Image::draw(SDL_Renderer *renderer, int x, int y, int w, int h)
-{
-    int ok;
-    SDL_Rect r;
-    r.x = x;
-    r.y = y;
-    r.w = (w < 0) ? surface->w : w;
-    r.h = (h < 0) ? surface->h : h;
-
-    if (has_changed)
-    {
-        ok = SDL_UpdateTexture(texture, nullptr, surface->pixels, surface->pitch);
-        assert(ok == 0);
-        has_changed = false;
-    }
-
-    ok = SDL_RenderCopy(renderer, texture, nullptr, &r);
-    assert(ok == 0);
-}
-
-SDL_Texture *Image::getTexture() const
-{
-    return texture;
-}
-
-void Image::setSurface(SDL_Surface *surf)
-{
-    surface = surf;
-}
-//-------------------------------------------------------------------------------------------------------------------//
-
 SDLGame::SDLGame()
 {
     withSound = true;
@@ -261,7 +176,7 @@ void SDLGame::drawEnemiesHeart(const Game &g){
             heartSprite.draw(renderer, (g.getConstGhost()->position.x * SCALE * 16) + (i * (SCALE + 10)) + 5, g.getConstGhost()->position.y * SCALE * 16 -20, 4 * SCALE, 4 * SCALE);
         }
     }
-    if(g.getConstSavage() != NULL && g.getConstSavage()->isDeadSavage == false){
+    if(g.getConstSavage() != NULL && !g.getConstSavage()->isDead){
         for(int i = 0 ; i < g.getConstSavage()->getHealth() ; i++)
         {
             heartSprite.draw(renderer, (g.getConstSavage()->position.x * SCALE * 16) + (i * (SCALE + 10)) -8, g.getConstSavage()->position.y * SCALE * 16 -20, 4 * SCALE, 4 * SCALE);
@@ -280,50 +195,42 @@ void SDLGame::drawItemsRegen(const Game &game){
 
 void SDLGame::drawPlayer(Player *player)
 {
-    int direction = (left ? 0 : (right ? 2 : 1));
-    const int numSprites = 7;
-    const int spriteWidth = 258;
+    int spritesheetRow = 1;
+    if (isPlayerAttacking) spritesheetRow = 0;
+    else if (isPlayerShooting) spritesheetRow = 2;
 
-    if (SDL_GetTicks() - lastTickTime > 100) {
-        currPlayerSprite++;
-        if (currPlayerSprite > numSprites) currPlayerSprite = 0;
-
-        lastTickTime = SDL_GetTicks();
-    }
-
-    SDL_Rect clipRect = {currPlayerSprite * spriteWidth, direction * spriteWidth, spriteWidth, spriteWidth};
-    SDL_Rect destRect = {(int) (player->position.x * TILE_SIZE * SCALE), 
-                         (int) (player->position.y * TILE_SIZE * SCALE),
-                        TILE_SIZE * SCALE,
-                        TILE_SIZE * SCALE};
-
-    Image imgToDisplay = (isPlayerAttacking ? playerAttackAnimation : (isPlayerShooting ? playerShootAnimation : playerImages));
-    SDL_RenderCopy(renderer, imgToDisplay.getTexture(), &clipRect, &destRect);
+    playerAnimator.draw(renderer, player->position, spritesheetRow, player->movingRight);
 }
 
-void SDLGame::drawEnemies(const Game &game){
-    // savageLeft.draw(renderer, game.getConstSavage()->position.x * TILE_SIZE * SCALE, game.getConstSavage()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
-    if(game.getConstGhost()->isDead == false) 
-    {
-        if(game.getConstGhost()->position.x < game.getConstPlayer()->position.x)
-            ghostRight.draw(renderer, game.getConstGhost()->position.x * TILE_SIZE * SCALE, game.getConstGhost()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
-
-        else if(game.getConstGhost()->position.x > game.getConstPlayer()->position.x)
-            ghostLeft.draw(renderer, game.getConstGhost()->position.x * TILE_SIZE * SCALE, game.getConstGhost()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
-    
-        else if(game.getConstGhost()->position.x == game.getConstPlayer()->position.x)
-            ghostIdle.draw(renderer, game.getConstGhost()->position.x * TILE_SIZE * SCALE, game.getConstGhost()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+void SDLGame::drawEnemy(Vector2D pos, Animator animator, bool goingRight, bool isAttacking, bool isDead) {
+    if (isDead) {
+        animator.draw(renderer, pos, 2, goingRight);
+    } else {
+        if (isAttacking) {
+            animator.draw(renderer, pos, 1, goingRight);
+        } else {
+            animator.draw(renderer, pos, 0, goingRight);
+        }
     }
-    if(game.getConstSavage() != NULL && game.getConstSavage()->isDeadSavage == false) 
-    {
-        if(game.getConstSavage()->position.x < game.getConstPlayer()->position.x)
-            savageRight.draw(renderer, game.getConstSavage()->position.x * TILE_SIZE * SCALE, game.getConstSavage()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
 
-        else if(game.getConstSavage()->position.x > game.getConstPlayer()->position.x)
-            savageLeft.draw(renderer, game.getConstSavage()->position.x * TILE_SIZE * SCALE, game.getConstSavage()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
-    
-        else if(game.getConstSavage()->position.x == game.getConstPlayer()->position.x)
-            savageIdle.draw(renderer, game.getConstSavage()->position.x * TILE_SIZE * SCALE, game.getConstSavage()->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+}
+
+void SDLGame::drawEnemies(const Game &g){
+    const Ghost* ghost = g.getConstGhost();
+    const Savage* savage = g.getConstSavage();
+
+    const Player* player = g.getConstPlayer();
+
+    bool goingLeft = true;
+    if (ghost != NULL && !ghost->isDead) {
+        if (ghost->position.x <= player->position.x) goingLeft = false;
+        drawEnemy(ghost->position, ghostAnimator, goingLeft, isGhostAttacking, ghost->isDead);
+    }
+
+    if (savage != NULL && !savage->isDead) {
+        goingLeft = false;
+        if (savage-> position.x <= player->position.x) goingLeft = true;
+        drawEnemy(savage->position, savageAnimator, goingLeft, isSavageAttacking, savage->isDead);
     }
 }
 
@@ -511,42 +418,22 @@ void SDLGame::SDLLoop(Game &g)
     
     isSelectionScreen = true;
 
-    // Charge les sprites du Ghosts (faire tableau de Ghost après).
-    // gh->idleSprite = "data/warrior_front.png";
-    ghostIdle.loadFromFile(gh->idleSprite.c_str(), renderer);
 
-    // gh->leftSprite = "data/warrior_left.png";
-    ghostLeft.loadFromFile(gh->leftSprite.c_str(), renderer);
-
-    // gh->idleSprite = "data/warrior_right.png";
-    ghostRight.loadFromFile(gh->rightSprite.c_str(), renderer);
-
-    // Charge les sprites du Savages (faire tableau de Savage après).
-    // s->idleSprite = "data/warrior_front.png";
-    savageIdle.loadFromFile("data/warrior_front.png", renderer);
-
-    // s->leftSprite = "data/warrior_left.png";
-    savageLeft.loadFromFile("data/warrior_left.png", renderer);
-
-    // s->rightSprite = "data/warrior_right.png";
-    savageRight.loadFromFile("data/warrior_right.png", renderer);
+    ghostAnimator.init(renderer, "data/ghost_spritesheet.png", 6, 258);
+    playerAnimator.init(renderer, "data/player_spritesheet.png", 7, 258);
+    savageAnimator.init(renderer, "data/savage_spritesheet.png", 7, 258);
+    
 
     // Charge les sprites du Player.
     p->idleSprite = "data/warrior_front.png";
     playerIdle.loadFromFile(p->idleSprite.c_str(), renderer); // Charge les sprite du joueur
 
-    p->leftSprite = "data/warrior_left.png";
-    playerLeft.loadFromFile(p->leftSprite.c_str(), renderer);
-
-    p->rightSprite = "data/warrior_right.png";
-    playerRight.loadFromFile(p->rightSprite.c_str(), renderer);
-
     projectileRight.loadFromFile("data/arrow_right.png",renderer);
     projectileLeft.loadFromFile("data/arrow_left.png", renderer);
 
-    playerImages.loadFromFile("data/player_sprites.png", renderer);
-    playerAttackAnimation.loadFromFile("data/player_attack_sprites.png", renderer);
-    playerShootAnimation.loadFromFile("data/player_shoot_sprites.png", renderer);
+    // playerImages.loadFromFile("data/player_sprites.png", renderer);
+    // playerAttackAnimation.loadFromFile("data/player_attack_sprites.png", renderer);
+    // playerShootAnimation.loadFromFile("data/player_shoot_sprites.png", renderer);
     
     SDL_Event events;
     bool quit = false;
@@ -652,7 +539,9 @@ void SDLGame::SDLLoop(Game &g)
 
         if (nt - t2 > 500)
         {
-            if(g.checkSpikes() || gh->checkHit(p) || (s != NULL && s->checkHit(p)))
+            isGhostAttacking = gh->checkHit(p);
+            isSavageAttacking = (s != NULL && s->checkHit(p));
+            if(g.checkSpikes() || isGhostAttacking || isSavageAttacking)
             {
                 if(withSound)
                     Mix_PlayChannel(0,hitPlayerSound,0);

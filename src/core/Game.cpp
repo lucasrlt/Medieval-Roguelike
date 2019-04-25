@@ -84,7 +84,7 @@ void Game::spawnSavage(){
     Vector2D posSavage;
     int healthSavage = 5;
     int strengthSavage = 3;
-    bool isDeadSavage = false;
+    bool isDead = false;
     Vector2D force(0, 0);
     string idleSpriteSavage = "data/warrior_front.png";
     string leftSpriteSavage = "data/warrior_left.png";
@@ -93,7 +93,7 @@ void Game::spawnSavage(){
     if(tilemap->savageSpawns.size() > 0)
     {
         posSavage = {(float)tilemap->savageSpawns[0].x, (float)tilemap->savageSpawns[0].y};
-        savage = new Savage(posSavage, force, healthSavage, strengthSavage, isDeadSavage, idleSpriteSavage,
+        savage = new Savage(posSavage, force, healthSavage, strengthSavage, isDead, idleSpriteSavage,
                              leftSpriteSavage, rightSpriteSavage);
     } 
     else 
@@ -174,7 +174,7 @@ void Game::attackSword(){
         savage->receiveDamage(player->weapon.damages);
         if(savage->getHealth() <= 0)
         {
-           savage->isDeadSavage = true;
+           savage->isDead = true;
         }
     }
 }
@@ -336,7 +336,7 @@ void Game::projectileHitEnnemy()
             
             if(savage->getHealth() <= 0)
             {
-                savage -> isDeadSavage = true;
+                savage -> isDead = true;
             } 
         }
     }

@@ -22,7 +22,6 @@ float const SAVAGE_SPEED = 3;
 class Savage : public Entity{
     public:
     Savage();
-    bool isDeadSavage;
     /**
      * @brief Constructeur d'un ennemi de mêlée.
      * 
