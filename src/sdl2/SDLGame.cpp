@@ -101,6 +101,7 @@ void Image::setSurface(SDL_Surface *surf)
 
 SDLGame::SDLGame()
 {
+    withSound = true;
     // Initialisation de la SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
@@ -115,6 +116,18 @@ SDLGame::SDLGame()
         SDL_Quit();
         exit(1);
     }
+
+    if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+    {
+        cout << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << endl;
+        cout << "No sound !!!" << endl;
+        //SDL_Quit();exit(1);
+        withSound = false;
+    }
+    else{
+        withSound = true;
+    }
+
 
     // Creation de la fenetre
     window = SDL_CreateWindow("Medieval Rogue-Like", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, dimx, dimy, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
@@ -154,7 +167,6 @@ SDLGame::SDLGame()
         playerProjectileSound = Mix_LoadWAV("data/sounds/playerProjectileSound.wav");
 
         //Musiques utilisées dans le jeu
-
         backGroundMusic = Mix_LoadMUS("data/sounds/backGroundMusic.wav");
         deathMusic = Mix_LoadMUS("data/sounds/deathMusic.wav");
 
@@ -174,24 +186,6 @@ SDLGame::SDLGame()
             cout << "Failed to load deathMusic.wav ! SDL_mixer Error: " << Mix_GetError() << endl; SDL_Quit(); exit(1);
         }
     }
-
-/*
-    // IMAGES //TODO : Ajouter les images
-    im_pacman.loadFromFile("data/pacman.png",renderer);
-    im_mur.loadFromFile("data/mur.png",renderer);
-    im_pastille.loadFromFile("data/pastille.png",renderer);
-    im_fantome.loadFromFile("data/fantome.png",renderer);
-
-    // FONTS
-    font = TTF_OpenFont("data/DejaVuSansCondensed.ttf",50);
-    if (font == NULL) {
-        cout << "Failed to load DejaVuSansCondensed.ttf! SDL_TTF Error: " << TTF_GetError() << endl; SDL_Quit(); exit(1);
-    }
-    font_color.r = 50;font_color.g = 50;font_color.b = 255;
-    font_im.setSurface(TTF_RenderText_Solid(font,"Pacman",font_color));
-    font_im.loadFromCurrentSurface(renderer);
-    */
-
 }
 
 SDLGame::~SDLGame()
@@ -274,6 +268,15 @@ void SDLGame::drawEnemiesHeart(const Game &g){
         }
     }
 }
+
+void SDLGame::drawItemsRegen(const Game &game){
+    Item *item = game.getConstItems();
+
+    if(item != NULL && !item->isTaken){
+        itemIdle.draw(renderer, item->position.x * SCALE * 16, (item->position.y + 0.5f) * SCALE * 16, 8 * SCALE, 8 * SCALE);
+    }
+}
+
 
 void SDLGame::drawPlayer(Player *player)
 {
@@ -559,7 +562,7 @@ void SDLGame::SDLLoop(Game &g)
     if(withSound) Mix_PlayMusic(backGroundMusic, -1);
 
     // tant que ce n'est pas la fin ...
-        lastTickTime = SDL_GetTicks();
+    lastTickTime = SDL_GetTicks();
     while (!quit)
     {       
 
@@ -596,11 +599,15 @@ void SDLGame::SDLLoop(Game &g)
                         break;
                     case SDL_SCANCODE_SPACE:
                         g.keyboardActions('e');
+                        isPlayerShooting = true;
+                        playerShootTime = SDL_GetTicks();
                         Mix_PlayChannel(2, playerProjectileSound, 0);
                         break;
                     case SDL_SCANCODE_H:
                         g.keyboardActions('h');
                         Mix_PlayChannel(1, playerAttackSwordSound, 0);
+                        isPlayerAttacking = true;
+                        playerAttackTime = SDL_GetTicks();
                         break;
                     case SDL_SCANCODE_D:
                         g.keyboardActions('d');
