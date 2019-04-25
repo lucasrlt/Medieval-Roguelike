@@ -40,6 +40,8 @@ private:
   struct _Mix_Music *backGroundMusic;
   struct _Mix_Music *deathMusic;
   struct Mix_Chunk *hitPlayerSound;
+  struct Mix_Chunk *playerAttackSwordSound;
+  struct Mix_Chunk *playerProjectileSound;
 
   Uint32 lastTickTime;
 

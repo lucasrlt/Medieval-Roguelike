@@ -214,9 +214,9 @@ Room *DungeonGenerator::getRandomRoomForPos(unsigned int x, unsigned int y)
 void DungeonGenerator::generateDungeon(Room *dungeon[MAZE_SIZE][MAZE_SIZE])
 {
     // Met à NULL toutes les cases du donjon
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < MAZE_SIZE; i++)
     {
-        for (int j = 0; j < 5; j++)
+        for (int j = 0; j < MAZE_SIZE; j++)
         {
             dungeon[j][i] = NULL;
         }
