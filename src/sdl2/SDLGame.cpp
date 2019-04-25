@@ -7,7 +7,6 @@
 #include "SDLGame.h"
 #include <stdlib.h>
 #include <SDL_image.h>
-#include <SDL_mixer.h>
 #include <assert.h>
 #include "../core/TileMap.h"
 #include <iostream>
@@ -116,16 +115,6 @@ SDLGame::SDLGame()
         SDL_Quit();
         exit(1);
     }
-    if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
-    {
-        cout << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << endl;
-        cout << "No sound !!!" << endl;
-        //SDL_Quit();exit(1);
-        withSound = false;
-    }
-    else{
-        withSound = true;
-    }
 
     // Creation de la fenetre
     window = SDL_CreateWindow("Medieval Rogue-Like", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, dimx, dimy, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
@@ -149,8 +138,8 @@ SDLGame::SDLGame()
         cout << "Failed to load DejaVuSansCondensed.ttf! SDL_TTF Error: " << TTF_GetError() << endl; SDL_Quit(); exit(1);
     }
     font_color = {255, 255, 255};
-    font_im.setSurface(TTF_RenderText_Solid(font,"VOUS ETES MORT CHEH",font_color));
-    font_im.loadFromCurrentSurface(renderer);
+    //font_im.setSurface(TTF_RenderText_Solid(font,"VOUS ETES MORT CHEH",font_color));
+    //font_im.loadFromCurrentSurface(renderer);
 
     // SONS
     if (withSound)
@@ -219,6 +208,7 @@ void SDLGame::SDLShow(const Game &g)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
 
+<<<<<<< HEAD
     if (!g.playerDead) {
         drawBackground(g);
         drawCurrentRoom(g);
@@ -232,6 +222,23 @@ void SDLGame::SDLShow(const Game &g)
     } else {
         withSound = false;
         Mix_PlayMusic(deathMusic, -1);
+=======
+    /*if(isSelectionScreen)
+        drawSelectionScreen();
+    else*/
+        if (!g.playerDead) 
+        {
+            drawBackground(g);
+            drawCurrentRoom(g);
+            drawPlayerHeart(g);
+            drawPlayer(g.getConstPlayer());
+            drawEnemiesHeart(g);        
+            drawEnemies(g);
+            drawProjectiles(g);
+            drawMap(g, !drawBigMap);
+        } 
+    else {
+>>>>>>> 5880f6f9773fa622e9d88ff8d3fba4ef7908ba8b
         drawDeathScreen();
     }
 }
@@ -264,14 +271,6 @@ void SDLGame::drawCurrentRoom(const Game &g)
     }
 }
 
-void SDLGame::drawItemsRegen(const Game &game){
-    Item *item = game.getConstItems();
-
-    if(item != NULL && !item->isTaken){
-        itemIdle.draw(renderer, item->position.x * SCALE * 16, (item->position.y + 0.5f) * SCALE * 16, 8 * SCALE, 8 * SCALE);
-    }
-}
-
 void SDLGame::drawPlayerHeart(const Game &game){
     for (int i = 0; i < game.getConstPlayer()->getHealth(); i++)
     {
@@ -296,21 +295,25 @@ void SDLGame::drawEnemiesHeart(const Game &g){
 
 void SDLGame::drawPlayer(Player *player)
 {
-    const int numSprites = 9;
+    int direction = (left ? 0 : (right ? 2 : 1));
+    const int numSprites = 7;
+    const int spriteWidth = 258;
 
-    Uint32 currentTime = SDL_GetTicks();
-    Uint32 interval = currentTime - lastTickTime;
+    if (SDL_GetTicks() - lastTickTime > 100) {
+        currPlayerSprite++;
+        if (currPlayerSprite > numSprites) currPlayerSprite = 0;
 
-    // SDL_Rect clipRect = {currPlayerSprite * }
-    if (left) {
-        playerLeft.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
+        lastTickTime = SDL_GetTicks();
     }
-    else if (right) {
-        playerRight.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
-    }
-    else if (stop) {
-        playerIdle.draw(renderer, player->position.x * TILE_SIZE * SCALE, player->position.y * TILE_SIZE * SCALE, 16 * SCALE, 16 * SCALE);
-    }
+
+    SDL_Rect clipRect = {currPlayerSprite * spriteWidth, direction * spriteWidth, spriteWidth, spriteWidth};
+    SDL_Rect destRect = {(int) (player->position.x * TILE_SIZE * SCALE), 
+                         (int) (player->position.y * TILE_SIZE * SCALE),
+                        TILE_SIZE * SCALE,
+                        TILE_SIZE * SCALE};
+
+    Image imgToDisplay = (isPlayerAttacking ? playerAttackAnimation : (isPlayerShooting ? playerShootAnimation : playerImages));
+    SDL_RenderCopy(renderer, imgToDisplay.getTexture(), &clipRect, &destRect);
 }
 
 void SDLGame::drawEnemies(const Game &game){
@@ -340,14 +343,14 @@ void SDLGame::drawEnemies(const Game &game){
 }
 
 void SDLGame::drawProjectiles(const Game &g)
-{
-    projectile.loadFromFile("data/blanc.jpg",renderer);
-    
+{    
+    Image imgToDisplay;
     for(int i = 0; i < g.projectiles.size(); i++)
     {
         if(g.projectiles[i].isHit == false)
         {
-            projectile.draw(renderer,g.projectiles[i].position.x * TILE_SIZE * SCALE,g.projectiles[i].position.y * TILE_SIZE * SCALE,16,16);
+            imgToDisplay = g.projectiles[i].isGoingRight() ? projectileRight : projectileLeft;
+            imgToDisplay.draw(renderer,g.projectiles[i].position.x * TILE_SIZE * SCALE,g.projectiles[i].position.y * TILE_SIZE * SCALE,16,16);
         } 
     }
 }
@@ -359,17 +362,80 @@ void SDLGame::drawHitFilter() {
 }
 
 void SDLGame::drawDeathScreen() {
-    SDL_SetRenderDrawColor(renderer, 80, 0, 0, 255);
-    
-    SDL_Rect r = {0, 0, dimx, dimy};
-    SDL_RenderFillRect(renderer, &r);
+    deathScreen.loadFromFile("data/deathscreen.jpg", renderer);
+    deathScreen.draw(renderer,0,0,dimx,dimy);
 
-    SDL_Rect positionTitre;
-    positionTitre.x = dimx / 2 - 300; 
-    positionTitre.y = dimy / 2 - 100;
-    positionTitre.w = 600;
-    positionTitre.h = 200;
-    SDL_RenderCopy(renderer,font_im.getTexture(),NULL,&positionTitre);
+    //font_color = {255, 0, 0};
+
+    newGame.setSurface(TTF_RenderText_Solid(font,"NOUVELLE PARTIE",font_color));
+    newGame.loadFromCurrentSurface(renderer);
+
+    SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
+
+    SDL_Rect newGameButton;
+    newGameButton.x = dimx / 2 - 100; 
+    newGameButton.y = dimy / 2 + 200;
+    newGameButton.w = 200;
+    newGameButton.h = 50;
+
+    SDL_RenderFillRect(renderer,&newGameButton);
+    SDL_RenderCopy(renderer,newGame.getTexture(),NULL,&newGameButton);
+}
+
+void SDLGame::drawSelectionScreen() 
+{
+    
+    selectionScreen.loadFromFile("data/pixelart-1556009879434-1876.jpg", renderer);
+    selectionScreen.draw(renderer,0,0,dimx,dimy);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 200);
+
+
+    playButtonFont.setSurface(TTF_RenderText_Solid(font,"NOUVELLE PARTIE",font_color));
+    playButtonFont.loadFromCurrentSurface(renderer);
+
+    SDL_Rect playButton;
+    playButton.x = dimx / 2 - 120; 
+    playButton.y = dimy / 2;
+    playButton.w = 200;
+    playButton.h = 50;
+
+    font_gameName.setSurface(TTF_RenderText_Solid(font,"MEDIEVAL ROGUE-LIKE",font_color));
+    font_gameName.loadFromCurrentSurface(renderer);
+
+    SDL_Rect gameTitle;
+    gameTitle.x = 0; 
+    gameTitle.y = 0;
+    gameTitle.w = dimx;
+    gameTitle.h = 150;
+
+    htpButtonFont.setSurface(TTF_RenderText_Solid(font,"COMMENT JOUER?",font_color));
+    htpButtonFont.loadFromCurrentSurface(renderer);
+
+    SDL_Rect htpButton;
+    htpButton.x = dimx / 2 - 120; 
+    htpButton.y = dimy / 2 + 100;
+    htpButton.w = 200;
+    htpButton.h = 50;
+
+    contactButtonFont.setSurface(TTF_RenderText_Solid(font,"NOUS CONTACTER",font_color));
+    contactButtonFont.loadFromCurrentSurface(renderer);
+
+    SDL_Rect contactButton;
+    contactButton.x = dimx / 2 - 120; 
+    contactButton.y = dimy / 2 + 200;
+    contactButton.w = 200;
+    contactButton.h = 50;
+
+    SDL_RenderFillRect(renderer,&playButton);
+    SDL_RenderFillRect(renderer,&gameTitle);
+    SDL_RenderFillRect(renderer,&htpButton);
+    SDL_RenderFillRect(renderer,&contactButton);
+
+    SDL_RenderCopy(renderer,playButtonFont.getTexture(),NULL,&playButton);
+    SDL_RenderCopy(renderer,font_gameName.getTexture(),NULL,&gameTitle);
+    SDL_RenderCopy(renderer,htpButtonFont.getTexture(),NULL,&htpButton);
+    SDL_RenderCopy(renderer,contactButtonFont.getTexture(),NULL,&contactButton);
+
 }
 
 void SDLGame::drawMap(const Game& g, bool minimap) {
@@ -453,9 +519,14 @@ void SDLGame::SDLLoop(Game &g)
     Ghost *gh = g.getConstGhost();
     const TileMap &tm = g.getConstTilemap();
     drawBigMap = false;
+    isPlayerAttacking = false;
 
+<<<<<<< HEAD
     // Charge le sprite de l'item qui rend les points de vie.
     itemIdle.loadFromFile("data/burger.png", renderer);
+=======
+    isSelectionScreen = true;
+>>>>>>> 5880f6f9773fa622e9d88ff8d3fba4ef7908ba8b
 
     // Charge les sprites du Ghosts (faire tableau de Ghost après).
     // gh->idleSprite = "data/warrior_front.png";
@@ -479,13 +550,20 @@ void SDLGame::SDLLoop(Game &g)
 
     // Charge les sprites du Player.
     p->idleSprite = "data/warrior_front.png";
-    playerIdle.loadFromFile(p->idleSprite.c_str(), renderer);
+    playerIdle.loadFromFile(p->idleSprite.c_str(), renderer); // Charge les sprite du joueur
 
     p->leftSprite = "data/warrior_left.png";
     playerLeft.loadFromFile(p->leftSprite.c_str(), renderer);
 
     p->rightSprite = "data/warrior_right.png";
     playerRight.loadFromFile(p->rightSprite.c_str(), renderer);
+
+    projectileRight.loadFromFile("data/arrow_right.png",renderer);
+    projectileLeft.loadFromFile("data/arrow_left.png", renderer);
+
+    playerImages.loadFromFile("data/player_sprites.png", renderer);
+    playerAttackAnimation.loadFromFile("data/player_attack_sprites.png", renderer);
+    playerShootAnimation.loadFromFile("data/player_shoot_sprites.png", renderer);
     
     SDL_Event events;
     bool quit = false;
@@ -496,14 +574,17 @@ void SDLGame::SDLLoop(Game &g)
     left = false;
     stop = true;
 
+<<<<<<< HEAD
     Mix_VolumeMusic(MIX_MAX_VOLUME/5);
     
     if(withSound) Mix_PlayMusic(backGroundMusic, -1);
 
+=======
+>>>>>>> 5880f6f9773fa622e9d88ff8d3fba4ef7908ba8b
     // tant que ce n'est pas la fin ...
-    while (!quit)
-    {    
         lastTickTime = SDL_GetTicks();
+    while (!quit)
+    {       
 
         gh = g.getConstGhost();
         s = g.getConstSavage();
@@ -537,6 +618,7 @@ void SDLGame::SDLLoop(Game &g)
                         g.keyboardActions('t');
                         break;
                     case SDL_SCANCODE_SPACE:
+<<<<<<< HEAD
                         g.keyboardActions('e');
                         Mix_PlayChannel(2, playerProjectileSound, 0);
                         break;
@@ -546,6 +628,19 @@ void SDLGame::SDLLoop(Game &g)
                         break;
                     case SDL_SCANCODE_D:
                         g.keyboardActions('d');
+=======
+                        if (!isPlayerShooting) {
+                            g.keyboardActions('e');
+                            isPlayerShooting = true;
+                            playerShootTime = SDL_GetTicks();
+                        }
+                        break;
+                    case SDL_SCANCODE_H:
+                        g.keyboardActions('h');
+
+                        isPlayerAttacking = true;
+                        playerAttackTime = SDL_GetTicks();
+>>>>>>> 5880f6f9773fa622e9d88ff8d3fba4ef7908ba8b
                         break;
                     case SDL_SCANCODE_TAB:
                         drawBigMap = true;
@@ -583,16 +678,18 @@ void SDLGame::SDLLoop(Game &g)
 
         // on affiche le jeu sur le buffer caché
         SDLShow(g);
-
         if (SDL_GetTicks() - hitTime < 250 && !g.playerDead) drawHitFilter();
 
         if (nt - t2 > 500)
-        {   
+        {
             if(g.checkSpikes() || gh->checkHit(p) || (s != NULL && s->checkHit(p)))
             {
+<<<<<<< HEAD
                 if(withSound)
                     Mix_PlayChannel(0,hitPlayerSound,0);
 
+=======
+>>>>>>> 5880f6f9773fa622e9d88ff8d3fba4ef7908ba8b
                 hitTime = SDL_GetTicks();
                 t2 = nt;
             } 
@@ -604,16 +701,28 @@ void SDLGame::SDLLoop(Game &g)
 
         t = nt;
 
+        if (isPlayerAttacking && SDL_GetTicks() - playerAttackTime > 800) {
+            isPlayerAttacking = false;
+        }
+
+
+        if (isPlayerShooting && SDL_GetTicks() - playerShootTime > 500) {
+            isPlayerShooting = false;
+        }
+
 
         // on permute les deux buffers (cette fonction ne doit se faire qu'une seule fois dans la boucle)
         SDL_RenderPresent(renderer);
 
         SDL_Delay(16);
     }
+<<<<<<< HEAD
 
     Mix_FreeChunk(hitPlayerSound);
     Mix_FreeChunk(playerAttackSwordSound);
     Mix_FreeMusic(backGroundMusic);
     Mix_FreeMusic(deathMusic);
     Mix_CloseAudio();
+=======
+>>>>>>> 5880f6f9773fa622e9d88ff8d3fba4ef7908ba8b
 }

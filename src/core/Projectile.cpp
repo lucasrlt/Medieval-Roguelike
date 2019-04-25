@@ -51,3 +51,7 @@ void Projectile::hit(Entity &e)
 {
     e.receiveDamage(damages);
 }
+
+bool Projectile::isGoingRight() const {
+    return velocity.x > 0; 
+}

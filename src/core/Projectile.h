@@ -56,6 +56,8 @@ public:
      */
   void hit(Entity &e);
 
+  bool isGoingRight() const;
+
 private:
   int damages;
   Vector2D velocity;
