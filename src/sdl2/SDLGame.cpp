@@ -141,6 +141,56 @@ SDLGame::SDLGame()
     //font_im.setSurface(TTF_RenderText_Solid(font,"VOUS ETES MORT CHEH",font_color));
     //font_im.loadFromCurrentSurface(renderer);
 
+    // SONS
+    if (withSound)
+    {
+        Mix_AllocateChannels(10); // Alloue 10 cannaux pour le son
+        //0 = hitPlayerSound
+        //1 = playerAttackSwordSound
+        //2 = playerProjectileSound
+
+        hitPlayerSound = Mix_LoadWAV("data/sounds/hitPlayerSound.wav");
+        playerAttackSwordSound = Mix_LoadWAV("data/sounds/playerAttackSwordSound.wav");
+        playerProjectileSound = Mix_LoadWAV("data/sounds/playerProjectileSound.wav");
+
+        //Musiques utilisées dans le jeu
+
+        backGroundMusic = Mix_LoadMUS("data/sounds/backGroundMusic.wav");
+        deathMusic = Mix_LoadMUS("data/sounds/deathMusic.wav");
+
+        if (hitPlayerSound == NULL) {
+            cout << "Failed to load hitPlayerSound.wav ! SDL_mixer Error: " << Mix_GetError() << endl; SDL_Quit(); exit(1);
+        }
+        if (playerAttackSwordSound == NULL) {
+            cout << "Failed to load playerAttackSwordSound.wav ! SDL_mixer Error: " << Mix_GetError() << endl; SDL_Quit(); exit(1);
+        }
+        if (playerProjectileSound == NULL) {
+            cout << "Failed to load playerProjectileSound.wav ! SDL_mixer Error: " << Mix_GetError() << endl; SDL_Quit(); exit(1);
+        }
+        if (backGroundMusic == NULL) {
+            cout << "Failed to load backGroundMusic.wav ! SDL_mixer Error: " << Mix_GetError() << endl; SDL_Quit(); exit(1);
+        }
+        if(deathMusic == NULL){            
+            cout << "Failed to load deathMusic.wav ! SDL_mixer Error: " << Mix_GetError() << endl; SDL_Quit(); exit(1);
+        }
+    }
+
+/*
+    // IMAGES //TODO : Ajouter les images
+    im_pacman.loadFromFile("data/pacman.png",renderer);
+    im_mur.loadFromFile("data/mur.png",renderer);
+    im_pastille.loadFromFile("data/pastille.png",renderer);
+    im_fantome.loadFromFile("data/fantome.png",renderer);
+
+    // FONTS
+    font = TTF_OpenFont("data/DejaVuSansCondensed.ttf",50);
+    if (font == NULL) {
+        cout << "Failed to load DejaVuSansCondensed.ttf! SDL_TTF Error: " << TTF_GetError() << endl; SDL_Quit(); exit(1);
+    }
+    font_color.r = 50;font_color.g = 50;font_color.b = 255;
+    font_im.setSurface(TTF_RenderText_Solid(font,"Pacman",font_color));
+    font_im.loadFromCurrentSurface(renderer);
+    */
 
 }
 
@@ -158,21 +208,19 @@ void SDLGame::SDLShow(const Game &g)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
 
-    /*if(isSelectionScreen)
-        drawSelectionScreen();
-    else*/
-        if (!g.playerDead) 
-        {
-            drawBackground(g);
-            drawCurrentRoom(g);
-            drawPlayerHeart(g);
-            drawPlayer(g.getConstPlayer());
-            drawEnemiesHeart(g);        
-            drawEnemies(g);
-            drawProjectiles(g);
-            drawMap(g, !drawBigMap);
-        } 
-    else {
+    if (!g.playerDead) {
+        drawBackground(g);
+        drawCurrentRoom(g);
+        drawPlayerHeart(g);
+        drawPlayer(g.getConstPlayer());
+        drawEnemiesHeart(g);        
+        drawEnemies(g);
+        drawProjectiles(g);
+        drawItemsRegen(g);
+        drawMap(g, !drawBigMap);
+    } else {
+        withSound = false;
+        Mix_PlayMusic(deathMusic, -1);
         drawDeathScreen();
     }
 }
@@ -375,7 +423,6 @@ void SDLGame::drawSelectionScreen()
 void SDLGame::drawMap(const Game& g, bool minimap) {
     SDL_Rect r = {0, 0, 0, 0}; // sera utilisé pour l'affichage des rectangles
 
-
     // le viewport est le rectangle dans le quel est dessiné la carte
     const int viewportOffset = minimap ? 580 : 175;
     const int viewportWidth = dimx - viewportOffset * (minimap ? 1 : 2) - (minimap ? 10 : 0);
@@ -456,16 +503,19 @@ void SDLGame::SDLLoop(Game &g)
     drawBigMap = false;
     isPlayerAttacking = false;
 
+    // Charge le sprite de l'item qui rend les points de vie.
+    itemIdle.loadFromFile("data/burger.png", renderer);
+    
     isSelectionScreen = true;
 
     // Charge les sprites du Ghosts (faire tableau de Ghost après).
-    gh->idleSprite = "data/warrior_front.png";
+    // gh->idleSprite = "data/warrior_front.png";
     ghostIdle.loadFromFile(gh->idleSprite.c_str(), renderer);
 
-    gh->leftSprite = "data/warrior_left.png";
+    // gh->leftSprite = "data/warrior_left.png";
     ghostLeft.loadFromFile(gh->leftSprite.c_str(), renderer);
 
-    gh->idleSprite = "data/warrior_right.png";
+    // gh->idleSprite = "data/warrior_right.png";
     ghostRight.loadFromFile(gh->rightSprite.c_str(), renderer);
 
     // Charge les sprites du Savages (faire tableau de Savage après).
@@ -504,6 +554,10 @@ void SDLGame::SDLLoop(Game &g)
     left = false;
     stop = true;
 
+    Mix_VolumeMusic(MIX_MAX_VOLUME/5);
+    
+    if(withSound) Mix_PlayMusic(backGroundMusic, -1);
+
     // tant que ce n'est pas la fin ...
         lastTickTime = SDL_GetTicks();
     while (!quit)
@@ -541,17 +595,15 @@ void SDLGame::SDLLoop(Game &g)
                         g.keyboardActions('t');
                         break;
                     case SDL_SCANCODE_SPACE:
-                        if (!isPlayerShooting) {
-                            g.keyboardActions('e');
-                            isPlayerShooting = true;
-                            playerShootTime = SDL_GetTicks();
-                        }
+                        g.keyboardActions('e');
+                        Mix_PlayChannel(2, playerProjectileSound, 0);
                         break;
                     case SDL_SCANCODE_H:
                         g.keyboardActions('h');
-
-                        isPlayerAttacking = true;
-                        playerAttackTime = SDL_GetTicks();
+                        Mix_PlayChannel(1, playerAttackSwordSound, 0);
+                        break;
+                    case SDL_SCANCODE_D:
+                        g.keyboardActions('d');
                         break;
                     case SDL_SCANCODE_TAB:
                         drawBigMap = true;
@@ -595,10 +647,18 @@ void SDLGame::SDLLoop(Game &g)
         {
             if(g.checkSpikes() || gh->checkHit(p) || (s != NULL && s->checkHit(p)))
             {
+                if(withSound)
+                    Mix_PlayChannel(0,hitPlayerSound,0);
+
                 hitTime = SDL_GetTicks();
                 t2 = nt;
             } 
         }
+
+        if(g.playerDead) {
+            Mix_PlayMusic(deathMusic, -1);
+        }
+
         t = nt;
 
         if (isPlayerAttacking && SDL_GetTicks() - playerAttackTime > 800) {
@@ -616,4 +676,11 @@ void SDLGame::SDLLoop(Game &g)
 
         SDL_Delay(16);
     }
+
+    Mix_FreeChunk(hitPlayerSound);
+    Mix_FreeChunk(playerAttackSwordSound);
+    Mix_FreeChunk(playerProjectileSound);
+    Mix_FreeMusic(backGroundMusic);
+    Mix_FreeMusic(deathMusic);
+    Mix_CloseAudio();
 }

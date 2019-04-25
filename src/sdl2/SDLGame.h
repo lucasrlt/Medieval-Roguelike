@@ -7,6 +7,7 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include "../core/Game.h"
 #include "../core/Room.h"
 
@@ -39,10 +40,12 @@ private:
   bool drawBigMap;
   bool isSelectionScreen;
   
-  /*bool withSound;
+  bool withSound;
   struct _Mix_Music *backGroundMusic;
   struct _Mix_Music *deathMusic;
-  struct Mix_Chunk *hitPlayerSound;*/
+  struct Mix_Chunk *hitPlayerSound;
+  struct Mix_Chunk *playerAttackSwordSound;
+  struct Mix_Chunk *playerProjectileSound;
 
   Uint32 lastTickTime;
   Uint32 playerAttackTime;
