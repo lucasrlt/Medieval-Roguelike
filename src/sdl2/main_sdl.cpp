@@ -9,7 +9,7 @@ int main(int argc, char **arg)
     g.initDungeon();
 
     SDLGame sg;
-    sg.SDLLoop(g);
+    sg.gameLoop(g);
 
     return 0;
 }

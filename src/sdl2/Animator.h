@@ -15,13 +15,14 @@
 
 using namespace std;
 const int ANIMATION_INTERVAL = 100;
+
 /**
  * @brief Une animation est un enchaînement de sprites qui s'enchainent à intervalle régulier.
  */
 class Animator {
 private:
   Image spritesheet;
-  int currSprite, numSprites, spritesWidth;
+  int currSprite, numSprites, spritesWidth, drawWidth;
   Uint32 lastUpdateTime;
 
   /** @brief Change le sprite courant de l'animation. */
@@ -38,7 +39,7 @@ public:
    * @param numSprites le nombre de sprites sur la spritesheet
    * @param sprite_width largeur d'un sprite sur la spritesheet
    */
-  void init(SDL_Renderer *renderer, const string& filename, int numSprites, int sprite_width);
+  void init(SDL_Renderer *renderer, const string& filename, int numSprites, int sprite_width, int draw_width);
 
   /**
    * @brief Affiche l'image courante de l'animation à l'écran.
