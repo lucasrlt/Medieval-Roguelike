@@ -21,7 +21,7 @@ Savage::Savage(Vector2D posInit, Vector2D forceInit, int healthInit, int strengh
     velocity = {0, 0};
     health = healthInit;
     strenght = strenghtInit;
-    isDeadSavage = isDeadCheck;
+    isDead = isDeadCheck;
     
     idleSprite = spriteNameIdle;
     leftSprite = spriteNameLeft;
@@ -38,7 +38,7 @@ int Savage::getStrenght() const
 }
 
 bool Savage::checkHit(Player *player){
-    if(isDeadSavage == false){
+    if(!isDead){
         if((position.x <= player->position.x + 0.75f && position.x >= player->position.x - 0.75f) && 
             (position.y <= player->position.y + 0.75f && position.y >= player->position.y - 0.75f))  
         {

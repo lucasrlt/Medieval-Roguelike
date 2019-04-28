@@ -24,6 +24,7 @@ class Entity
 {
   public:
     bool movingRight, movingLeft, movingUp, movingBottom;
+    bool isDead;
     
     Vector2D position;
 
@@ -76,11 +77,14 @@ class Entity
      * @brief Affiche l'entité.
      */
     void show();
+    
+    bool isGoingRight();
 
     /**
      * @brief Tests du module.
      */
     void regressionTest();
+
 
   protected:
     Vector2D velocity;

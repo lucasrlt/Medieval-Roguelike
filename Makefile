@@ -4,7 +4,7 @@ SRCS_TXT = $(CORE) txt/TXTGame.cpp txt/WinTXT.cpp txt/main_txt.cpp
 FINAL_TARGET_TXT = medieval_roguelike_txt
 #DEFINE_TXT = -DJEU_TXT
 
-SRCS_SDL = $(CORE) sdl2/SDLGame.cpp sdl2/main_sdl.cpp
+SRCS_SDL = $(CORE) sdl2/Animator.cpp sdl2/Image.cpp sdl2/SDLGame.cpp sdl2/main_sdl.cpp
 FINAL_TARGET_SDL = medieval_roguelike_sdl
 #DEFINE_SDL = -DJEU_SDL
 
