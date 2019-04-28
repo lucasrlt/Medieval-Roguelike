@@ -202,13 +202,13 @@ void SDLGame::SDLShow(const Game &g)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
 
-    bool newGame = clickOnButton();
+    //bool newGame = clickOnButton();
     
-    if(isSelectionScreen)
+   /*if(isSelectionScreen)
         drawSelectionScreen();
         if(newGame)
         {
-            isSelectionScreen = false;
+            isSelectionScreen = false;*/
             if (!g.playerDead) {
         drawBackground(g);
         drawCurrentRoom(g);
@@ -224,7 +224,7 @@ void SDLGame::SDLShow(const Game &g)
         Mix_PlayMusic(deathMusic, -1);
         drawDeathScreen();
     }
-        }
+        //}
         
     
 }
