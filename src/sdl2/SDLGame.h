@@ -67,7 +67,6 @@ private:
   Image deathScreen;  
   Image selectionScreen;
   Image htpScreen;
-  Image creditsScreen;
   Image tilesetImg;
   Image heartSprite;
 
@@ -120,7 +119,6 @@ private:
   void drawDeathScreen();
   void drawSelectionScreen();
   void drawHTPScreen();
-  void drawCreditsScreen();
   void drawEnemies(const Game &g);
   void drawEnemiesHeart(const Game &g);
 

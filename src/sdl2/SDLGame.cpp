@@ -100,9 +100,9 @@ void SDLGame::drawGame(const Game &g)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
 
-    drawCreditsScreen();
-    /*drawHTPScreen();
-    if (isSelectionScreen) {
+    
+    drawHTPScreen();
+    /*if (isSelectionScreen) {
         drawSelectionScreen();
     } else {
         if (!g.playerDead) {
@@ -120,7 +120,7 @@ void SDLGame::drawGame(const Game &g)
             Mix_PlayMusic(deathMusic, -1);
             drawDeathScreen();
         }
-    }*/
+    //}*/
 }
 
 void SDLGame::loadAssets() {
@@ -131,7 +131,6 @@ void SDLGame::loadAssets() {
     backgroundInterior.loadFromFile("data/interior_background.png", renderer);
     selectionScreen.loadFromFile("data/pixelart-1556009879434-1876.jpg", renderer);
     htpScreen.loadFromFile("data/pixelart-1556009879434-1876.jpg", renderer);
-    creditsScreen.loadFromFile("data/pixelart-1556009879434-1876.jpg", renderer);
     itemIdle.loadFromFile("data/burger.png", renderer);
     playerIdle.loadFromFile("data/warrior_front.png", renderer);
     projectileRight.loadFromFile("data/arrow_right.png",renderer);
@@ -338,18 +337,10 @@ void SDLGame::drawHTPScreen()
     htpScreen.draw(renderer,0,0,dimx,dimy);
 
     drawText("COMMENT JOUER ?", {0,0, dimx, 150},true, {0,0,0});
-    drawText("Utiliser les fleches directionnelles pour vous deplacer et sauter", {80, dimy/2, 600, 50},true, {0,0,0});
-    drawText("Appuyer sur H pour mettre un coup d'epee", {80, dimy/2 + 100, 600, 50},true, {0,0,0});
-    drawText("Appuyer sur la barre d'espace pour tirer avec l'arc", {80, dimy/2 + 200, 600, 50},true, {0,0,0});
-}
-
-void SDLGame::drawCreditsScreen()
-{
-    creditsScreen.draw(renderer,0,0,dimx,dimy);
-    drawText("A PROPOS", {0,0, dimx, 150},true, {0,0,0});
-    drawText("lucas rollet : lucas.rollet@etu.univ-lyon1.fr ", {80, dimy/2, 600, 50},true, {0,0,0});
-    drawText("alexandre puillet : alexandre.puillet@etu.univ-lyon1.fr", {80, dimy/2 + 100, 600, 50},true, {0,0,0});
-    drawText("hadrien guy : hadrien.guy@etu.univ-lyon1.fr", {80, dimy/2 + 200, 600, 50},true, {0,0,0});
+    drawText("Utiliser les fleches directionnelles pour vous deplacer et sauter", {80, dimy/2 - 100, 600, 50},true, {0,0,0});
+    drawText("Appuyer sur H pour mettre un coup d'epee", {80, dimy/2, 600, 50},true, {0,0,0});
+    drawText("Appuyer sur la barre d'espace pour tirer avec l'arc", {80, dimy/2 + 100, 600, 50},true, {0,0,0});
+    drawText("Appuyer sur tabulation pour afficher la minimap", {80, dimy/2 + 200, 600, 50},true, {0,0,0});
 
 }
 
