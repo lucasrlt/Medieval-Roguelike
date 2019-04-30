@@ -16,7 +16,7 @@ SDLGame::SDLGame()
     initSDL();
     loadAssets();
 
-    hitTime = SDL_GetTicks();
+    hitTime = 0;
 }
 
 SDLGame::~SDLGame()
@@ -156,7 +156,7 @@ void SDLGame::loadAssets() {
     projectileRight.loadFromFile("data/sprites/arrow_right.png",renderer);
     projectileLeft.loadFromFile("data/sprites/arrow_left.png", renderer);
     deathScreen.loadFromFile("data/sprites/deathscreen.jpg", renderer);
-
+    htpScreen.loadFromFile("data/sprites/pixelart-1556009879434-1876.jpg", renderer);
 
     /* === ANIMATORS === */
     ghostAnimator.init(renderer, "data/sprites/ghost_spritesheet.png", 6, 258, TILE_SIZE * SCALE);
@@ -240,6 +240,10 @@ void SDLGame::drawPlayerHeart(const Game &g){
     {
         heartSprite.draw(renderer, 1 + (i * (SCALE + 20)), 0, 8 * SCALE, 8 * SCALE);
     }
+}
+
+void SDLGame::drawPlayerEnergy(const Game &g){
+
 }
 
 void SDLGame::drawEnemiesHeart(const Game &g) {
