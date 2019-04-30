@@ -69,6 +69,7 @@ private:
   Image selectionScreen;
   Image tilesetImg;
   Image heartSprite;
+  Image energySprite;
 
   TTF_Font * font;
   SDL_Color font_color;

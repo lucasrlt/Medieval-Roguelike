@@ -12,7 +12,7 @@
 #ifndef MEDIEVALROGUELIKE_GHOST_H
 #define MEDIEVALROGUELIKE_GHOST_H
 
-float const GHOST_SPEED = 0.05f;
+float const GHOST_SPEED = 0.03f;
 
 class Game;
 class Player;

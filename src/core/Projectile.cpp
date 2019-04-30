@@ -41,7 +41,7 @@ void Projectile::move()
 
 void Projectile::checkCollision(const TileMap &t)
 {
-    if((t.getXY(position.x,position.y).type == collision) || (t.getXY(position.x,position.y).type == platform))
+    if((t.getXY(position.x,position.y).type == collision) /*|| (t.getXY(position.x,position.y).type == platform)*/)
     {
         isHit = true;
     }
@@ -49,8 +49,7 @@ void Projectile::checkCollision(const TileMap &t)
 
 void Projectile::hit(Entity &e)
 {
-    
-    if(!e.isDead){
+    if(!e.isDead && !isHit){
         isHit = true; 
         e.receiveDamage(PROJECTILE_DAMAGES);
         if(e.getHealth() <= 0)

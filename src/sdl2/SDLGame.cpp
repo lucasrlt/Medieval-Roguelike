@@ -125,23 +125,24 @@ void SDLGame::drawGame(const Game &g)
 
 void SDLGame::loadAssets() {
     /* === IMAGES === */
-    tilesetImg.loadFromFile("data/tileset_img.png", renderer);
-    heartSprite.loadFromFile("data/heart_sprite.png", renderer);
-    backgroundExterior.loadFromFile("data/exterior_background.png", renderer);
-    backgroundInterior.loadFromFile("data/interior_background.png", renderer);
-    selectionScreen.loadFromFile("data/pixelart-1556009879434-1876.jpg", renderer);
-    itemIdle.loadFromFile("data/burger.png", renderer);
-    playerIdle.loadFromFile("data/warrior_front.png", renderer);
-    projectileRight.loadFromFile("data/arrow_right.png",renderer);
-    projectileLeft.loadFromFile("data/arrow_left.png", renderer);
-    deathScreen.loadFromFile("data/deathscreen.jpg", renderer);
-    selectionScreen.loadFromFile("data/pixelart-1556009879434-1876.jpg", renderer);
+    tilesetImg.loadFromFile("data/sprites/tileset_img.png", renderer);
+    heartSprite.loadFromFile("data/sprites/heart_sprite.png", renderer);
+    energySprite.loadFromFile("data/sprites/energy_sprite.png", renderer);
+    backgroundExterior.loadFromFile("data/sprites/exterior_background.png", renderer);
+    backgroundInterior.loadFromFile("data/sprites/interior_background.png", renderer);
+    selectionScreen.loadFromFile("data/sprites/pixelart-1556009879434-1876.jpg", renderer);
+    itemIdle.loadFromFile("data/sprites/burger.png", renderer);
+    playerIdle.loadFromFile("data/sprites/warrior_front.png", renderer);
+    projectileRight.loadFromFile("data/sprites/arrow_right.png",renderer);
+    projectileLeft.loadFromFile("data/sprites/arrow_left.png", renderer);
+    deathScreen.loadFromFile("data/sprites/deathscreen.jpg", renderer);
+    selectionScreen.loadFromFile("data/sprites/pixelart-1556009879434-1876.jpg", renderer);
 
 
     /* === ANIMATORS === */
-    ghostAnimator.init(renderer, "data/ghost_spritesheet.png", 6, 258, TILE_SIZE * SCALE);
-    playerAnimator.init(renderer, "data/player_spritesheet.png", 7, 258, TILE_SIZE * SCALE);
-    savageAnimator.init(renderer, "data/savage_spritesheet.png", 7, 258, TILE_SIZE * SCALE);
+    ghostAnimator.init(renderer, "data/sprites/ghost_spritesheet.png", 6, 258, TILE_SIZE * SCALE);
+    playerAnimator.init(renderer, "data/sprites/player_spritesheet.png", 7, 258, TILE_SIZE * SCALE);
+    savageAnimator.init(renderer, "data/sprites/savage_spritesheet.png", 7, 258, TILE_SIZE * SCALE);
 
 
     /* === SONS === */
@@ -507,12 +508,13 @@ void SDLGame::updateGame(Game& g, float dt) {
         isSavageAttacking = (s != NULL && s->checkHit(p));
         if(g.checkSpikes() || isGhostAttacking || isSavageAttacking)
         {
-            if(withSound)
-                Mix_PlayChannel(0,hitPlayerSound,0);
+            // if(withSound)
+            //     Mix_PlayChannel(0,hitPlayerSound,0);
 
             hitTime = SDL_GetTicks();
         } 
     }
+    if(p->isDead) Mix_PlayMusic(deathMusic, -1);
 
     // une attaque dure 800ms (pour l'animation)
     if (isPlayerAttacking && nt - playerAttackTime > 800) {

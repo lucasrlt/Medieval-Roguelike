@@ -131,7 +131,7 @@ void Game::initDungeon()
     unsigned int energyCost = 3;
     unsigned int attackSpeed = 5;
     int type = 1;
-    float attackRange = 8;
+    float attackRange = 2;
     string weaponName = "Lance";
 
     Weapon weapon(damages, energyCost, attackSpeed, type, attackRange, weaponName);
@@ -159,7 +159,7 @@ void Game::initDungeon()
 }
 
 void Game::attackSword(){
-    if((player->position.x <= ghost->position.x + 1 && player->position.x >= ghost->position.x - 1) && 
+    if((player->position.x - player->weapon.attackRange <= ghost->position.x && player->position.x + player->weapon.attackRange >= ghost->position.x) && 
     (player->position.y <= ghost->position.y + 1 && player->position.y >= ghost->position.y - 1))
     {
         ghost->receiveDamage(player->weapon.damages);
@@ -315,19 +315,18 @@ void Game::playerShoot(bool right)
 
 void Game::projectileHitEnnemy()
 {
-    Projectile p;
     for(int i = 0; i < projectiles.size(); i++)
     {
         if((projectiles[i].position.x <= ghost->position.x + 0.75f && projectiles[i].position.x >= ghost->position.x - 0.75f)
-        && (projectiles[i].position.y <= ghost->position.y + 0.75f && projectiles[i].position.y >= ghost->position.y - 0.75f) && projectiles[i].isHit == false)
+        && (projectiles[i].position.y <= ghost->position.y + 0.75f && projectiles[i].position.y >= ghost->position.y - 0.75f) && !projectiles[i].isHit)
         {
-            p.hit(*ghost);
+            projectiles[i].hit(*ghost);
         }
           
         if(savage != NULL && (projectiles[i].position.x <= savage->position.x + 0.75f && projectiles[i].position.x >= savage->position.x - 0.75f)
-        && (projectiles[i].position.y <= savage->position.y + 0.75f && projectiles[i].position.y >= savage->position.y - 0.75f) && projectiles[i].isHit == false)
+        && (projectiles[i].position.y <= savage->position.y + 0.75f && projectiles[i].position.y >= savage->position.y - 0.75f) && !projectiles[i].isHit)
         {
-            p.hit(*savage);
+            projectiles[i].hit(*savage);
         }
     }
 }
