@@ -1,4 +1,4 @@
-CORE =  core/Entity.cpp core/Game.cpp core/Projectile.cpp core/Weapon.cpp core/Player.cpp core/Room.cpp core/Vector2D.cpp core/DungeonGenerator.cpp core/TileMap.cpp core/Ghost.cpp core/Savage.cpp core/Item.cpp
+CORE =  core/Entity.cpp core/Game.cpp core/Projectile.cpp core/Weapon.cpp core/Player.cpp core/Room.cpp core/Vector2D.cpp core/DungeonGenerator.cpp core/TileMap.cpp core/Ghost.cpp core/Savage.cpp core/Item.cpp core/Button.cpp
 
 SRCS_TXT = $(CORE) txt/TXTGame.cpp txt/WinTXT.cpp txt/main_txt.cpp
 FINAL_TARGET_TXT = medieval_roguelike_txt

@@ -144,7 +144,7 @@ void Game::initDungeon()
     pos = {(float)tilemap->playerSpawn.x, (float)tilemap->playerSpawn.y};
 
     player = new Player(pos, force, health, energy, shield, weapon, idleSpritePlayer, leftSpritePlayer, rightSpritePlayer);
-    
+    playerDead = false;
     // Point ennemyPos = tilemap->enemySpawns[rand() % tilemap->enemySpawns.size()];
         isJumping = false;
 

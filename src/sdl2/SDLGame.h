@@ -16,6 +16,7 @@
 #include "Animator.h"
 #include "../core/Game.h"
 #include "../core/Room.h"
+#include "../core/Button.h"
 
 const int SCALE = 3;
 const int dimx = GRID_SIZE * TILE_SIZE * SCALE;
@@ -31,6 +32,9 @@ private:
   bool stop;
   bool drawBigMap;
   bool isSelectionScreen;
+  bool isHTPScreen;
+  bool isDeathScreen;
+  bool playing;
   
   /* ==== GESTION DU SON ==== */
   bool withSound;
@@ -67,9 +71,19 @@ private:
   Image backgroundInterior;
   Image deathScreen;  
   Image selectionScreen;
+  Image htpScreen;
   Image tilesetImg;
   Image heartSprite;
   Image energySprite;
+
+  /* BOUTONS */
+
+  Button returnToSelectionScreen;
+  Button goToHTP;
+  Button newGameSelectionScreen;
+  Button newGameDeathScreen;
+
+  /* POLICE ET COULEUR DE POLICE */
 
   TTF_Font * font;
   SDL_Color font_color;
@@ -85,6 +99,11 @@ private:
    * et crée la fenêtre du jeu.
    */
   void initSDL();
+
+  /**
+   * @brief Initialise le jeu.
+   */
+  void initSDLGame();
 
   /**
    * @brief Charge toutes les données du jeu (images, fonts, sons, ...).
@@ -120,8 +139,10 @@ private:
   void drawHitFilter();
   void drawDeathScreen();
   void drawSelectionScreen();
+  void drawHTPScreen();
   void drawEnemies(const Game &g);
   void drawEnemiesHeart(const Game &g);
+  void checkButton(int &xm, int &ym, Game &g);
 
   /**
    * @brief Affiche du texte à l'écran.
