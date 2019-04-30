@@ -59,11 +59,6 @@ Item *Game::getConstItems() const
 }
 
 void Game::spawnGhost(){
-    // if (ghost != NULL) {
-    //     cout << "coucou" << endl;
-    //     delete ghost;
-    // }
-
     //Caratéristiques du Ghost
     Vector2D posGhost;
     int healthGhost = 3;

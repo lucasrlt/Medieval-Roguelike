@@ -22,7 +22,7 @@ SDLGame::SDLGame()
     initSDL();
     loadAssets();
 
-    hitTime = SDL_GetTicks();
+    hitTime = 0;
 }
 
 SDLGame::~SDLGame()
@@ -109,6 +109,7 @@ void SDLGame::drawGame(const Game &g)
             drawBackground(g);
             drawCurrentRoom(g);
             drawPlayerHeart(g);
+            drawPlayerEnergy(g);
             drawPlayer(g.getConstPlayer());
             drawEnemiesHeart(g);        
             drawEnemies(g);
@@ -208,6 +209,10 @@ void SDLGame::drawPlayerHeart(const Game &g){
     {
         heartSprite.draw(renderer, 1 + (i * (SCALE + 20)), 0, 8 * SCALE, 8 * SCALE);
     }
+}
+
+void SDLGame::drawPlayerEnergy(const Game &g){
+
 }
 
 void SDLGame::drawEnemiesHeart(const Game &g) {
@@ -312,6 +317,7 @@ void SDLGame::drawProjectiles(const Game &g)
 }
 
 void SDLGame::drawHitFilter() {
+    cout<<"J'ai mal, je souffre, je meurs."<<endl;
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 32);
 
     SDL_Rect r = {0, 0, dimx, dimy};

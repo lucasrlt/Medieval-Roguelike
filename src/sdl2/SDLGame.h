@@ -114,6 +114,7 @@ private:
   void drawCurrentRoom(const Game &g);
   void drawPlayer(Player *player);
   void drawPlayerHeart(const Game &g);
+  void drawPlayerEnergy(const Game &g);
   void drawBackground(const Game& g);
   void renderProjectiles(const Game &g);
   void drawHitFilter();
