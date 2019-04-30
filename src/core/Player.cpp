@@ -49,6 +49,11 @@ void Player::loseEnergy(int amount)
         energy = 0;
 }
 
+void Player::sprint(){
+    if(energy > 0)
+        velocity = velocity * 1.5f;
+}
+
 // bool Player::jump(const TileMap &t)
 // {
 //     if (currentJumpHeight < MAX_JUMP_HEIGHT)
