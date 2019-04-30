@@ -136,7 +136,7 @@ void SDLGame::loadAssets() {
     projectileRight.loadFromFile("data/sprites/arrow_right.png",renderer);
     projectileLeft.loadFromFile("data/sprites/arrow_left.png", renderer);
     deathScreen.loadFromFile("data/sprites/deathscreen.jpg", renderer);
-    selectionScreen.loadFromFile("data/sprites/pixelart-1556009879434-1876.jpg", renderer);
+    // selectionScreen.loadFromFile("data/sprites/pixelart-1556009879434-1876.jpg", renderer);
 
 
     /* === ANIMATORS === */
