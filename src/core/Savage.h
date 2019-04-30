@@ -15,7 +15,7 @@
 class Game;
 class Player;
 
-float const SAVAGE_SPEED = 3;
+float const SAVAGE_SPEED = 2;
 /**
  * @brief Classe créant les ennemis de mêlée.
  */

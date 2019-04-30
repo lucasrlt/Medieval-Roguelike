@@ -2,7 +2,7 @@
 #include "Savage.h"
 
 using namespace std;
-
+//
 Savage::Savage()
 {
     position = {0, 0};

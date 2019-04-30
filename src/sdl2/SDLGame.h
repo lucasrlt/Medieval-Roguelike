@@ -43,6 +43,7 @@ private:
   struct Mix_Chunk *hitPlayerSound;
   struct Mix_Chunk *playerAttackSwordSound;
   struct Mix_Chunk *playerProjectileSound;
+  struct Mix_Chunk *regenItemSound;
 
   /* ==== GESTION DES ANIMATIONS ==== */
   bool isGhostAttacking;
@@ -73,6 +74,7 @@ private:
   Image htpScreen;
   Image tilesetImg;
   Image heartSprite;
+  Image energySprite;
 
   /* BOUTONS */
 
