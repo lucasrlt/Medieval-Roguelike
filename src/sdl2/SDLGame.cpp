@@ -156,7 +156,7 @@ void SDLGame::loadAssets() {
     projectileRight.loadFromFile("data/sprites/arrow_right.png",renderer);
     projectileLeft.loadFromFile("data/sprites/arrow_left.png", renderer);
     deathScreen.loadFromFile("data/sprites/deathscreen.jpg", renderer);
-    htpScreen.loadFromFile("data/sprites/pixelart-1556009879434-1876.jpg", renderer);
+    htpScreen.loadFromFile("data/sprites/interior_background.png", renderer);
 
     /* === ANIMATORS === */
     ghostAnimator.init(renderer, "data/sprites/ghost_spritesheet.png", 6, 258, TILE_SIZE * SCALE);
@@ -309,7 +309,7 @@ void SDLGame::drawText(const string& text, const SDL_Rect& rect, bool renderBg, 
     txt.loadFromCurrentSurface(renderer);
 
     if (renderBg) {
-        SDL_SetRenderDrawColor(renderer, bg.r, bg.g, bg.b, 255);
+        SDL_SetRenderDrawColor(renderer, bg.r, bg.g, bg.b, bg.a);
         SDL_RenderFillRect(renderer, &rect);
     }
     SDL_RenderCopy(renderer, txt.getTexture(), NULL, &rect);
@@ -356,28 +356,28 @@ void SDLGame::drawHitFilter() {
 
 void SDLGame::drawDeathScreen() {
     deathScreen.draw(renderer,0,0,dimx,dimy);
-    drawText("NOUVELLE PARTIE", {dimx / 2 - 100, dimy / 2 + 200, 200, 50}, true, {30, 30, 30});
+    drawText("NOUVELLE PARTIE", {dimx / 2 - 100, dimy / 2 + 200, 200, 50}, true, {30, 30, 30,255});
 }
 
 void SDLGame::drawSelectionScreen() 
 {
     selectionScreen.draw(renderer,0,0,dimx,dimy);
 
-    drawText("NOUVELLE PARTIE", {dimx / 2 - 120, dimy / 2, 200, 50}, true, {0, 0, 0});
-    drawText("MEDIEVAL ROGUELIKE", {0, 0, dimx, 150}, true, {0, 0, 0});
-    drawText("COMMENT JOUER ?", { dimx / 2 - 120, dimy / 2 + 100, 200, 50}, true, {0, 0, 0});
+    drawText("NOUVELLE PARTIE", {dimx / 2 - 120, dimy / 2, 200, 50}, true, {0, 0, 0, 150});
+    drawText("MEDIEVAL ROGUELIKE", {0, 0, dimx, 150}, true, {0, 0, 0, 255});
+    drawText("COMMENT JOUER ?", { dimx / 2 - 120, dimy / 2 + 100, 200, 50}, true, {0, 0, 0, 150});
 }
 
 void SDLGame::drawHTPScreen()
 {
     htpScreen.draw(renderer,0,0,dimx,dimy);
 
-    drawText("COMMENT JOUER ?", {0,0, dimx, 150},true, {0,0,0});
-    drawText("Utiliser les fleches directionnelles pour vous deplacer et sauter", {80, dimy/2 - 150, 600, 50},true, {0,0,0});
-    drawText("Appuyer sur H pour mettre un coup d'epee", {80, dimy/2 -50, 600, 50},true, {0,0,0});
-    drawText("Appuyer sur la barre d'espace pour tirer avec l'arc", {80, dimy/2 + 50, 600, 50},true, {0,0,0});
-    drawText("Appuyer sur tabulation pour afficher la minimap", {80, dimy/2 + 150, 600, 50},true, {0,0,0});
-    drawText("Retour a l'ecran titre",{dimx - 200, dimy/2 + 250, 200, 50},true,{0,0,0});
+    drawText("COMMENT JOUER ?", {0,0, dimx, 150},true, {0, 0, 0, 255});
+    drawText("-Utiliser les fleches directionnelles pour vous deplacer et sauter", {80, dimy/2 - 150, 600, 50},true, {0,0,0,0});
+    drawText("-Appuyer sur H pour mettre un coup d'epee", {80, dimy/2 -50, 600, 50},true, {0,0,0,0});
+    drawText("-Appuyer sur la barre d'espace pour tirer avec l'arc", {80, dimy/2 + 50, 600, 50},true, {0,0,0,0});
+    drawText("-Appuyer sur tabulation pour afficher la minimap", {80, dimy/2 + 150, 600, 50},true, {0,0,0,0});
+    drawText("Retour a l'ecran titre",{dimx - 200, dimy/2 + 250, 200, 50},true,{0,0,0,255});
 }
 
 void SDLGame::drawMap(const Game& g, bool minimap) {
