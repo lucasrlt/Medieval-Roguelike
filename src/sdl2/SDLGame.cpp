@@ -145,7 +145,7 @@ void SDLGame::drawGame(const Game &g)
 
 void SDLGame::loadAssets() {
     /* === IMAGES === */
-    tilesetImg.loadFromFile("data/sprites/tileset_img.png", renderer);
+    tilesetImg.loadFromFile("data/tileset_img.png", renderer);
     heartSprite.loadFromFile("data/sprites/heart_sprite.png", renderer);
     energySprite.loadFromFile("data/sprites/energy_sprite.png", renderer);
     backgroundExterior.loadFromFile("data/sprites/exterior_background.png", renderer);
