@@ -36,6 +36,7 @@ SDLGame::~SDLGame()
     Mix_FreeChunk(hitPlayerSound);
     Mix_FreeChunk(playerAttackSwordSound);
     Mix_FreeChunk(playerProjectileSound);
+    Mix_FreeChunk(regenItemSound);
     Mix_FreeMusic(backGroundMusic);
     Mix_FreeMusic(deathMusic);
     Mix_CloseAudio();
@@ -91,6 +92,7 @@ void SDLGame::initSDL() {
         //0 = hitPlayerSound
         //1 = playerAttackSwordSound
         //2 = playerProjectileSound
+        //3 = regenItemSound
     }
 
 }
@@ -147,13 +149,14 @@ void SDLGame::loadAssets() {
         hitPlayerSound = Mix_LoadWAV("data/sounds/hitPlayerSound.wav");
         playerAttackSwordSound = Mix_LoadWAV("data/sounds/playerAttackSwordSound.wav");
         playerProjectileSound = Mix_LoadWAV("data/sounds/playerProjectileSound.wav");
+        regenItemSound = Mix_LoadWAV("data/sounds/regenItemSound.wav");
 
         //Musiques utilisées dans le jeu
         backGroundMusic = Mix_LoadMUS("data/sounds/backGroundMusic.wav");
         deathMusic = Mix_LoadMUS("data/sounds/deathMusic.wav");
 
         if (hitPlayerSound == NULL || playerAttackSwordSound == NULL || playerProjectileSound == NULL ||
-            backGroundMusic == NULL || deathMusic == NULL) 
+            regenItemSound == NULL || backGroundMusic == NULL || deathMusic == NULL) 
         {
             cout << "Failed to load a music file: SDL_mixer Error: " << Mix_GetError() << endl; SDL_Quit(); exit(1);
         }
@@ -308,7 +311,6 @@ void SDLGame::drawProjectiles(const Game &g)
 }
 
 void SDLGame::drawHitFilter() {
-    cout << "GO." << endl;
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 32);
 
     SDL_Rect r = {0, 0, dimx, dimy};
@@ -408,7 +410,11 @@ bool SDLGame::handleInputs(Game& g) {
     Player* p = g.getConstPlayer();
     const TileMap &tm = g.getConstTilemap();
 
-    
+    // if(item->isTaken){
+    //     Mix_PlayChannel(3, regenItemSound, 0);
+    // }
+
+
     // tant qu'il y a des evenements à traiter (cette boucle n'est pas bloquante)
     while (SDL_PollEvent(&events))
     {
@@ -483,6 +489,7 @@ void SDLGame::updateGame(Game& g, float dt) {
     Player *p = g.getConstPlayer();
     Savage *s = g.getConstSavage();
     Ghost *gh = g.getConstGhost();
+    Item *item = g.getConstItems();
     const TileMap &tm = g.getConstTilemap();
     Uint32 nt = SDL_GetTicks();
 
@@ -516,7 +523,6 @@ void SDLGame::updateGame(Game& g, float dt) {
     if (isPlayerShooting && nt - playerShootTime > 500) {
         isPlayerShooting = false;
     }
-
 }
 
 void SDLGame::gameLoop(Game &g)

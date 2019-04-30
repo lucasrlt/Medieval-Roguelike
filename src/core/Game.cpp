@@ -315,29 +315,19 @@ void Game::playerShoot(bool right)
 
 void Game::projectileHitEnnemy()
 {
+    Projectile p;
     for(int i = 0; i < projectiles.size(); i++)
     {
         if((projectiles[i].position.x <= ghost->position.x + 0.75f && projectiles[i].position.x >= ghost->position.x - 0.75f)
         && (projectiles[i].position.y <= ghost->position.y + 0.75f && projectiles[i].position.y >= ghost->position.y - 0.75f) && projectiles[i].isHit == false)
         {
-            ghost->receiveDamage(PROJECTILE_DAMAGES);
-            projectiles[i].isHit = true;
-            if(ghost->getHealth() <= 0)
-            {
-                ghost->isDead = true;
-            }
+            p.hit(*ghost);
         }
           
         if(savage != NULL && (projectiles[i].position.x <= savage->position.x + 0.75f && projectiles[i].position.x >= savage->position.x - 0.75f)
         && (projectiles[i].position.y <= savage->position.y + 0.75f && projectiles[i].position.y >= savage->position.y - 0.75f) && projectiles[i].isHit == false)
         {
-            savage->receiveDamage(PROJECTILE_DAMAGES); 
-            projectiles[i].isHit = true;
-            
-            if(savage->getHealth() <= 0)
-            {
-                savage -> isDead = true;
-            } 
+            p.hit(*savage);
         }
     }
 }

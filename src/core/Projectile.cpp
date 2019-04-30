@@ -49,7 +49,15 @@ void Projectile::checkCollision(const TileMap &t)
 
 void Projectile::hit(Entity &e)
 {
-    e.receiveDamage(damages);
+    
+    if(!e.isDead){
+        isHit = true; 
+        e.receiveDamage(PROJECTILE_DAMAGES);
+        if(e.getHealth() <= 0)
+        {
+            e.isDead = true;
+        }
+    }
 }
 
 bool Projectile::isGoingRight() const {
