@@ -12,13 +12,7 @@ using namespace std;
 
 SDLGame::SDLGame()
 {
-    drawBigMap = false;
-    isPlayerAttacking = false;
-    isSelectionScreen = false;
-    right = false;
-    left = false;
-    stop = true;
-
+    initSDLGame();
     initSDL();
     loadAssets();
 
@@ -40,6 +34,19 @@ SDLGame::~SDLGame()
     Mix_FreeMusic(deathMusic);
     Mix_CloseAudio();
 
+}
+
+void SDLGame::initSDLGame()
+{
+    drawBigMap = false;
+    isPlayerAttacking = false;
+    isSelectionScreen = true;
+    isDeathScreen = false;
+    isHTPScreen = false;
+    right = false;
+    left = false;
+    stop = true;
+    playing = false;
 }
 
 void SDLGame::initSDL() {
@@ -100,28 +107,39 @@ void SDLGame::drawGame(const Game &g)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
 
-    
-    drawHTPScreen();
-    /*if (isSelectionScreen) {
+
+    if (isSelectionScreen && !isHTPScreen && !isDeathScreen && !playing) 
+    {
         drawSelectionScreen();
-    } else {
-        if (!g.playerDead) {
-            drawBackground(g);
-            drawCurrentRoom(g);
-            drawPlayerHeart(g);
-            drawPlayer(g.getConstPlayer());
-            drawEnemiesHeart(g);        
-            drawEnemies(g);
-            drawProjectiles(g);
-            drawItemsRegen(g);
-            drawMap(g, !drawBigMap);
-        } else {
+    }
+    if(!isSelectionScreen && isHTPScreen && !isDeathScreen && !playing)
+    {
+        drawHTPScreen();
+    }
+    if (!g.playerDead && !isSelectionScreen && !isHTPScreen && !isDeathScreen && playing) 
+    {
+        drawBackground(g);
+        drawCurrentRoom(g);
+        drawPlayerHeart(g);
+        drawPlayer(g.getConstPlayer());
+        drawEnemiesHeart(g);        
+        drawEnemies(g);
+        drawProjectiles(g);
+        drawItemsRegen(g);
+        drawMap(g, !drawBigMap);
+    } 
+    else
+    {
+        if(g.playerDead)
+        {
+            isDeathScreen = true;
             withSound = false;
             Mix_PlayMusic(deathMusic, -1);
             drawDeathScreen();
         }
-    //}*/
+    }
 }
+
 
 void SDLGame::loadAssets() {
     /* === IMAGES === */
@@ -136,8 +154,6 @@ void SDLGame::loadAssets() {
     projectileRight.loadFromFile("data/arrow_right.png",renderer);
     projectileLeft.loadFromFile("data/arrow_left.png", renderer);
     deathScreen.loadFromFile("data/deathscreen.jpg", renderer);
-    selectionScreen.loadFromFile("data/pixelart-1556009879434-1876.jpg", renderer);
-
 
     /* === ANIMATORS === */
     ghostAnimator.init(renderer, "data/ghost_spritesheet.png", 6, 258, TILE_SIZE * SCALE);
@@ -169,6 +185,19 @@ void SDLGame::loadAssets() {
     }
     font_color = {255, 255, 255};
 
+    /* BUTTONS */
+    returnToSelectionScreen.setPos({dimx-200,dimy/2 + 250});
+    returnToSelectionScreen.setSize({200,50});
+
+    newGameDeathScreen.setPos({dimx/2 - 100, dimy / 2 + 200});
+    newGameDeathScreen.setSize({200,50});
+
+    newGameSelectionScreen.setPos({dimx/2 - 120, dimy/2});
+    newGameSelectionScreen.setSize({200,50});
+
+    goToHTP.setPos({dimx/2 -120, dimy/2 + 100});
+    goToHTP.setSize({200,50});
+    
 }
 
 void SDLGame::drawBackground(const Game &g) {
@@ -311,7 +340,6 @@ void SDLGame::drawProjectiles(const Game &g)
 }
 
 void SDLGame::drawHitFilter() {
-    cout << "GO." << endl;
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 32);
 
     SDL_Rect r = {0, 0, dimx, dimy};
@@ -328,7 +356,7 @@ void SDLGame::drawSelectionScreen()
     selectionScreen.draw(renderer,0,0,dimx,dimy);
 
     drawText("NOUVELLE PARTIE", {dimx / 2 - 120, dimy / 2, 200, 50}, true, {0, 0, 0});
-    drawText("MEDIEVAL ROGUE-LIKE", {0, 0, dimx, 150}, true, {0, 0, 0});
+    drawText("MEDIEVAL ROGUELIKE", {0, 0, dimx, 150}, true, {0, 0, 0});
     drawText("COMMENT JOUER ?", { dimx / 2 - 120, dimy / 2 + 100, 200, 50}, true, {0, 0, 0});
 }
 
@@ -337,26 +365,12 @@ void SDLGame::drawHTPScreen()
     htpScreen.draw(renderer,0,0,dimx,dimy);
 
     drawText("COMMENT JOUER ?", {0,0, dimx, 150},true, {0,0,0});
-    drawText("Utiliser les fleches directionnelles pour vous deplacer et sauter", {80, dimy/2 - 100, 600, 50},true, {0,0,0});
-    drawText("Appuyer sur H pour mettre un coup d'epee", {80, dimy/2, 600, 50},true, {0,0,0});
-    drawText("Appuyer sur la barre d'espace pour tirer avec l'arc", {80, dimy/2 + 100, 600, 50},true, {0,0,0});
-    drawText("Appuyer sur tabulation pour afficher la minimap", {80, dimy/2 + 200, 600, 50},true, {0,0,0});
-
+    drawText("Utiliser les fleches directionnelles pour vous deplacer et sauter", {80, dimy/2 - 150, 600, 50},true, {0,0,0});
+    drawText("Appuyer sur H pour mettre un coup d'epee", {80, dimy/2 -50, 600, 50},true, {0,0,0});
+    drawText("Appuyer sur la barre d'espace pour tirer avec l'arc", {80, dimy/2 + 50, 600, 50},true, {0,0,0});
+    drawText("Appuyer sur tabulation pour afficher la minimap", {80, dimy/2 + 150, 600, 50},true, {0,0,0});
+    drawText("Retour a l'ecran titre",{dimx - 200, dimy/2 + 250, 200, 50},true,{0,0,0});
 }
-
-bool SDLGame::clickOnButton()
-{
-    int xm,ym;
-    SDL_GetMouseState(&xm,&ym);
-
-    if((xm > dimx/2-120) && (xm < dimx/2 + 80) && (ym > dimy/2) && (ym < dimy/2 + 50))
-    {
-        return true;
-    }
-
-    return false;
-}
-
 
 void SDLGame::drawMap(const Game& g, bool minimap) {
     SDL_Rect r = {0, 0, 0, 0}; // sera utilisé pour l'affichage des rectangles
@@ -436,7 +450,7 @@ bool SDLGame::handleInputs(Game& g) {
     SDL_Event events;
     Player* p = g.getConstPlayer();
     const TileMap &tm = g.getConstTilemap();
-
+    int xm,ym;
     
     // tant qu'il y a des evenements à traiter (cette boucle n'est pas bloquante)
     while (SDL_PollEvent(&events))
@@ -503,9 +517,49 @@ bool SDLGame::handleInputs(Game& g) {
                 }
             }
         }
+        else if (events.type == SDL_MOUSEBUTTONDOWN)
+        {
+            SDL_GetMouseState(&xm, &ym);
+            checkButton(xm,ym,g);
+        }
     }
 
     return false;
+}
+
+void SDLGame::checkButton(int &xm, int &ym, Game &g)
+{
+    Point pos = {xm,ym};
+    if(returnToSelectionScreen.clickZone(pos))
+    {
+        isSelectionScreen = true;
+        isHTPScreen = false;
+        isDeathScreen = false;
+        playing = false;
+    }
+    else if(newGameDeathScreen.clickZone(pos) && isDeathScreen)
+    {
+        g.initDungeon();
+        initSDLGame();
+        isSelectionScreen = false;
+        isHTPScreen = false;
+        isDeathScreen = false;
+        playing = true;
+    }
+    else if(newGameSelectionScreen.clickZone(pos) && isSelectionScreen)
+    {
+        isSelectionScreen = false;
+        isHTPScreen = false;
+        isDeathScreen = false;
+        playing = true;
+    }
+    else if(goToHTP.clickZone(pos) && isSelectionScreen)
+    {
+        isSelectionScreen = false;
+        isHTPScreen = true;
+        isDeathScreen = false;
+        playing = false;
+    }
 }
 
 void SDLGame::updateGame(Game& g, float dt) {
@@ -514,9 +568,11 @@ void SDLGame::updateGame(Game& g, float dt) {
     Ghost *gh = g.getConstGhost();
     const TileMap &tm = g.getConstTilemap();
     Uint32 nt = SDL_GetTicks();
+    int xm,ym;
 
     p->updatePosition(tm, dt);
     g.automaticActions(dt);
+    checkButton(xm,ym,g);
 
     // affiche un filtre rouge quand on prend des dégats toutes les 250ms
     if (nt - hitTime < 250 && !g.playerDead) drawHitFilter(); 
@@ -565,7 +621,8 @@ void SDLGame::gameLoop(Game &g)
 
         quit = handleInputs(g);
         drawGame(g);
-        updateGame(g, deltaTime);
+        if (playing)
+            updateGame(g, deltaTime);
 
         lastTickTime = SDL_GetTicks();
 
