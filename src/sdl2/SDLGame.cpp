@@ -254,7 +254,9 @@ void SDLGame::drawPlayerHeart(const Game &g){
 }
 
 void SDLGame::drawPlayerEnergy(const Game &g){
-
+    for(int i = 0 ; i < g.getConstPlayer()->getEnergy() ; i++){
+        energySprite.draw(renderer, 1 + (i * (SCALE + 20)), 30, 8 * SCALE, 8 * SCALE);
+    }
 }
 
 void SDLGame::drawEnemiesHeart(const Game &g) {
@@ -522,6 +524,9 @@ bool SDLGame::handleInputs(Game& g) {
                 case SDL_SCANCODE_D:
                     g.keyboardActions('d');
                     break;
+                case SDL_SCANCODE_LSHIFT:   //Sprint du joueur
+                    // g.keyboardActions('s');
+                    break;
                 case SDL_SCANCODE_TAB: // afficher la map en grand
                     drawBigMap = true;
                     break;
@@ -632,7 +637,7 @@ void SDLGame::updateGame(Game& g, float dt) {
     checkButton(xm,ym,g);
 
     // affiche un filtre rouge quand on prend des dégats toutes les 250ms
-    if (nt - hitTime < 250 && !g.playerDead) drawHitFilter(); 
+    if (nt - hitTime < 200 && !g.playerDead) drawHitFilter(); 
 
     // vérifie si le joueur est touché
     // le joueur ne peut être touché que toutes les 500ms

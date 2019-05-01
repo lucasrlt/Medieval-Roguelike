@@ -116,7 +116,7 @@ void Game::initDungeon()
     Vector2D pos;
     Vector2D force(0, 0);
     int health = 10;
-    int energy = 15;
+    int energy = 5;
     int shield = 5;
     string idleSpritePlayer = "data/warrior_front.png";
     string leftSpritePlayer = "data/warrior_left.png";
@@ -211,6 +211,9 @@ void Game::keyboardActions(char action)
         break;
     case 'd':
         takeItem();
+        break;
+    case 's':
+        player->sprint();
         break;
     default:
         break;

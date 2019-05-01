@@ -73,6 +73,8 @@ class Player : public Entity
      */
     Player getPlayer();
 
+    void sprint();
+
     /**
      * @brief Affiche les caractéristiques du personnage.
      */
