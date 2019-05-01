@@ -121,7 +121,7 @@ void SDLGame::drawGame(const Game &g)
     if(!isSelectionScreen && !isHTPScreen && !isDeathScreen && playing && isPauseScreen)
     {
         playing = false;
-        drawMenuScreen();
+        //drawMenuScreen();
     }
     if (!g.playerDead && !isSelectionScreen && !isHTPScreen && !isDeathScreen && playing) 
     {
@@ -677,8 +677,10 @@ void SDLGame::gameLoop(Game &g)
 
         quit = handleInputs(g);
         drawGame(g);
-        if (playing)
+        if(playing)
             updateGame(g, deltaTime);
+        if(isPauseScreen)
+            drawMenuScreen();
         lastTickTime = SDL_GetTicks();
 
         SDL_RenderPresent(renderer);
