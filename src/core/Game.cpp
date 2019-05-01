@@ -153,11 +153,12 @@ void Game::initDungeon()
     spawnRegenItem();
 }
 
+
 void Game::attackSword(){
     if((player->position.x - player->weapon.attackRange <= ghost->position.x && player->position.x + player->weapon.attackRange >= ghost->position.x) && 
     (player->position.y <= ghost->position.y + 1 && player->position.y >= ghost->position.y - 1))
     {
-        ghost->receiveDamage(player->weapon.damages);
+        ghost->receiveDamage(player->weapon.damages);   //Dégâts pris par le ghost en fonction de l'arme du joueur
         if(ghost->getHealth() <= 0)
         {
             ghost->isDead = true;
@@ -166,7 +167,7 @@ void Game::attackSword(){
     if(savage != NULL && (player->position.x <= savage->position.x + 1 && player->position.x >= savage->position.x - 1) && 
     (player->position.y <= savage->position.y + 1 && player->position.y >= savage->position.y - 1))
     {
-        savage->receiveDamage(player->weapon.damages);
+        savage->receiveDamage(player->weapon.damages);  //Dégâts pris par le savage en fonction de l'arme du joueur
         if(savage->getHealth() <= 0)
         {
            savage->isDead = true;

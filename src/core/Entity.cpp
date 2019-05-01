@@ -52,10 +52,14 @@ Vector2D Entity::getForce() const
 
 void Entity::receiveDamage(int amount)
 {
-    health -= amount;
+    health -= amount;       
     if (health < 0)
     {
         health = 0;
+    }
+    if (health > MAX_HEALTH)
+    {
+        health = MAX_HEALTH;
     }
 }
 
@@ -63,14 +67,14 @@ const float moveA = 0.15f;
 
 void Entity::move(Vector2D dep, const TileMap &t, float time)
 {
-    if (t.isValidPosition(position.x + velocity.x * time, (position.y + velocity.y * time) + 1))
-    {
-        position.x += velocity.x * time;
-        position.y += velocity.y * time;
+    // if (t.isValidPosition(position.x + velocity.x * time, (position.y + velocity.y * time) + 1))
+    // {
+    //     position.x += velocity.x * time;
+    //     position.y += velocity.y * time;
 
-        velocity.y += 10 * time;
-        // force.x -= 10 * time;
-    }
+    //     velocity.y += 10 * time;
+    //     // force.x -= 10 * time;
+    // }
 }
 
 void Entity::updatePosition(const TileMap &t, float dt)

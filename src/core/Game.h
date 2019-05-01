@@ -35,7 +35,7 @@ class Ghost;
 class Game
 {
   public:
-    bool playerDead;
+    bool playerDead;    //Si le player est mort ou non
 
     vector<Projectile> projectiles;
 
@@ -80,17 +80,32 @@ class Game
     void spawnSavage();
     void spawnRegenItem();
 
+    /**
+     * @brief Attaque du personnage avec l'épée
+     */
     void attackSword();
+
+    /**
+     * @brief Si le personnage est sur un item, le ramasse
+     * 
+     */
     void takeItem();
 
 
     /**
-     * @brief Bouge le player.
-     * 
-     * @param move caractère indiquant la direction.
+     * @brief Fais une action sur le player en fonction des touches appuyées désignées dans la SDL
+     * @param action action désignée par la SDL
      */
     void keyboardActions(char action);
 
+    /**
+     * @brief Gère les actions automatiques du jeu, à savoir
+     * les tirs de projectile, le déplacement du ghost et du savage,
+     * si le joueur est mort, si l'item de régénération est pris,
+     * ou quand le joueur change de salle.
+     * 
+     * @param dt 
+     */
     void automaticActions(float dt);
 
     void refreshGhost();

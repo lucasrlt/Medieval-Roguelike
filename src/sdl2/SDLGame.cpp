@@ -74,9 +74,11 @@ void SDLGame::initSDL() {
         cout << "No sound !!!" << endl;
         //SDL_Quit();exit(1);
         withSound = false;
+        withDeathSound = false;
     }
     else{
         withSound = true;
+        withDeathSound = true;
     }
 
 
@@ -135,6 +137,7 @@ void SDLGame::drawGame(const Game &g)
         if(g.playerDead)
         {
             isDeathScreen = true;
+            withDeathSound = true;
             withSound = false;
             Mix_PlayMusic(deathMusic, -1);
             drawDeathScreen();
@@ -173,11 +176,17 @@ void SDLGame::loadAssets() {
 
         //Musiques utilisées dans le jeu
         backGroundMusic = Mix_LoadMUS("data/sounds/backGroundMusic.wav");
-        deathMusic = Mix_LoadMUS("data/sounds/deathMusic.wav");
 
         if (hitPlayerSound == NULL || playerAttackSwordSound == NULL || playerProjectileSound == NULL ||
-            regenItemSound == NULL || backGroundMusic == NULL || deathMusic == NULL) 
+            regenItemSound == NULL || backGroundMusic == NULL) 
         {
+            cout << "Failed to load a music file: SDL_mixer Error: " << Mix_GetError() << endl; SDL_Quit(); exit(1);
+        }
+    }
+
+    if(withDeathSound){
+        deathMusic = Mix_LoadMUS("data/sounds/deathMusic.wav");
+        if(deathMusic == NULL){
             cout << "Failed to load a music file: SDL_mixer Error: " << Mix_GetError() << endl; SDL_Quit(); exit(1);
         }
     }
@@ -502,15 +511,16 @@ bool SDLGame::handleInputs(Game& g) {
                 case SDL_SCANCODE_D:
                     g.keyboardActions('d');
                     break;
-                case SDL_SCANCODE_LSHIFT:   //Sprint du joueur
-                    // g.keyboardActions('s');
-                    break;
                 case SDL_SCANCODE_TAB: // afficher la map en grand
                     drawBigMap = true;
                     break;
                 default: break;
                 }
             }
+            // if(SDL_SCANCODE_LSHIFT){   //Sprint du joueur
+            //     g.keyboardActions('s');
+            //     break;
+            // }
         }
         else if (events.type == SDL_KEYUP)
         {
@@ -599,8 +609,8 @@ void SDLGame::updateGame(Game& g, float dt) {
         isSavageAttacking = (s != NULL && s->checkHit(p));
         if(g.checkSpikes() || isGhostAttacking || isSavageAttacking)
         {
-            // if(withSound)
-            //     Mix_PlayChannel(0,hitPlayerSound,0);
+            if(withSound)
+                Mix_PlayChannel(0,hitPlayerSound,0);
 
             hitTime = SDL_GetTicks();
         } 
@@ -626,6 +636,8 @@ void SDLGame::gameLoop(Game &g)
     // lance la musique de fond
     Mix_VolumeMusic(MIX_MAX_VOLUME/5);
     if(withSound) Mix_PlayMusic(backGroundMusic, -1);
+
+    // if(withDeathSound) Mix_PlayMusic(deathMusic, 0);
 
     lastTickTime = SDL_GetTicks();
     while (!quit)

@@ -61,7 +61,7 @@ void Button::setSize(const Vector2D &_size)
     size = _size;
 }
 
-bool Button::clickZone(const Point &_pos)
+bool Button::clickZone(const Point &_pos) // Définit la zone de click du bouton
 {
     if(_pos.x >= pos.x && _pos.y >= pos.y && _pos.x <= (pos.x + size.x) && _pos.y <= (pos.y + size.y))
         return true;

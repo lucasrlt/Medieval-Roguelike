@@ -4,6 +4,14 @@
 #include "Vector2D.h"
 #include <string>
 
+/**
+ * @brief Module gérant les boutons du jeu.
+
+ * @file Button.h
+ * @date 30/04/2019
+ * @author Hadrien GUY
+ */
+
 using namespace std;
 
 class Button
