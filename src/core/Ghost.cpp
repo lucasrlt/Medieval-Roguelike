@@ -11,6 +11,7 @@ Ghost::Ghost()
     health = 0;
     strenght = 0;
     isDead = false;
+    isBoss = false;
 
     idleSprite = " ";
     leftSprite = " ";
@@ -25,6 +26,7 @@ Ghost::Ghost(Vector2D posInit, Vector2D forceInit, int healthInit, int strenghtI
     health = healthInit;
     strenght = strenghtInit;
     isDead = isDeadCheck;
+    isBoss = false;
     
     idleSprite = spriteNameIdle;
     leftSprite = spriteNameLeft;
@@ -41,9 +43,10 @@ int Ghost::getStrenght() const
 }
 
 bool Ghost::checkHit(Player *player){
+    int width = isBoss ? 3.f : .75f;
     if(isDead == false){
-        if((position.x <= player->position.x + 0.75f && position.x >= player->position.x - 0.75f) && 
-            (position.y <= player->position.y + 0.75f && position.y >= player->position.y - 0.75f))  
+        if((position.x <= player->position.x + width && position.x >= player->position.x - width) && 
+            (position.y <= player->position.y + width && position.y >= player->position.y - width))  
         {
             player->receiveDamage(strenght);
             return true;

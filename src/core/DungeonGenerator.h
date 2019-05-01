@@ -9,6 +9,7 @@
 #define MEDIEVALROGUELIKE_DUNGEONGENERATOR_H
 
 #include <vector>
+#include "Vector2D.h"
 #include "Room.h"
 
 const int MAZE_SIZE = 5;
@@ -71,6 +72,8 @@ class DungeonGenerator
      * @return Room salle adaptée au point (x,y)
      */
     Room *getRandomRoomForPos(unsigned int x, unsigned int y);
+
+    void findBossRoom(Room *dungeon[MAZE_SIZE][MAZE_SIZE]);
 
   public:
     DungeonGenerator();

@@ -35,7 +35,7 @@ class Ghost;
 class Game
 {
   public:
-    bool playerDead;
+    bool playerDead, hasWon;
 
     vector<Projectile> projectiles;
 
@@ -102,6 +102,7 @@ class Game
 
   private:
     bool isJumping;
+    bool isBossRoom;
     Room currentRoom;
     int currRoomX, currRoomY;
 

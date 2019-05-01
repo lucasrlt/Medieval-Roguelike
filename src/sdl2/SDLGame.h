@@ -43,6 +43,7 @@ private:
   /* ==== GESTION DES ANIMATIONS ==== */
   bool isGhostAttacking;
   Animator ghostAnimator;
+  Animator bossAnimator;
 
   bool isSavageAttacking;
   Animator savageAnimator;

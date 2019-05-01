@@ -138,6 +138,7 @@ void SDLGame::loadAssets() {
 
     /* === ANIMATORS === */
     ghostAnimator.init(renderer, "data/ghost_spritesheet.png", 6, 258, TILE_SIZE * SCALE);
+    bossAnimator.init(renderer, "data/boss_spritesheet.png", 3, 190, TILE_SIZE * SCALE, 3);
     playerAnimator.init(renderer, "data/player_spritesheet.png", 7, 258, TILE_SIZE * SCALE);
     savageAnimator.init(renderer, "data/savage_spritesheet.png", 7, 258, TILE_SIZE * SCALE);
 
@@ -213,10 +214,17 @@ void SDLGame::drawEnemiesHeart(const Game &g) {
     if(!ghost->isDead){
         for(int i = 0 ; i < ghost->getHealth() ; i++)
         {
-            heartSprite.draw(renderer, 
-                             (ghost->position.x * SCALE * 16) + (i * (SCALE + 10)) + 5, 
-                             ghost->position.y * SCALE * 16 -20, 
-                             4 * SCALE, 4 * SCALE);
+            if (!ghost->isBoss) {
+                heartSprite.draw(renderer, 
+                                (ghost->position.x * SCALE * 16) + (i * (SCALE + 10)) + 5, 
+                                ghost->position.y * SCALE * 16 -20, 
+                                4 * SCALE, 4 * SCALE);
+            } else {
+                heartSprite.draw(renderer, 
+                                 ((dimx / 3) - 50 + (i * (12 * SCALE + 10))),
+                                 dimy - 2 * TILE_SIZE * SCALE,
+                                 12 * SCALE, 12 * SCALE);
+            }
         }
     }
     if(savage != NULL && !savage->isDead){
@@ -284,7 +292,7 @@ void SDLGame::drawEnemies(const Game &g){
     bool goingLeft = true;
     if (ghost != NULL && !ghost->isDead) {
         if (ghost->position.x <= player->position.x) goingLeft = false;
-        drawEnemy(ghost->position, ghostAnimator, goingLeft, isGhostAttacking, ghost->isDead);
+        drawEnemy(ghost->position, ghost->isBoss ? bossAnimator : ghostAnimator, goingLeft, isGhostAttacking, ghost->isDead);
     }
 
     if (savage != NULL && !savage->isDead) {
@@ -308,7 +316,6 @@ void SDLGame::drawProjectiles(const Game &g)
 }
 
 void SDLGame::drawHitFilter() {
-    cout << "GO." << endl;
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 32);
 
     SDL_Rect r = {0, 0, dimx, dimy};
@@ -496,15 +503,15 @@ void SDLGame::updateGame(Game& g, float dt) {
     // le joueur ne peut être touché que toutes les 500ms
     if (nt - hitTime > 500)
     {
-        isGhostAttacking = gh->checkHit(p);
-        isSavageAttacking = (s != NULL && s->checkHit(p));
-        if(g.checkSpikes() || isGhostAttacking || isSavageAttacking)
-        {
-            if(withSound)
-                Mix_PlayChannel(0,hitPlayerSound,0);
+        // isGhostAttacking = gh->checkHit(p);
+        // isSavageAttacking = (s != NULL && s->checkHit(p));
+        // if(g.checkSpikes() || isGhostAtt acking || isSavageAttacking)
+        // {
+        //     if(withSound)
+        //         Mix_PlayChannel(0,hitPlayerSound,0);
 
-            hitTime = SDL_GetTicks();
-        } 
+        //     hitTime = SDL_GetTicks();
+        // } 
     }
 
     // une attaque dure 800ms (pour l'animation)
