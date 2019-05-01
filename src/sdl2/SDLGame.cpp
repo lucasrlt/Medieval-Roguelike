@@ -110,7 +110,8 @@ void SDLGame::drawGame(const Game &g)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
 
-   if (isSelectionScreen && !isHTPScreen && !isDeathScreen && !playing) 
+    drawVictoryScreen();
+   /*if (isSelectionScreen && !isHTPScreen && !isDeathScreen && !playing) 
     {
         drawSelectionScreen();
     }
@@ -144,7 +145,7 @@ void SDLGame::drawGame(const Game &g)
             Mix_PlayMusic(deathMusic, -1);
             drawDeathScreen();
         }
-    }
+    }*/
 }
 
 
@@ -163,6 +164,7 @@ void SDLGame::loadAssets() {
     deathScreen.loadFromFile("data/sprites/deathscreen.jpg", renderer);
     htpScreen.loadFromFile("data/sprites/interior_background.png", renderer);
     menuScreen.loadFromFile("data/sprites/interior_background.png", renderer);
+    victoryScreen.loadFromFile("data/sprites/exterior_background.png",renderer);
 
     /* === ANIMATORS === */
     ghostAnimator.init(renderer, "data/sprites/ghost_spritesheet.png", 6, 258, TILE_SIZE * SCALE);
@@ -213,6 +215,9 @@ void SDLGame::loadAssets() {
 
     goBackToGame.setPos({50, dimy/2 + 200});
     goBackToGame.setSize({280,50});
+
+    afterVictoryScreen.setPos({dimx/2 - 150, dimy/2 + 200});
+    afterVictoryScreen.setSize({300,50});
 }
 
 void SDLGame::drawBackground(const Game &g) {
@@ -402,6 +407,14 @@ void SDLGame::drawMenuScreen()
     drawText("Vous avez mis le jeu en pause",{50,dimy/2 - 100, 660, 100},true,{0,0,0,0});
     drawText("Reprendre",{50,dimy/2 + 200, 280, 50},true,{0,0,0,255});
     drawText("Menu principal",{430,dimy/2 + 200, 280, 50},true,{0,0,0,255});
+}
+
+void SDLGame::drawVictoryScreen()
+{
+    victoryScreen.draw(renderer,0,0,dimx,dimy);
+
+    drawText("Vous etes vainqueur!", {0,130,dimx,250},true,{0,0,0,0});
+    drawText("Menu principal",{dimx/2 - 150, dimy/2 + 200, 300, 50}, true,{0,0,0,150});
 }
 
 void SDLGame::drawMap(const Game& g, bool minimap) {
@@ -620,6 +633,14 @@ void SDLGame::checkButton(int &xm, int &ym, Game &g)
         isDeathScreen = false;
         playing = false;
         isPauseScreen = false;
+    }
+    else if(afterVictoryScreen.clickZone(pos) && playing)
+    {
+        isSelectionScreen = true;
+        isHTPScreen = false;
+        isDeathScreen = false;
+        isPauseScreen = false;
+        playing = false;
     }
 }
 

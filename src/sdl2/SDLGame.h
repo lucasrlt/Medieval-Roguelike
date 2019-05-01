@@ -74,6 +74,7 @@ private:
   Image selectionScreen;
   Image htpScreen;
   Image menuScreen;
+  Image victoryScreen;
   Image tilesetImg;
   Image heartSprite;
   Image energySprite;
@@ -86,6 +87,7 @@ private:
   Button newGameDeathScreen;
   Button goBackToGame;
   Button goBackToFirstScreen;
+  Button afterVictoryScreen;
   
   /* POLICE ET COULEUR DE POLICE */
 
@@ -140,13 +142,17 @@ private:
   void drawPlayerEnergy(const Game &g);
   void drawBackground(const Game& g);
   void renderProjectiles(const Game &g);
+
   void drawHitFilter();
   void drawDeathScreen();
   void drawSelectionScreen();
   void drawHTPScreen();
   void drawMenuScreen();
+  void drawVictoryScreen();
+
   void drawEnemies(const Game &g);
   void drawEnemiesHeart(const Game &g);
+  
   void checkButton(int &xm, int &ym, Game &g);
 
   /**
