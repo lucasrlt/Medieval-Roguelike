@@ -35,6 +35,7 @@ private:
   bool isHTPScreen;
   bool isDeathScreen;
   bool playing;
+  bool isPauseScreen;
   
   /* ==== GESTION DU SON ==== */
   bool withSound;
@@ -72,6 +73,7 @@ private:
   Image deathScreen;  
   Image selectionScreen;
   Image htpScreen;
+  Image menuScreen;
   Image tilesetImg;
   Image heartSprite;
   Image energySprite;
@@ -82,7 +84,9 @@ private:
   Button goToHTP;
   Button newGameSelectionScreen;
   Button newGameDeathScreen;
-
+  Button goBackToGame;
+  Button goBackToFirstScreen;
+  
   /* POLICE ET COULEUR DE POLICE */
 
   TTF_Font * font;
@@ -140,6 +144,7 @@ private:
   void drawDeathScreen();
   void drawSelectionScreen();
   void drawHTPScreen();
+  void drawMenuScreen();
   void drawEnemies(const Game &g);
   void drawEnemiesHeart(const Game &g);
   void checkButton(int &xm, int &ym, Game &g);

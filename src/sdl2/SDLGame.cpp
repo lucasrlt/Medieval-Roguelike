@@ -44,6 +44,7 @@ void SDLGame::initSDLGame()
     isSelectionScreen = true;
     isDeathScreen = false;
     isHTPScreen = false;
+    isPauseScreen = false;
     right = false;
     left = false;
     stop = true;
@@ -109,14 +110,18 @@ void SDLGame::drawGame(const Game &g)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
 
-
-    if (isSelectionScreen && !isHTPScreen && !isDeathScreen && !playing) 
+   if (isSelectionScreen && !isHTPScreen && !isDeathScreen && !playing) 
     {
         drawSelectionScreen();
     }
     if(!isSelectionScreen && isHTPScreen && !isDeathScreen && !playing)
     {
         drawHTPScreen();
+    }
+    if(!isSelectionScreen && !isHTPScreen && !isDeathScreen && playing && isPauseScreen)
+    {
+        playing = false;
+        drawMenuScreen();
     }
     if (!g.playerDead && !isSelectionScreen && !isHTPScreen && !isDeathScreen && playing) 
     {
@@ -157,6 +162,7 @@ void SDLGame::loadAssets() {
     projectileLeft.loadFromFile("data/sprites/arrow_left.png", renderer);
     deathScreen.loadFromFile("data/sprites/deathscreen.jpg", renderer);
     htpScreen.loadFromFile("data/sprites/interior_background.png", renderer);
+    menuScreen.loadFromFile("data/sprites/interior_background.png", renderer);
 
     /* === ANIMATORS === */
     ghostAnimator.init(renderer, "data/sprites/ghost_spritesheet.png", 6, 258, TILE_SIZE * SCALE);
@@ -201,7 +207,12 @@ void SDLGame::loadAssets() {
 
     goToHTP.setPos({dimx/2 -120, dimy/2 + 100});
     goToHTP.setSize({200,50});
-    
+
+    goBackToFirstScreen.setPos({430, dimy/2 + 200});
+    goBackToFirstScreen.setSize({280,50});
+
+    goBackToGame.setPos({50, dimy/2 + 200});
+    goBackToGame.setSize({280,50});
 }
 
 void SDLGame::drawBackground(const Game &g) {
@@ -380,6 +391,16 @@ void SDLGame::drawHTPScreen()
     drawText("Retour a l'ecran titre",{dimx - 200, dimy/2 + 250, 200, 50},true,{0,0,0,255});
 }
 
+void SDLGame::drawMenuScreen()
+{
+    menuScreen.draw(renderer,0,0,dimx,dimy);
+
+    drawText("JEU MIS EN PAUSE", {0,0,dimx,150},true,{0,0,0,255});
+    drawText("Vous avez mis le jeu en pause",{50,dimy/2 - 100, 660, 100},true,{0,0,0,0});
+    drawText("Reprendre",{50,dimy/2 + 200, 280, 50},true,{0,0,0,255});
+    drawText("Menu principal",{430,dimy/2 + 200, 280, 50},true,{0,0,0,255});
+}
+
 void SDLGame::drawMap(const Game& g, bool minimap) {
     SDL_Rect r = {0, 0, 0, 0}; // sera utilisé pour l'affichage des rectangles
 
@@ -503,6 +524,9 @@ bool SDLGame::handleInputs(Game& g) {
                 case SDL_SCANCODE_TAB: // afficher la map en grand
                     drawBigMap = true;
                     break;
+                case SDL_SCANCODE_ESCAPE:
+                    isPauseScreen = true;
+                    break;  
                 default: break;
                 }
             }
@@ -520,6 +544,9 @@ bool SDLGame::handleInputs(Game& g) {
                     break;
                 case SDL_SCANCODE_TAB: // réaffiche la carte en petite taille
                     drawBigMap = false;
+                    break;
+                case SDL_SCANCODE_ESCAPE:
+                    isPauseScreen = true;
                     break;
                 default: break;
                 }
@@ -544,6 +571,7 @@ void SDLGame::checkButton(int &xm, int &ym, Game &g)
         isHTPScreen = false;
         isDeathScreen = false;
         playing = false;
+        isPauseScreen = false;
     }
     else if(newGameDeathScreen.clickZone(pos) && isDeathScreen)
     {
@@ -553,6 +581,7 @@ void SDLGame::checkButton(int &xm, int &ym, Game &g)
         isHTPScreen = false;
         isDeathScreen = false;
         playing = true;
+        isPauseScreen = false;
     }
     else if(newGameSelectionScreen.clickZone(pos) && isSelectionScreen)
     {
@@ -560,6 +589,7 @@ void SDLGame::checkButton(int &xm, int &ym, Game &g)
         isHTPScreen = false;
         isDeathScreen = false;
         playing = true;
+        isPauseScreen = false;
     }
     else if(goToHTP.clickZone(pos) && isSelectionScreen)
     {
@@ -567,6 +597,23 @@ void SDLGame::checkButton(int &xm, int &ym, Game &g)
         isHTPScreen = true;
         isDeathScreen = false;
         playing = false;
+        isPauseScreen = false;
+    }
+    else if(goBackToGame.clickZone(pos) && isPauseScreen)
+    {
+        isSelectionScreen = false;
+        isHTPScreen = false;
+        isDeathScreen = false;
+        playing = true;
+        isPauseScreen = false;
+    }
+    else if(goBackToFirstScreen.clickZone(pos) && isPauseScreen)
+    {
+        isSelectionScreen = true;
+        isHTPScreen = false;
+        isDeathScreen = false;
+        playing = false;
+        isPauseScreen = false;
     }
 }
 
@@ -632,7 +679,6 @@ void SDLGame::gameLoop(Game &g)
         drawGame(g);
         if (playing)
             updateGame(g, deltaTime);
-
         lastTickTime = SDL_GetTicks();
 
         SDL_RenderPresent(renderer);
