@@ -384,10 +384,11 @@ void SDLGame::drawHTPScreen()
     htpScreen.draw(renderer,0,0,dimx,dimy);
 
     drawText("COMMENT JOUER ?", {0,0, dimx, 150},true, {0, 0, 0, 255});
-    drawText("-Utiliser les fleches directionnelles pour vous deplacer et sauter", {80, dimy/2 - 150, 600, 50},true, {0,0,0,0});
-    drawText("-Appuyer sur H pour mettre un coup d'epee", {80, dimy/2 -50, 600, 50},true, {0,0,0,0});
-    drawText("-Appuyer sur la barre d'espace pour tirer avec l'arc", {80, dimy/2 + 50, 600, 50},true, {0,0,0,0});
-    drawText("-Appuyer sur tabulation pour afficher la minimap", {80, dimy/2 + 150, 600, 50},true, {0,0,0,0});
+    drawText("-Utiliser les fleches directionnelles pour vous deplacer et sauter", {80, dimy/2 - 200, 600, 50},true, {0,0,0,0});
+    drawText("-Appuyer sur H pour mettre un coup d'epee", {80, dimy/2 -100, 600, 50},true, {0,0,0,0});
+    drawText("-Appuyer sur la barre d'espace pour tirer avec l'arc", {80, dimy/2, 600, 50},true, {0,0,0,0});
+    drawText("-Appuyer sur tabulation pour afficher la minimap", {80, dimy/2 + 100, 600, 50},true, {0,0,0,0});
+    drawText("-Appuyer sur echap pour mettre en pause", {80, dimy/2 + 200, 600, 50},true, {0,0,0,0});
     drawText("Retour a l'ecran titre",{dimx - 200, dimy/2 + 250, 200, 50},true,{0,0,0,255});
 }
 
