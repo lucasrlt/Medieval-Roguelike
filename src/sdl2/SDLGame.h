@@ -16,6 +16,7 @@
 #include "Animator.h"
 #include "../core/Game.h"
 #include "../core/Room.h"
+#include "../core/Button.h"
 
 const int SCALE = 3;
 const int dimx = GRID_SIZE * TILE_SIZE * SCALE;
@@ -31,6 +32,10 @@ private:
   bool stop;
   bool drawBigMap;
   bool isSelectionScreen;
+  bool isHTPScreen;
+  bool isDeathScreen;
+  bool playing;
+  bool isPauseScreen;
   
   /* ==== GESTION DU SON ==== */
   bool withSound;
@@ -39,6 +44,7 @@ private:
   struct Mix_Chunk *hitPlayerSound;
   struct Mix_Chunk *playerAttackSwordSound;
   struct Mix_Chunk *playerProjectileSound;
+  struct Mix_Chunk *regenItemSound;
 
   /* ==== GESTION DES ANIMATIONS ==== */
   bool isGhostAttacking;
@@ -67,8 +73,24 @@ private:
   Image backgroundInterior;
   Image deathScreen;  
   Image selectionScreen;
+  Image htpScreen;
+  Image menuScreen;
+  Image victoryScreen;
   Image tilesetImg;
   Image heartSprite;
+  Image energySprite;
+
+  /* BOUTONS */
+
+  Button returnToSelectionScreen;
+  Button goToHTP;
+  Button newGameSelectionScreen;
+  Button newGameDeathScreen;
+  Button goBackToGame;
+  Button goBackToFirstScreen;
+  Button afterVictoryScreen;
+  
+  /* POLICE ET COULEUR DE POLICE */
 
   TTF_Font * font;
   SDL_Color font_color;
@@ -84,6 +106,11 @@ private:
    * et crée la fenêtre du jeu.
    */
   void initSDL();
+
+  /**
+   * @brief Initialise le jeu.
+   */
+  void initSDLGame();
 
   /**
    * @brief Charge toutes les données du jeu (images, fonts, sons, ...).
@@ -113,13 +140,21 @@ private:
   void drawCurrentRoom(const Game &g);
   void drawPlayer(Player *player);
   void drawPlayerHeart(const Game &g);
+  void drawPlayerEnergy(const Game &g);
   void drawBackground(const Game& g);
   void renderProjectiles(const Game &g);
+
   void drawHitFilter();
   void drawDeathScreen();
   void drawSelectionScreen();
+  void drawHTPScreen();
+  void drawMenuScreen();
+  void drawVictoryScreen();
+
   void drawEnemies(const Game &g);
   void drawEnemiesHeart(const Game &g);
+  
+  void checkButton(int &xm, int &ym, Game &g);
 
   /**
    * @brief Affiche du texte à l'écran.

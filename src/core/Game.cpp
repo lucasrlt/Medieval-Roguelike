@@ -59,11 +59,6 @@ Item *Game::getConstItems() const
 }
 
 void Game::spawnGhost(){
-    // if (ghost != NULL) {
-    //     cout << "coucou" << endl;
-    //     delete ghost;
-    // }
-
     //Caratéristiques du Ghost
     Vector2D posGhost;
     int healthGhost = currentRoom.isBossRoom ? 8 : 3;
@@ -125,7 +120,7 @@ void Game::initDungeon()
     Vector2D pos;
     Vector2D force(0, 0);
     int health = 10;
-    int energy = 15;
+    int energy = 5;
     int shield = 5;
     string idleSpritePlayer = "data/warrior_front.png";
     string leftSpritePlayer = "data/warrior_left.png";
@@ -135,7 +130,7 @@ void Game::initDungeon()
     unsigned int energyCost = 3;
     unsigned int attackSpeed = 5;
     int type = 1;
-    float attackRange = 8;
+    float attackRange = 2;
     string weaponName = "Lance";
 
     Weapon weapon(damages, energyCost, attackSpeed, type, attackRange, weaponName);
@@ -153,7 +148,7 @@ void Game::initDungeon()
     pos = {(float)tilemap->playerSpawn.x, (float)tilemap->playerSpawn.y};
 
     player = new Player(pos, force, health, energy, shield, weapon, idleSpritePlayer, leftSpritePlayer, rightSpritePlayer);
-    
+    playerDead = false;
     // Point ennemyPos = tilemap->enemySpawns[rand() % tilemap->enemySpawns.size()];
     isJumping = false;
 
@@ -163,7 +158,7 @@ void Game::initDungeon()
 }
 
 void Game::attackSword(){
-    if((player->position.x <= ghost->position.x + 1 && player->position.x >= ghost->position.x - 1) && 
+    if((player->position.x - player->weapon.attackRange <= ghost->position.x && player->position.x + player->weapon.attackRange >= ghost->position.x) && 
     (player->position.y <= ghost->position.y + 1 && player->position.y >= ghost->position.y - 1))
     {
         ghost->receiveDamage(player->weapon.damages);
@@ -220,6 +215,9 @@ void Game::keyboardActions(char action)
         break;
     case 'd':
         takeItem();
+        break;
+    case 's':
+        player->sprint();
         break;
     default:
         break;
@@ -331,24 +329,13 @@ void Game::projectileHitEnnemy()
         if((projectiles[i].position.x <= ghost->position.x + width && projectiles[i].position.x >= ghost->position.x - width)
         && (projectiles[i].position.y <= ghost->position.y + width && projectiles[i].position.y >= ghost->position.y - width) && projectiles[i].isHit == false)
         {
-            ghost->receiveDamage(PROJECTILE_DAMAGES);
-            projectiles[i].isHit = true;
-            if(ghost->getHealth() <= 0)
-            {
-                ghost->isDead = true;
-            }
+            projectiles[i].hit(*ghost);
         }
           
         if(savage != NULL && (projectiles[i].position.x <= savage->position.x + 0.75f && projectiles[i].position.x >= savage->position.x - 0.75f)
-        && (projectiles[i].position.y <= savage->position.y + 0.75f && projectiles[i].position.y >= savage->position.y - 0.75f) && projectiles[i].isHit == false)
+        && (projectiles[i].position.y <= savage->position.y + 0.75f && projectiles[i].position.y >= savage->position.y - 0.75f) && !projectiles[i].isHit)
         {
-            savage->receiveDamage(PROJECTILE_DAMAGES); 
-            projectiles[i].isHit = true;
-            
-            if(savage->getHealth() <= 0)
-            {
-                savage -> isDead = true;
-            } 
+            projectiles[i].hit(*savage);
         }
     }
 }

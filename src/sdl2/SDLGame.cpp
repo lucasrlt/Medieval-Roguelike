@@ -12,17 +12,11 @@ using namespace std;
 
 SDLGame::SDLGame()
 {
-    drawBigMap = false;
-    isPlayerAttacking = false;
-    isSelectionScreen = false;
-    right = false;
-    left = false;
-    stop = true;
-
+    initSDLGame();
     initSDL();
     loadAssets();
 
-    hitTime = SDL_GetTicks();
+    hitTime = 0;
 }
 
 SDLGame::~SDLGame()
@@ -36,10 +30,25 @@ SDLGame::~SDLGame()
     Mix_FreeChunk(hitPlayerSound);
     Mix_FreeChunk(playerAttackSwordSound);
     Mix_FreeChunk(playerProjectileSound);
+    Mix_FreeChunk(regenItemSound);
     Mix_FreeMusic(backGroundMusic);
     Mix_FreeMusic(deathMusic);
     Mix_CloseAudio();
 
+}
+
+void SDLGame::initSDLGame()
+{
+    drawBigMap = false;
+    isPlayerAttacking = false;
+    isSelectionScreen = true;
+    isDeathScreen = false;
+    isHTPScreen = false;
+    isPauseScreen = false;
+    right = false;
+    left = false;
+    stop = true;
+    playing = false;
 }
 
 void SDLGame::initSDL() {
@@ -91,6 +100,7 @@ void SDLGame::initSDL() {
         //0 = hitPlayerSound
         //1 = playerAttackSwordSound
         //2 = playerProjectileSound
+        //3 = regenItemSound
     }
 
 }
@@ -100,41 +110,61 @@ void SDLGame::drawGame(const Game &g)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
 
-    if (isSelectionScreen) {
+    drawVictoryScreen();
+   /*if (isSelectionScreen && !isHTPScreen && !isDeathScreen && !playing) 
+    {
         drawSelectionScreen();
-    } else {
-        if (!g.playerDead) {
-            drawBackground(g);
-            drawCurrentRoom(g);
-            drawPlayerHeart(g);
-            drawPlayer(g.getConstPlayer());
-            drawEnemiesHeart(g);        
-            drawEnemies(g);
-            drawProjectiles(g);
-            drawItemsRegen(g);
-            drawMap(g, !drawBigMap);
-        } else {
+    }
+    if(!isSelectionScreen && isHTPScreen && !isDeathScreen && !playing)
+    {
+        drawHTPScreen();
+    }
+    if(!isSelectionScreen && !isHTPScreen && !isDeathScreen && playing && isPauseScreen)
+    {
+        playing = false;
+        //drawMenuScreen();
+    }
+    if (!g.playerDead && !isSelectionScreen && !isHTPScreen && !isDeathScreen && playing) 
+    {
+        drawBackground(g);
+        drawCurrentRoom(g);
+        drawPlayerHeart(g);
+        drawPlayer(g.getConstPlayer());
+        drawEnemiesHeart(g);        
+        drawEnemies(g);
+        drawProjectiles(g);
+        drawItemsRegen(g);
+        drawMap(g, !drawBigMap);
+    } 
+    else
+    {
+        if(g.playerDead)
+        {
+            isDeathScreen = true;
             withSound = false;
             Mix_PlayMusic(deathMusic, -1);
             drawDeathScreen();
         }
-    }
+    }*/
 }
+
 
 void SDLGame::loadAssets() {
     /* === IMAGES === */
     tilesetImg.loadFromFile("data/tileset_img.png", renderer);
-    heartSprite.loadFromFile("data/heart_sprite.png", renderer);
-    backgroundExterior.loadFromFile("data/exterior_background.png", renderer);
-    backgroundInterior.loadFromFile("data/interior_background.png", renderer);
-    selectionScreen.loadFromFile("data/pixelart-1556009879434-1876.jpg", renderer);
-    itemIdle.loadFromFile("data/burger.png", renderer);
-    playerIdle.loadFromFile("data/warrior_front.png", renderer);
-    projectileRight.loadFromFile("data/arrow_right.png",renderer);
-    projectileLeft.loadFromFile("data/arrow_left.png", renderer);
-    deathScreen.loadFromFile("data/deathscreen.jpg", renderer);
-    selectionScreen.loadFromFile("data/pixelart-1556009879434-1876.jpg", renderer);
-
+    heartSprite.loadFromFile("data/sprites/heart_sprite.png", renderer);
+    energySprite.loadFromFile("data/sprites/energy_sprite.png", renderer);
+    backgroundExterior.loadFromFile("data/sprites/exterior_background.png", renderer);
+    backgroundInterior.loadFromFile("data/sprites/interior_background.png", renderer);
+    selectionScreen.loadFromFile("data/sprites/pixelart-1556009879434-1876.jpg", renderer);
+    itemIdle.loadFromFile("data/sprites/burger.png", renderer);
+    playerIdle.loadFromFile("data/sprites/warrior_front.png", renderer);
+    projectileRight.loadFromFile("data/sprites/arrow_right.png",renderer);
+    projectileLeft.loadFromFile("data/sprites/arrow_left.png", renderer);
+    deathScreen.loadFromFile("data/sprites/deathscreen.jpg", renderer);
+    htpScreen.loadFromFile("data/sprites/interior_background.png", renderer);
+    menuScreen.loadFromFile("data/sprites/interior_background.png", renderer);
+    victoryScreen.loadFromFile("data/sprites/exterior_background.png",renderer);
 
     /* === ANIMATORS === */
     ghostAnimator.init(renderer, "data/ghost_spritesheet.png", 6, 258, TILE_SIZE * SCALE);
@@ -148,13 +178,14 @@ void SDLGame::loadAssets() {
         hitPlayerSound = Mix_LoadWAV("data/sounds/hitPlayerSound.wav");
         playerAttackSwordSound = Mix_LoadWAV("data/sounds/playerAttackSwordSound.wav");
         playerProjectileSound = Mix_LoadWAV("data/sounds/playerProjectileSound.wav");
+        regenItemSound = Mix_LoadWAV("data/sounds/regenItemSound.wav");
 
         //Musiques utilisées dans le jeu
         backGroundMusic = Mix_LoadMUS("data/sounds/backGroundMusic.wav");
         deathMusic = Mix_LoadMUS("data/sounds/deathMusic.wav");
 
         if (hitPlayerSound == NULL || playerAttackSwordSound == NULL || playerProjectileSound == NULL ||
-            backGroundMusic == NULL || deathMusic == NULL) 
+            regenItemSound == NULL || backGroundMusic == NULL || deathMusic == NULL) 
         {
             cout << "Failed to load a music file: SDL_mixer Error: " << Mix_GetError() << endl; SDL_Quit(); exit(1);
         }
@@ -167,6 +198,27 @@ void SDLGame::loadAssets() {
     }
     font_color = {255, 255, 255};
 
+    /* BUTTONS */
+    returnToSelectionScreen.setPos({dimx-200,dimy/2 + 250});
+    returnToSelectionScreen.setSize({200,50});
+
+    newGameDeathScreen.setPos({dimx/2 - 100, dimy / 2 + 200});
+    newGameDeathScreen.setSize({200,50});
+
+    newGameSelectionScreen.setPos({dimx/2 - 120, dimy/2});
+    newGameSelectionScreen.setSize({200,50});
+
+    goToHTP.setPos({dimx/2 -120, dimy/2 + 100});
+    goToHTP.setSize({200,50});
+
+    goBackToFirstScreen.setPos({430, dimy/2 + 200});
+    goBackToFirstScreen.setSize({280,50});
+
+    goBackToGame.setPos({50, dimy/2 + 200});
+    goBackToGame.setSize({280,50});
+
+    afterVictoryScreen.setPos({dimx/2 - 150, dimy/2 + 200});
+    afterVictoryScreen.setSize({300,50});
 }
 
 void SDLGame::drawBackground(const Game &g) {
@@ -204,6 +256,12 @@ void SDLGame::drawPlayerHeart(const Game &g){
     for (int i = 0; i < g.getConstPlayer()->getHealth(); i++)
     {
         heartSprite.draw(renderer, 1 + (i * (SCALE + 20)), 0, 8 * SCALE, 8 * SCALE);
+    }
+}
+
+void SDLGame::drawPlayerEnergy(const Game &g){
+    for(int i = 0 ; i < g.getConstPlayer()->getEnergy() ; i++){
+        energySprite.draw(renderer, 1 + (i * (SCALE + 20)), 30, 8 * SCALE, 8 * SCALE);
     }
 }
 
@@ -277,7 +335,7 @@ void SDLGame::drawText(const string& text, const SDL_Rect& rect, bool renderBg, 
     txt.loadFromCurrentSurface(renderer);
 
     if (renderBg) {
-        SDL_SetRenderDrawColor(renderer, bg.r, bg.g, bg.b, 255);
+        SDL_SetRenderDrawColor(renderer, bg.r, bg.g, bg.b, bg.a);
         SDL_RenderFillRect(renderer, &rect);
     }
     SDL_RenderCopy(renderer, txt.getTexture(), NULL, &rect);
@@ -324,16 +382,47 @@ void SDLGame::drawHitFilter() {
 
 void SDLGame::drawDeathScreen() {
     deathScreen.draw(renderer,0,0,dimx,dimy);
-    drawText("NOUVELLE PARTIE", {dimx / 2 - 100, dimy / 2 + 200, 200, 50}, true, {30, 30, 30});
+    drawText("NOUVELLE PARTIE", {dimx / 2 - 100, dimy / 2 + 200, 200, 50}, true, {30, 30, 30,255});
 }
 
 void SDLGame::drawSelectionScreen() 
 {
     selectionScreen.draw(renderer,0,0,dimx,dimy);
 
-    drawText("NOUVELLE PARTIE", {dimx / 2 - 120, dimy / 2, 200, 50}, true, {0, 0, 0});
-    drawText("MEDIEVAL ROGUE-LIKE", {0, 0, dimx, 150}, true, {0, 0, 0});
-    drawText("COMMENT JOUER ?", { dimx / 2 - 120, dimy / 2 + 100, 200, 50}, true, {0, 0, 0});
+    drawText("NOUVELLE PARTIE", {dimx / 2 - 120, dimy / 2, 200, 50}, true, {0, 0, 0, 150});
+    drawText("MEDIEVAL ROGUELIKE", {0, 0, dimx, 150}, true, {0, 0, 0, 255});
+    drawText("COMMENT JOUER ?", { dimx / 2 - 120, dimy / 2 + 100, 200, 50}, true, {0, 0, 0, 150});
+}
+
+void SDLGame::drawHTPScreen()
+{
+    htpScreen.draw(renderer,0,0,dimx,dimy);
+
+    drawText("COMMENT JOUER ?", {0,0, dimx, 150},true, {0, 0, 0, 255});
+    drawText("-Utiliser les fleches directionnelles pour vous deplacer et sauter", {80, dimy/2 - 200, 600, 50},true, {0,0,0,0});
+    drawText("-Appuyer sur H pour mettre un coup d'epee", {80, dimy/2 -100, 600, 50},true, {0,0,0,0});
+    drawText("-Appuyer sur la barre d'espace pour tirer avec l'arc", {80, dimy/2, 600, 50},true, {0,0,0,0});
+    drawText("-Appuyer sur tabulation pour afficher la minimap", {80, dimy/2 + 100, 600, 50},true, {0,0,0,0});
+    drawText("-Appuyer sur echap pour mettre en pause", {80, dimy/2 + 200, 600, 50},true, {0,0,0,0});
+    drawText("Retour a l'ecran titre",{dimx - 200, dimy/2 + 250, 200, 50},true,{0,0,0,255});
+}
+
+void SDLGame::drawMenuScreen()
+{
+    menuScreen.draw(renderer,0,0,dimx,dimy);
+
+    drawText("JEU MIS EN PAUSE", {0,0,dimx,150},true,{0,0,0,255});
+    drawText("Vous avez mis le jeu en pause",{50,dimy/2 - 100, 660, 100},true,{0,0,0,0});
+    drawText("Reprendre",{50,dimy/2 + 200, 280, 50},true,{0,0,0,255});
+    drawText("Menu principal",{430,dimy/2 + 200, 280, 50},true,{0,0,0,255});
+}
+
+void SDLGame::drawVictoryScreen()
+{
+    victoryScreen.draw(renderer,0,0,dimx,dimy);
+
+    drawText("Vous etes vainqueur!", {0,130,dimx,250},true,{0,0,0,0});
+    drawText("Menu principal",{dimx/2 - 150, dimy/2 + 200, 300, 50}, true,{0,0,0,150});
 }
 
 void SDLGame::drawMap(const Game& g, bool minimap) {
@@ -414,7 +503,7 @@ bool SDLGame::handleInputs(Game& g) {
     SDL_Event events;
     Player* p = g.getConstPlayer();
     const TileMap &tm = g.getConstTilemap();
-
+    int xm,ym;
     
     // tant qu'il y a des evenements à traiter (cette boucle n'est pas bloquante)
     while (SDL_PollEvent(&events))
@@ -456,9 +545,15 @@ bool SDLGame::handleInputs(Game& g) {
                 case SDL_SCANCODE_D:
                     g.keyboardActions('d');
                     break;
+                case SDL_SCANCODE_LSHIFT:   //Sprint du joueur
+                    // g.keyboardActions('s');
+                    break;
                 case SDL_SCANCODE_TAB: // afficher la map en grand
                     drawBigMap = true;
                     break;
+                case SDL_SCANCODE_ESCAPE:
+                    isPauseScreen = true;
+                    break;  
                 default: break;
                 }
             }
@@ -477,42 +572,117 @@ bool SDLGame::handleInputs(Game& g) {
                 case SDL_SCANCODE_TAB: // réaffiche la carte en petite taille
                     drawBigMap = false;
                     break;
+                case SDL_SCANCODE_ESCAPE:
+                    isPauseScreen = true;
+                    break;
                 default: break;
                 }
             }
+        }
+        else if (events.type == SDL_MOUSEBUTTONDOWN)
+        {
+            SDL_GetMouseState(&xm, &ym);
+            checkButton(xm,ym,g);
         }
     }
 
     return false;
 }
 
+void SDLGame::checkButton(int &xm, int &ym, Game &g)
+{
+    Point pos = {xm,ym};
+    if(returnToSelectionScreen.clickZone(pos))
+    {
+        isSelectionScreen = true;
+        isHTPScreen = false;
+        isDeathScreen = false;
+        playing = false;
+        isPauseScreen = false;
+    }
+    else if(newGameDeathScreen.clickZone(pos) && isDeathScreen)
+    {
+        g.initDungeon();
+        initSDLGame();
+        isSelectionScreen = false;
+        isHTPScreen = false;
+        isDeathScreen = false;
+        playing = true;
+        isPauseScreen = false;
+    }
+    else if(newGameSelectionScreen.clickZone(pos) && isSelectionScreen)
+    {
+        isSelectionScreen = false;
+        isHTPScreen = false;
+        isDeathScreen = false;
+        playing = true;
+        isPauseScreen = false;
+    }
+    else if(goToHTP.clickZone(pos) && isSelectionScreen)
+    {
+        isSelectionScreen = false;
+        isHTPScreen = true;
+        isDeathScreen = false;
+        playing = false;
+        isPauseScreen = false;
+    }
+    else if(goBackToGame.clickZone(pos) && isPauseScreen)
+    {
+        isSelectionScreen = false;
+        isHTPScreen = false;
+        isDeathScreen = false;
+        playing = true;
+        isPauseScreen = false;
+    }
+    else if(goBackToFirstScreen.clickZone(pos) && isPauseScreen)
+    {
+        isSelectionScreen = true;
+        isHTPScreen = false;
+        isDeathScreen = false;
+        playing = false;
+        isPauseScreen = false;
+    }
+    else if(afterVictoryScreen.clickZone(pos) && playing)
+    {
+        isSelectionScreen = true;
+        isHTPScreen = false;
+        isDeathScreen = false;
+        isPauseScreen = false;
+        playing = false;
+    }
+}
+
 void SDLGame::updateGame(Game& g, float dt) {
     Player *p = g.getConstPlayer();
     Savage *s = g.getConstSavage();
     Ghost *gh = g.getConstGhost();
+    Item *item = g.getConstItems();
     const TileMap &tm = g.getConstTilemap();
     Uint32 nt = SDL_GetTicks();
+    int xm,ym;
 
     p->updatePosition(tm, dt);
     g.automaticActions(dt);
+    checkButton(xm,ym,g);
 
     // affiche un filtre rouge quand on prend des dégats toutes les 250ms
-    if (nt - hitTime < 250 && !g.playerDead) drawHitFilter(); 
+    if (nt - hitTime < 200 && !g.playerDead) drawHitFilter(); 
 
     // vérifie si le joueur est touché
     // le joueur ne peut être touché que toutes les 500ms
     if (nt - hitTime > 500)
     {
-        // isGhostAttacking = gh->checkHit(p);
-        // isSavageAttacking = (s != NULL && s->checkHit(p));
-        // if(g.checkSpikes() || isGhostAtt acking || isSavageAttacking)
-        // {
-        //     if(withSound)
-        //         Mix_PlayChannel(0,hitPlayerSound,0);
+        isGhostAttacking = gh->checkHit(p);
+        isSavageAttacking = (s != NULL && s->checkHit(p));
+        if(g.checkSpikes() || isGhostAttacking || isSavageAttacking)
+        {
+            // if(withSound)
+            //     Mix_PlayChannel(0,hitPlayerSound,0);
 
-        //     hitTime = SDL_GetTicks();
-        // } 
+            hitTime = SDL_GetTicks();
+        } 
     }
+    if(p->isDead) Mix_PlayMusic(deathMusic, -1);
 
     // une attaque dure 800ms (pour l'animation)
     if (isPlayerAttacking && nt - playerAttackTime > 800) {
@@ -523,7 +693,6 @@ void SDLGame::updateGame(Game& g, float dt) {
     if (isPlayerShooting && nt - playerShootTime > 500) {
         isPlayerShooting = false;
     }
-
 }
 
 void SDLGame::gameLoop(Game &g)
@@ -543,8 +712,10 @@ void SDLGame::gameLoop(Game &g)
 
         quit = handleInputs(g);
         drawGame(g);
-        updateGame(g, deltaTime);
-
+        if(playing)
+            updateGame(g, deltaTime);
+        if(isPauseScreen)
+            drawMenuScreen();
         lastTickTime = SDL_GetTicks();
 
         SDL_RenderPresent(renderer);
