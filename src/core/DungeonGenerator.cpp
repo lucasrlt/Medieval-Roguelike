@@ -62,10 +62,10 @@ void DungeonGenerator::fetchRooms(const char *dir)
         Room newRoom;
         newRoom.tilemapName = "data/tilemaps/" + filename;
         newRoom.exterior = false;
+        newRoom.isBossRoom = false;
 
         unsigned int i = 0;
-
-        // Récupère les différentes ouvertures de la salle et crée le RoomSchema
+        // Récup ère les différentes ouvertures de la salle et crée le RoomSchema
         while (filename[i] != '_') // les noms de fichier sont de la forme "LT_maSalle.tmx", avec L pour left et T pour top par exemple
         {
             if (filename[i] == 'B')
@@ -78,6 +78,10 @@ void DungeonGenerator::fetchRooms(const char *dir)
                 newRoom.schema.openLeft = true;
             else if (filename[i] == 'E')
                 newRoom.exterior = true;
+            else if (filename[i] == 'O') {
+                newRoom.exterior = true;
+                newRoom.isBossRoom = true;
+            }
 
             i++;
         }
@@ -211,6 +215,29 @@ Room *DungeonGenerator::getRandomRoomForPos(unsigned int x, unsigned int y)
     return newRoom;
 }
 
+void DungeonGenerator::findBossRoom(Room *dungeon[MAZE_SIZE][MAZE_SIZE]) {
+    vector<tuple<unsigned int, unsigned int>> possiblePositions;
+    for (int y = 0; y < MAZE_SIZE; ++y) {
+        for (int x = 0; x < MAZE_SIZE; ++x) {
+            if (maze[x][y] > 0 && countAdjacentRooms(x, y) == 1) {
+                possiblePositions.push_back(make_tuple(x, y));
+            }
+        }
+    }
+
+    
+    tuple<unsigned int, unsigned int> bossRoom = possiblePositions[rand() % possiblePositions.size()];
+
+    for (int i = 0; i < roomCount; i++) {
+        if (allRooms[i].isBossRoom) {
+            dungeon[get<0>(bossRoom)][get<1>(bossRoom)] = new Room(allRooms[i]);
+            break;
+        }
+    }
+
+    cout << "Boss Room: " << get<0>(bossRoom) << " : " << get<1>(bossRoom) << endl;
+}
+
 void DungeonGenerator::generateDungeon(Room *dungeon[MAZE_SIZE][MAZE_SIZE])
 {
     // Met à NULL toutes les cases du donjon
@@ -231,6 +258,8 @@ void DungeonGenerator::generateDungeon(Room *dungeon[MAZE_SIZE][MAZE_SIZE])
                 dungeon[x][y] = getRandomRoomForPos(x, y);
         }
     }
+
+    findBossRoom(dungeon);
 }
 
 void DungeonGenerator::regressionTest()

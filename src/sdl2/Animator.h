@@ -22,7 +22,7 @@ const int ANIMATION_INTERVAL = 100;
 class Animator {
 private:
   Image spritesheet;
-  int currSprite, numSprites, spritesWidth, drawWidth;
+  int currSprite, numSprites, spritesWidth, drawWidth, scale;
   Uint32 lastUpdateTime;
 
   /** @brief Change le sprite courant de l'animation. */
@@ -39,7 +39,7 @@ public:
    * @param numSprites le nombre de sprites sur la spritesheet
    * @param sprite_width largeur d'un sprite sur la spritesheet
    */
-  void init(SDL_Renderer *renderer, const string& filename, int numSprites, int sprite_width, int draw_width);
+  void init(SDL_Renderer *renderer, const string& filename, int numSprites, int sprite_width, int draw_width, int draw_scale = 1);
 
   /**
    * @brief Affiche l'image courante de l'animation à l'écran.

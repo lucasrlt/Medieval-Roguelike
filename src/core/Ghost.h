@@ -8,6 +8,7 @@
 #include <vector>
 #include "Game.h"
 #include "Entity.h"
+#include "Projectile.h"
 
 #ifndef MEDIEVALROGUELIKE_GHOST_H
 #define MEDIEVALROGUELIKE_GHOST_H
@@ -21,6 +22,8 @@ class Player;
  */
 class Ghost : public Entity{
     public:
+    vector<Projectile> projectiles;
+    bool isBoss;
     
     Ghost();
     /**
@@ -56,7 +59,7 @@ class Ghost : public Entity{
      * @brief Tire les projectiles.
      * @param game 
      */
-    void fireProjectile();
+    void fireProjectile(Player *player);
 
     private:
     int strenght;   

@@ -61,8 +61,8 @@ Item *Game::getConstItems() const
 void Game::spawnGhost(){
     //Caratéristiques du Ghost
     Vector2D posGhost;
-    int healthGhost = 3;
-    int strengthGhost = 2;
+    int healthGhost = currentRoom.isBossRoom ? 8 : 3;
+    int strengthGhost = currentRoom.isBossRoom ? 3 : 1;
     bool isDead = false;
     Vector2D force(0, 0);
     string idleSpriteGhost = "data/warrior_front.png";
@@ -72,6 +72,10 @@ void Game::spawnGhost(){
     
     // ghost->position = posGhost;
     ghost = new Ghost(posGhost, force, healthGhost, strengthGhost, isDead, idleSpriteGhost, leftSpriteGhost, rightSpriteGhost);
+
+    if (currentRoom.isBossRoom) {
+        ghost->isBoss = true;
+    }
 }
 
 void Game::spawnSavage(){
@@ -146,7 +150,7 @@ void Game::initDungeon()
     player = new Player(pos, force, health, energy, shield, weapon, idleSpritePlayer, leftSpritePlayer, rightSpritePlayer);
     playerDead = false;
     // Point ennemyPos = tilemap->enemySpawns[rand() % tilemap->enemySpawns.size()];
-        isJumping = false;
+    isJumping = false;
 
     spawnGhost();
     spawnSavage();
@@ -155,8 +159,9 @@ void Game::initDungeon()
 
 
 void Game::attackSword(){
+    float width = ghost->isBoss ? 2 : 1;
     if((player->position.x - player->weapon.attackRange <= ghost->position.x && player->position.x + player->weapon.attackRange >= ghost->position.x) && 
-    (player->position.y <= ghost->position.y + 1 && player->position.y >= ghost->position.y - 1))
+    (player->position.y <= ghost->position.y + width && player->position.y >= ghost->position.y - width))
     {
         ghost->receiveDamage(player->weapon.damages);   //Dégâts pris par le ghost en fonction de l'arme du joueur
         if(ghost->getHealth() <= 0)
@@ -237,6 +242,9 @@ void Game::automaticActions(float dt)
     if(item != NULL){
         takeItem();
     }
+
+    hasWon = currentRoom.isBossRoom && ghost->isDead;
+
 }
 
 bool Game::checkSpikes()
@@ -286,6 +294,9 @@ void Game::changeRoom(char direction)
     }
 
     currentRoom = getConstRoom(currRoomX, currRoomY);
+    if (currentRoom.isBossRoom) {
+        player->position = {(float)tilemap->playerSpawn.x, (float)tilemap->playerSpawn.y};
+    }
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
     projectiles.clear();
     spawnGhost();
@@ -314,10 +325,11 @@ void Game::playerShoot(bool right)
 
 void Game::projectileHitEnnemy()
 {
+    float width = ghost->isBoss ? 2.75f : 0.75f;
     for(int i = 0; i < projectiles.size(); i++)
     {
-        if((projectiles[i].position.x <= ghost->position.x + 0.75f && projectiles[i].position.x >= ghost->position.x - 0.75f)
-        && (projectiles[i].position.y <= ghost->position.y + 0.75f && projectiles[i].position.y >= ghost->position.y - 0.75f) && !projectiles[i].isHit)
+        if((projectiles[i].position.x <= ghost->position.x + width && projectiles[i].position.x >= ghost->position.x - width)
+        && (projectiles[i].position.y <= ghost->position.y + width && projectiles[i].position.y >= ghost->position.y - width) && projectiles[i].isHit == false)
         {
             projectiles[i].hit(*ghost);
         }

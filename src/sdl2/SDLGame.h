@@ -35,6 +35,7 @@ private:
   bool isHTPScreen;
   bool isDeathScreen;
   bool playing;
+  bool isPauseScreen;
   
   /* ==== GESTION DU SON ==== */
   bool withSound;
@@ -49,6 +50,7 @@ private:
   /* ==== GESTION DES ANIMATIONS ==== */
   bool isGhostAttacking;
   Animator ghostAnimator;
+  Animator bossAnimator;
 
   bool isSavageAttacking;
   Animator savageAnimator;
@@ -73,6 +75,8 @@ private:
   Image deathScreen;  
   Image selectionScreen;
   Image htpScreen;
+  Image menuScreen;
+  Image victoryScreen;
   Image tilesetImg;
   Image heartSprite;
   Image energySprite;
@@ -83,7 +87,10 @@ private:
   Button goToHTP;
   Button newGameSelectionScreen;
   Button newGameDeathScreen;
-
+  Button goBackToGame;
+  Button goBackToFirstScreen;
+  Button afterVictoryScreen;
+  
   /* POLICE ET COULEUR DE POLICE */
 
   TTF_Font * font;
@@ -137,12 +144,17 @@ private:
   void drawPlayerEnergy(const Game &g);
   void drawBackground(const Game& g);
   void renderProjectiles(const Game &g);
+
   void drawHitFilter();
   void drawDeathScreen();
   void drawSelectionScreen();
   void drawHTPScreen();
+  void drawMenuScreen();
+  void drawVictoryScreen();
+
   void drawEnemies(const Game &g);
   void drawEnemiesHeart(const Game &g);
+  
   void checkButton(int &xm, int &ym, Game &g);
 
   /**

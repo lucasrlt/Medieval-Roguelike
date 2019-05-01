@@ -44,6 +44,7 @@ void SDLGame::initSDLGame()
     isSelectionScreen = true;
     isDeathScreen = false;
     isHTPScreen = false;
+    isPauseScreen = false;
     right = false;
     left = false;
     stop = true;
@@ -111,7 +112,10 @@ void SDLGame::drawGame(const Game &g)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
 
-
+    
+    if (g.hasWon) {
+        drawVictoryScreen();
+    } else {
     if (isSelectionScreen && !isHTPScreen && !isDeathScreen && !playing) 
     {
         drawSelectionScreen();
@@ -119,6 +123,11 @@ void SDLGame::drawGame(const Game &g)
     if(!isSelectionScreen && isHTPScreen && !isDeathScreen && !playing)
     {
         drawHTPScreen();
+    }
+    if(!isSelectionScreen && !isHTPScreen && !isDeathScreen && playing && isPauseScreen)
+    {
+        playing = false;
+        //drawMenuScreen();
     }
     if (!g.playerDead && !isSelectionScreen && !isHTPScreen && !isDeathScreen && playing) 
     {
@@ -143,6 +152,7 @@ void SDLGame::drawGame(const Game &g)
             drawDeathScreen();
         }
     }
+    }
 }
 
 
@@ -160,9 +170,12 @@ void SDLGame::loadAssets() {
     projectileLeft.loadFromFile("data/sprites/arrow_left.png", renderer);
     deathScreen.loadFromFile("data/sprites/deathscreen.jpg", renderer);
     htpScreen.loadFromFile("data/sprites/interior_background.png", renderer);
+    menuScreen.loadFromFile("data/sprites/interior_background.png", renderer);
+    victoryScreen.loadFromFile("data/sprites/exterior_background.png",renderer);
 
     /* === ANIMATORS === */
     ghostAnimator.init(renderer, "data/sprites/ghost_spritesheet.png", 6, 258, TILE_SIZE * SCALE);
+    bossAnimator.init(renderer, "data/sprites/boss_spritesheet.png", 3, 190, TILE_SIZE * SCALE, 3);
     playerAnimator.init(renderer, "data/sprites/player_spritesheet.png", 7, 258, TILE_SIZE * SCALE);
     savageAnimator.init(renderer, "data/sprites/savage_spritesheet.png", 7, 258, TILE_SIZE * SCALE);
 
@@ -210,7 +223,15 @@ void SDLGame::loadAssets() {
 
     goToHTP.setPos({dimx/2 -120, dimy/2 + 100});
     goToHTP.setSize({200,50});
-    
+
+    goBackToFirstScreen.setPos({430, dimy/2 + 200});
+    goBackToFirstScreen.setSize({280,50});
+
+    goBackToGame.setPos({50, dimy/2 + 200});
+    goBackToGame.setSize({280,50});
+
+    afterVictoryScreen.setPos({dimx/2 - 150, dimy/2 + 200});
+    afterVictoryScreen.setSize({300,50});
 }
 
 void SDLGame::drawBackground(const Game &g) {
@@ -264,10 +285,17 @@ void SDLGame::drawEnemiesHeart(const Game &g) {
     if(!ghost->isDead){
         for(int i = 0 ; i < ghost->getHealth() ; i++)
         {
-            heartSprite.draw(renderer, 
-                             (ghost->position.x * SCALE * 16) + (i * (SCALE + 10)) + 5, 
-                             ghost->position.y * SCALE * 16 -20, 
-                             4 * SCALE, 4 * SCALE);
+            if (!ghost->isBoss) {
+                heartSprite.draw(renderer, 
+                                (ghost->position.x * SCALE * 16) + (i * (SCALE + 10)) + 5, 
+                                ghost->position.y * SCALE * 16 -20, 
+                                4 * SCALE, 4 * SCALE);
+            } else {
+                heartSprite.draw(renderer, 
+                                 ((dimx / 3) - 50 + (i * (12 * SCALE + 10))),
+                                 dimy - 2 * TILE_SIZE * SCALE,
+                                 12 * SCALE, 12 * SCALE);
+            }
         }
     }
     if(savage != NULL && !savage->isDead){
@@ -335,7 +363,7 @@ void SDLGame::drawEnemies(const Game &g){
     bool goingLeft = true;
     if (ghost != NULL && !ghost->isDead) {
         if (ghost->position.x <= player->position.x) goingLeft = false;
-        drawEnemy(ghost->position, ghostAnimator, goingLeft, isGhostAttacking, ghost->isDead);
+        drawEnemy(ghost->position, ghost->isBoss ? bossAnimator : ghostAnimator, goingLeft, isGhostAttacking, ghost->isDead);
     }
 
     if (savage != NULL && !savage->isDead) {
@@ -384,11 +412,30 @@ void SDLGame::drawHTPScreen()
     htpScreen.draw(renderer,0,0,dimx,dimy);
 
     drawText("COMMENT JOUER ?", {0,0, dimx, 150},true, {0, 0, 0, 255});
-    drawText("-Utiliser les fleches directionnelles pour vous deplacer et sauter", {80, dimy/2 - 150, 600, 50},true, {0,0,0,0});
-    drawText("-Appuyer sur H pour mettre un coup d'epee", {80, dimy/2 -50, 600, 50},true, {0,0,0,0});
-    drawText("-Appuyer sur la barre d'espace pour tirer avec l'arc", {80, dimy/2 + 50, 600, 50},true, {0,0,0,0});
-    drawText("-Appuyer sur tabulation pour afficher la minimap", {80, dimy/2 + 150, 600, 50},true, {0,0,0,0});
+    drawText("-Utiliser les fleches directionnelles pour vous deplacer et sauter", {80, dimy/2 - 200, 600, 50},true, {0,0,0,0});
+    drawText("-Appuyer sur H pour mettre un coup d'epee", {80, dimy/2 -100, 600, 50},true, {0,0,0,0});
+    drawText("-Appuyer sur la barre d'espace pour tirer avec l'arc", {80, dimy/2, 600, 50},true, {0,0,0,0});
+    drawText("-Appuyer sur tabulation pour afficher la minimap", {80, dimy/2 + 100, 600, 50},true, {0,0,0,0});
+    drawText("-Appuyer sur echap pour mettre en pause", {80, dimy/2 + 200, 600, 50},true, {0,0,0,0});
     drawText("Retour a l'ecran titre",{dimx - 200, dimy/2 + 250, 200, 50},true,{0,0,0,255});
+}
+
+void SDLGame::drawMenuScreen()
+{
+    menuScreen.draw(renderer,0,0,dimx,dimy);
+
+    drawText("JEU MIS EN PAUSE", {0,0,dimx,150},true,{0,0,0,255});
+    drawText("Vous avez mis le jeu en pause",{50,dimy/2 - 100, 660, 100},true,{0,0,0,0});
+    drawText("Reprendre",{50,dimy/2 + 200, 280, 50},true,{0,0,0,255});
+    drawText("Menu principal",{430,dimy/2 + 200, 280, 50},true,{0,0,0,255});
+}
+
+void SDLGame::drawVictoryScreen()
+{
+    victoryScreen.draw(renderer,0,0,dimx,dimy);
+
+    drawText("Vous etes vainqueur!", {0,130,dimx,250},true,{0,0,0,0});
+    drawText("Menu principal",{dimx/2 - 150, dimy/2 + 200, 300, 50}, true,{0,0,0,150});
 }
 
 void SDLGame::drawMap(const Game& g, bool minimap) {
@@ -514,6 +561,9 @@ bool SDLGame::handleInputs(Game& g) {
                 case SDL_SCANCODE_TAB: // afficher la map en grand
                     drawBigMap = true;
                     break;
+                case SDL_SCANCODE_ESCAPE:
+                    isPauseScreen = true;
+                    break;  
                 default: break;
                 }
             }
@@ -535,6 +585,9 @@ bool SDLGame::handleInputs(Game& g) {
                     break;
                 case SDL_SCANCODE_TAB: // réaffiche la carte en petite taille
                     drawBigMap = false;
+                    break;
+                case SDL_SCANCODE_ESCAPE:
+                    isPauseScreen = true;
                     break;
                 default: break;
                 }
@@ -559,6 +612,7 @@ void SDLGame::checkButton(int &xm, int &ym, Game &g)
         isHTPScreen = false;
         isDeathScreen = false;
         playing = false;
+        isPauseScreen = false;
     }
     else if(newGameDeathScreen.clickZone(pos) && isDeathScreen)
     {
@@ -568,19 +622,49 @@ void SDLGame::checkButton(int &xm, int &ym, Game &g)
         isHTPScreen = false;
         isDeathScreen = false;
         playing = true;
+        isPauseScreen = false;
     }
     else if(newGameSelectionScreen.clickZone(pos) && isSelectionScreen)
     {
+        g.initDungeon();
+        initSDLGame();
         isSelectionScreen = false;
         isHTPScreen = false;
         isDeathScreen = false;
         playing = true;
+        isPauseScreen = false;
     }
     else if(goToHTP.clickZone(pos) && isSelectionScreen)
     {
         isSelectionScreen = false;
         isHTPScreen = true;
         isDeathScreen = false;
+        playing = false;
+        isPauseScreen = false;
+    }
+    else if(goBackToGame.clickZone(pos) && isPauseScreen)
+    {
+        isSelectionScreen = false;
+        isHTPScreen = false;
+        isDeathScreen = false;
+        playing = true;
+        isPauseScreen = false;
+    }
+    else if(goBackToFirstScreen.clickZone(pos) && isPauseScreen)
+    {
+        isSelectionScreen = true;
+        isHTPScreen = false;
+        isDeathScreen = false;
+        playing = false;
+        isPauseScreen = false;
+    }
+    else if(afterVictoryScreen.clickZone(pos) && playing)
+    {
+        g.hasWon = false;
+        isSelectionScreen = true;
+        isHTPScreen = false;
+        isDeathScreen = false;
+        isPauseScreen = false;
         playing = false;
     }
 }
@@ -647,9 +731,10 @@ void SDLGame::gameLoop(Game &g)
 
         quit = handleInputs(g);
         drawGame(g);
-        if (playing)
+        if(playing)
             updateGame(g, deltaTime);
-
+        if(isPauseScreen)
+            drawMenuScreen();
         lastTickTime = SDL_GetTicks();
 
         SDL_RenderPresent(renderer);
