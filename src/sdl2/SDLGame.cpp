@@ -110,8 +110,11 @@ void SDLGame::drawGame(const Game &g)
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
     SDL_RenderClear(renderer);
 
-    drawVictoryScreen();
-   /*if (isSelectionScreen && !isHTPScreen && !isDeathScreen && !playing) 
+    
+    if (g.hasWon) {
+        drawVictoryScreen();
+    } else {
+    if (isSelectionScreen && !isHTPScreen && !isDeathScreen && !playing) 
     {
         drawSelectionScreen();
     }
@@ -145,7 +148,8 @@ void SDLGame::drawGame(const Game &g)
             Mix_PlayMusic(deathMusic, -1);
             drawDeathScreen();
         }
-    }*/
+    }
+    }
 }
 
 
@@ -167,10 +171,10 @@ void SDLGame::loadAssets() {
     victoryScreen.loadFromFile("data/sprites/exterior_background.png",renderer);
 
     /* === ANIMATORS === */
-    ghostAnimator.init(renderer, "data/ghost_spritesheet.png", 6, 258, TILE_SIZE * SCALE);
-    bossAnimator.init(renderer, "data/boss_spritesheet.png", 3, 190, TILE_SIZE * SCALE, 3);
-    playerAnimator.init(renderer, "data/player_spritesheet.png", 7, 258, TILE_SIZE * SCALE);
-    savageAnimator.init(renderer, "data/savage_spritesheet.png", 7, 258, TILE_SIZE * SCALE);
+    ghostAnimator.init(renderer, "data/sprites/ghost_spritesheet.png", 6, 258, TILE_SIZE * SCALE);
+    bossAnimator.init(renderer, "data/sprites/boss_spritesheet.png", 3, 190, TILE_SIZE * SCALE, 3);
+    playerAnimator.init(renderer, "data/sprites/player_spritesheet.png", 7, 258, TILE_SIZE * SCALE);
+    savageAnimator.init(renderer, "data/sprites/savage_spritesheet.png", 7, 258, TILE_SIZE * SCALE);
 
 
     /* === SONS === */
@@ -612,6 +616,8 @@ void SDLGame::checkButton(int &xm, int &ym, Game &g)
     }
     else if(newGameSelectionScreen.clickZone(pos) && isSelectionScreen)
     {
+        g.initDungeon();
+        initSDLGame();
         isSelectionScreen = false;
         isHTPScreen = false;
         isDeathScreen = false;
@@ -644,6 +650,7 @@ void SDLGame::checkButton(int &xm, int &ym, Game &g)
     }
     else if(afterVictoryScreen.clickZone(pos) && playing)
     {
+        g.hasWon = false;
         isSelectionScreen = true;
         isHTPScreen = false;
         isDeathScreen = false;

@@ -43,7 +43,7 @@ int Ghost::getStrenght() const
 }
 
 bool Ghost::checkHit(Player *player){
-    int width = isBoss ? 3.f : .75f;
+    float width = isBoss ? 2.f : .75f;
     if(isDead == false){
         if((position.x <= player->position.x + width && position.x >= player->position.x - width) && 
             (position.y <= player->position.y + width && position.y >= player->position.y - width))  

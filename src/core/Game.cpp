@@ -158,8 +158,9 @@ void Game::initDungeon()
 }
 
 void Game::attackSword(){
+    float width = ghost->isBoss ? 2 : 1;
     if((player->position.x - player->weapon.attackRange <= ghost->position.x && player->position.x + player->weapon.attackRange >= ghost->position.x) && 
-    (player->position.y <= ghost->position.y + 1 && player->position.y >= ghost->position.y - 1))
+    (player->position.y <= ghost->position.y + width && player->position.y >= ghost->position.y - width))
     {
         ghost->receiveDamage(player->weapon.damages);
         if(ghost->getHealth() <= 0)
@@ -323,7 +324,7 @@ void Game::playerShoot(bool right)
 
 void Game::projectileHitEnnemy()
 {
-    int width = ghost->isBoss ? 2.75f : .75f;
+    float width = ghost->isBoss ? 2.75f : 0.75f;
     for(int i = 0; i < projectiles.size(); i++)
     {
         if((projectiles[i].position.x <= ghost->position.x + width && projectiles[i].position.x >= ghost->position.x - width)
