@@ -192,7 +192,7 @@ void Game::takeItem(){
 
 void Game::keyboardActions(char action)
 {
-    switch (action)
+    switch (action)     //Actions à faire en fonction de la touche appuyée (gérée dans la SDL)
     {
     case 'r':
         player->moveRight(*tilemap);
@@ -206,7 +206,7 @@ void Game::keyboardActions(char action)
         player->movingRight = false;
         checkRoomChange('l');
         break;
-    case 't':
+    case 'j':
         player->jump();
         break;
     case 'e':
@@ -243,14 +243,14 @@ void Game::automaticActions(float dt)
         takeItem();
     }
 
-    hasWon = currentRoom.isBossRoom && ghost->isDead;
+    hasWon = currentRoom.isBossRoom && ghost->isDead;   //
 
 }
 
 bool Game::checkSpikes()
 {
     if (tilemap->getXY(round(player->position.x), (int)round(player->position.y)).type == spike) {
-        player->receiveDamage(1);
+        player->receiveDamage(SPIKES_DAMAGES);
         return true;
     }
     return false;
@@ -273,7 +273,7 @@ void Game::checkRoomChange(char direction)
 
 void Game::changeRoom(char direction)
 {
-    switch (direction)
+    switch (direction)      // gère la position du joueur après le changement de room
     {
     case 'r':
         currRoomX += 1;

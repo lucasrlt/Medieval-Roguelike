@@ -44,7 +44,7 @@ int Ghost::getStrenght() const
 
 bool Ghost::checkHit(Player *player){
     float width = isBoss ? 2.f : .75f;
-    if(isDead == false){
+    if(!isDead){
         if((position.x <= player->position.x + width && position.x >= player->position.x - width) && 
             (position.y <= player->position.y + width && position.y >= player->position.y - width))  
         {
@@ -62,7 +62,7 @@ void Ghost::flyToPlayer(Player *player){
         newPos.x = player->position.x - position.x;
         newPos.y = player->position.y - position.y;
         float m = newPos.module();
-        if(position.x == 0 && position.y == 0) position = {1, 1};
+        if(position.x == 0 && position.y == 0) position = {0, 1};
 
         position.x = position.x + ((newPos.x / m) * GHOST_SPEED);
         position.y = position.y + ((newPos.y / m) * GHOST_SPEED);

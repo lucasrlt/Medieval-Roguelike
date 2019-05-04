@@ -48,7 +48,14 @@ public:
      * @param game appelle le jeu.
      */
   void move();
+
+  /**
+   * @brief Check les collisions des projectiles
+   * 
+   * @param t tilemap en cours
+   */
   void checkCollision(const TileMap &t);
+
   /**
      * @brief Touche le joueur.
      * 
@@ -56,6 +63,12 @@ public:
      */
   void hit(Entity &e);
 
+   /**
+    * @brief Check si le projectile va à droite
+    * 
+    * @return true si il va à droite
+    * @return false sinon
+    */
   bool isGoingRight() const;
 
 private:

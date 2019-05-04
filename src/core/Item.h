@@ -4,8 +4,8 @@
 
 using namespace std;
 
-#ifndef MEDIEVALROGUELIKE_ITEMS_H
-#define MEDIEVALROGUELIKE_ITEMS_H
+#ifndef MEDIEVALROGUELIKE_ITEM_H
+#define MEDIEVALROGUELIKE_ITEM_H
 
 class Item{
     public:
@@ -20,4 +20,4 @@ class Item{
     ~Item();
 };
 
-#endif //MEDIEVALROGUELIKE_ITEMS_H
+#endif //MEDIEVALROGUELIKE_ITEMs_H

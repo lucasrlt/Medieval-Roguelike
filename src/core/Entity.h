@@ -65,25 +65,36 @@ class Entity
     void receiveDamage(int amount);
 
     /**
-     * @brief Ajoute le déplacement de l'entité.
-     * @param dep vecteur de déplacement.
+     * @brief Gère la gravité appliquée aux entités, ainsi que le déplacement de ces entités en fonction de leurs collisions
+     * 
+     * @param t la tilemap en cours
+     * @param dt intervalle de temps entre 2 updates
      */
-
     void updatePosition(const TileMap &t, float dt);
     /**
      * @brief Fait sauter l'entité.
      */
     void jump();
-    void move(Vector2D dep, const TileMap &t, float time);
+
+    // void move(Vector2D dep, const TileMap &t, float time);
 
     /**
      * @brief Déplace le joueur à gauche
+     * 
+     * @param t tilemap en cours
      */
     void moveLeft(const TileMap &t);
+
+    /**
+     * @brief Déplace le joueur à droite
+     * 
+     * @param t tilemap en cours
+     */
     void moveRight(const TileMap &t);
 
     /**
-     * @brief Ajoute une force à la force de l'entité.
+     * @brief Ajoute une force à l'entité
+     * 
      * @param _force vecteur de force.
      */
     void addForce(Vector2D _force);
@@ -91,8 +102,6 @@ class Entity
      * @brief Affiche l'entité.
      */
     void show();
-    
-    bool isGoingRight();
 
     /**
      * @brief Tests du module.
@@ -103,7 +112,7 @@ class Entity
   protected:
     Vector2D velocity;
     int health;
-    bool grounded;
+    bool grounded;  // si l'entité est sur le sol ou pas
 };
 
 #endif //MEDIEVAL_ROGUELIKE_ENTITY_H

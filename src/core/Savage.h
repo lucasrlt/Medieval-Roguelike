@@ -17,18 +17,22 @@ class Player;
 
 float const SAVAGE_SPEED = 2;
 /**
- * @brief Classe créant les ennemis de mêlée.
+ * @brief Classe créant les savage.
  */
 class Savage : public Entity{
     public:
     Savage();
     /**
-     * @brief Constructeur d'un ennemi de mêlée.
+     * @brief Constructeur du savage.
      * 
-     * @param pos position de l'ennemi
-     * @param force force de l'ennemi
-     * @param health vie de l'ennemi
-     * @param strenght puissance de l'ennemi
+     * @param pos position du savage
+     * @param force force du savage
+     * @param health vie du savage
+     * @param strenght puissance du savage
+     * @param isDeadCheck si le savage est mort
+     * @param spriteNameIdle sprite de face
+     * @param spriteNameLeft sprite gauche
+     * @param spriteNameRight sprite droit
      */
     Savage(Vector2D posInit, Vector2D forceInit, int healthInit, int strenghtInit, bool isDeadCheck,
             std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight);
@@ -36,25 +40,29 @@ class Savage : public Entity{
     ~Savage();
 
     /**
-     * @brief Récupère les dégâts de l'ennemi
+     * @brief Récupère les dégâts du savage
      * 
      * @return int 
      */
     int getStrenght() const;
 
     /**
-     * @brief Fait avancer le Savage vers le personnage.
+     * @brief Fait avancer le savage vers le player
      * 
-     * @param game 
+     * @param player joueur
+     * @param t tilemap en cours
+     * @param dt intervalle de temps entre 2 updates
      */
     void runToPlayer(Player *player,const TileMap &t,float dt);
-    bool checkHit(Player *player);
+
     /**
-     * @brief 
+     * @brief Check si le player est dans la zone de contact du savage (son sprite)
      * 
-     * @param game 
+     * @param player joueur
+     * @return true si le joueur prend des dégâts
+     * @return false sinon
      */
-    //void attackPlayer();
+    bool checkHit(Player *player);
 
     private:
     int strenght;

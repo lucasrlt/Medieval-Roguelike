@@ -16,7 +16,7 @@ const int GRID_SIZE = 16; // largeur et hauteur d'une salle en nombre de tiles
 const int NUM_TILES = TILE_SIZE * GRID_SIZE;
 const int LINES_BEFORE_GRID = 5;
 
-enum TileType
+enum TileType  // Tous les blocks existants dans la création d'une tilemap
 {
      platform,
      collision,
@@ -27,7 +27,9 @@ enum TileType
      spawnMonsterSavage,
      regenItem
 };
-//
+/**
+ * @brief structure contenant les paramètres d'un tile
+ */
 struct Tile
 {
      int id;
@@ -39,8 +41,8 @@ struct Tile
 };
 
 /**
-     @brief Classe qui récupère la couleur d'un sprite et la forme d'un tile
-     */
+ @brief Classe qui récupère la couleur d'un sprite et la forme d'un tile
+ */
 class TileMap
 {
    private:

@@ -35,12 +35,12 @@ Player::~Player()
 {
 }
 
-void Player::receiveShieldDamage(int amount)
-{
-    shield -= amount;
-    if (shield < 0)
-        shield = 0;
-}
+// void Player::receiveShieldDamage(int amount) //Dégâts dans le shield (plus tard)
+// {
+//     shield -= amount;
+//     if (shield < 0)
+//         shield = 0;
+// }
 
 void Player::loseEnergy(int amount)
 {
@@ -111,7 +111,6 @@ void Player::regressionTest()
 
     cout << endl
          << "Vie entité1: " << e.getHealth() << endl;
-   // pa.attack(e);
     cout << "Vie entité: " << e.getHealth() << endl;
     e.show();
 }

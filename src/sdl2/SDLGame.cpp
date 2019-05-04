@@ -148,7 +148,7 @@ void SDLGame::drawGame(const Game &g)
             isDeathScreen = true;
             withDeathSound = true;
             withSound = false;
-            Mix_PlayMusic(deathMusic, -1);
+            Mix_PlayMusic(deathMusic, 0);
             drawDeathScreen();
         }
     }
@@ -539,7 +539,7 @@ bool SDLGame::handleInputs(Game& g) {
                     break;
                 case SDL_SCANCODE_UP: // sauter
                 case SDL_SCANCODE_Q:
-                    g.keyboardActions('t');
+                    g.keyboardActions('j');
                     break;
                 case SDL_SCANCODE_SPACE: // tirer
                     g.keyboardActions('e');

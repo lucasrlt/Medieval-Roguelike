@@ -4,7 +4,6 @@
 #include <string>
 #include "Entity.h"
 #include "Weapon.h"
-//#include "Item.h"
 
 /**
  * @brief Module gérant les caractéristiques d'un personnage
@@ -13,12 +12,11 @@
  * @author Alexandre PUILLET
  */
 
+const float MAX_JUMP_HEIGHT = 40;
+
 /**
  * @brief Classe représentant les caractéristiques d'un personnage.
  */
-
-const float MAX_JUMP_HEIGHT = 40;
-
 class Game;
 class Player : public Entity
 {
@@ -33,28 +31,41 @@ class Player : public Entity
     Player();
 
     /**
-     * @brief Constructeur de Player avec des valeurs.
+     * @brief Constructeur de Player
      * @param positionInit position du personnage.
      * @param forceInit force du personnage.
      * @param healthInit vie du personnage.
      * @param energyInit énergie du personnage.
      * @param shieldInit bouclier du personnage.
      * @param weaponInit arme du personnage.
-     * @param name nom du personnage.
+     * @param spriteNameIdle sprite de face
+     * @param spriteNameLeft sprite gauche
+     * @param spriteNameRight sprite droit
      */
     Player(Vector2D positionInit, Vector2D forceInit, int healthInit, int energyInit, int shieldInit, 
             Weapon weaponInit, std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight);
 
     ~Player();
 
+    /**
+     * @brief Récupère l'énerigie du player
+     * 
+     * @return int 
+     */
     int getEnergy() const;
+
+    /**
+     * @brief Récupère le shield du player
+     * 
+     * @return int 
+     */
     int getShield() const;
 
     /**
      * @brief Enlève des points de bouclier.
      * @param amount valeur à retirer aux points de bouclier.
      */
-    void receiveShieldDamage(int amount);
+    // void receiveShieldDamage(int amount);
 
     /**
      * @brief Enlève de l'énergie.
@@ -63,16 +74,14 @@ class Player : public Entity
     void loseEnergy(int amount);
 
     /**
-     * @brief Attaque l'entité.
-     * @param e entité.
-     */
-    void attack(Entity &e);
-
-    /**
      * @brief Récupère le player.
      */
     Player getPlayer();
 
+    /**
+     * @brief Augmente la vitesse du joueur pour le sprint
+     * 
+     */
     void sprint();
 
     /**
