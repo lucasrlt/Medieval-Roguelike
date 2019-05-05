@@ -26,6 +26,7 @@ const int PROJECTILE_OFFSET_X = 1;
 const int PROJECTILE_OFFSET_Y = 1;
 const float PROJECTILE_SPEED = 0.1f;
 const int PROJECTILE_DAMAGES = 1;
+const int SPIKES_DAMAGES = 1;
 
 /**
  * @brief Classe s'occupant de créer le jeu.
@@ -81,25 +82,68 @@ class Game
     void spawnSavage();
     void spawnRegenItem();
 
+    /**
+     * @brief Attaque du personnage avec l'épée
+     */
     void attackSword();
+
+    /**
+     * @brief Si le personnage est sur un item, le ramasse
+     * 
+     */
     void takeItem();
 
 
     /**
-     * @brief Bouge le player.
-     * 
-     * @param move caractère indiquant la direction.
+     * @brief Fais une action sur le player en fonction des touches appuyées désignées dans la SDL
+     * @param action action désignée par la SDL
      */
     void keyboardActions(char action);
 
+    /**
+     * @brief Gère les actions automatiques du jeu, à savoir
+     * les tirs de projectile, le déplacement du ghost et du savage,
+     * si le joueur est mort, si l'item de régénération est pris,
+     * ou quand le joueur change de salle.
+     * 
+     * @param dt intervalle de temps entre 2 updates
+     */
     void automaticActions(float dt);
 
-    void refreshGhost();
+    /**
+     * @brief Vérifie si le joueur est sur un bord de map, et appelle changeRoom en fonction de direction
+     * 
+     * @param direction direction du joueur
+     */
     void checkRoomChange(char direction);
+
+    /**
+     * @brief change la salle en fonction de la position du joueur dans la map (s'il est à gauche, à droite, en haut ou en bas)
+     * 
+     * @param direction direction du joueur
+     */
     void changeRoom(char direction);
+
+    /**
+     * @brief Détecte si le joueur est sur des pics, et renvoie vrai si c'est le cas
+     */
     bool checkSpikes();
+
+    /**
+     * @brief Tire les projectiles du joueur
+     * 
+     * @param right si vrai, tire à droite, sinon, tire à gauche
+     */
     void playerShoot(bool right);
+
+    /**
+     * @brief Fait avancer le projectile
+     */
     void updateProjectile();
+
+    /**
+     * @brief Gère les collisions des projectiles sur les ennemis
+     */
     void projectileHitEnnemy();
 
   private:

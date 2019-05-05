@@ -39,7 +39,7 @@ public:
      * @param attackSpeed vitesse d'attaque de l'arme.
      * @param type type de l'arme.
      * @param attackRange distance d'attaque de l'arme.
-     * @param name nom de l'arme.
+     * @param name sprite de l'arme.
      */
   Weapon(unsigned int damages, unsigned int energyCost, unsigned int attackSpeed, int type,
          float attackRange, std::string name);

@@ -41,7 +41,7 @@ void Projectile::move()
 
 void Projectile::checkCollision(const TileMap &t)
 {
-    if((t.getXY(position.x,position.y).type == collision) /*|| (t.getXY(position.x,position.y).type == platform)*/)
+    if((t.getXY(position.x,position.y).type == collision) /*|| (t.getXY(position.x,position.y).type == platform)*/) // Pour que le projectile traverse les plateformes
     {
         isHit = true;
     }

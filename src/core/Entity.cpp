@@ -53,10 +53,14 @@ Vector2D Entity::getForce() const
 
 void Entity::receiveDamage(int amount)
 {
-    health -= amount;
+    health -= amount;       
     if (health < 0)
     {
         health = 0;
+    }
+    if (health > MAX_HEALTH)
+    {
+        health = MAX_HEALTH;
     }
 }
 

@@ -39,6 +39,7 @@ private:
   
   /* ==== GESTION DU SON ==== */
   bool withSound;
+  bool withDeathSound;
   struct _Mix_Music *backGroundMusic;
   struct _Mix_Music *deathMusic;
   struct Mix_Chunk *hitPlayerSound;
