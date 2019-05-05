@@ -38,6 +38,7 @@ Entity::Entity(Vector2D positionInit, Vector2D forceInit, int healthInit, std::s
 
 Entity::~Entity()
 {
+
 }
 
 int Entity::getHealth() const
@@ -58,8 +59,6 @@ void Entity::receiveDamage(int amount)
         health = 0;
     }
 }
-
-const float moveA = 0.15f;
 
 void Entity::move(Vector2D dep, const TileMap &t, float time)
 {

@@ -45,7 +45,8 @@ bool Savage::checkHit(Player *player){
             player->receiveDamage(strenght);
             return true;
         } 
-    }   
+    }
+    return false;
 }
 
 void Savage::runToPlayer(Player *player, const TileMap &t,float dt)

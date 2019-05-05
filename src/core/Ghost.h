@@ -39,6 +39,9 @@ class Ghost : public Entity{
 
     ~Ghost();
 
+    void init(Vector2D pos, Vector2D force, int health, int strenght, bool isDead, std::string spriteNameIdle, 
+            std::string spriteNameLeft, std::string spriteNameRight);
+
     /**
      * @brief Récupère les dégâts de l'ennemi.
      * 

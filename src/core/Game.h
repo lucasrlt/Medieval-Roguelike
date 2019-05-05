@@ -39,9 +39,10 @@ class Game
 
     vector<Projectile> projectiles;
 
+    Game();
     ~Game();
 
-    Room *dungeon[MAZE_SIZE][MAZE_SIZE];
+    Room **dungeon;
 
     /**
      * @brief Initialisation du niveau, avec le personnage.
@@ -103,6 +104,7 @@ class Game
 
   private:
     bool isJumping;
+    bool wasInitialized;
     bool isBossRoom;
     Room currentRoom;
     int currRoomX, currRoomY;

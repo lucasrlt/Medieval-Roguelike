@@ -19,18 +19,23 @@ Game::~Game()
     }
     delete tilemap;
 
-    for (int i = 0; i < MAZE_SIZE; i++)
-    {
-        for (int j = 0; j < MAZE_SIZE; j++)
-        {
-            delete dungeon[i][j];
-        }
-    }
+    dungeonGenerator.deleteDungeon(dungeon);
+}
+
+Game::Game() {
+    wasInitialized = false;
+
+    ghost = nullptr;
+    savage = nullptr;
+    item = nullptr;
+    dungeon = nullptr;
+
+    initDungeon();
 }
 
 Room &Game::getConstRoom(int x, int y) const
 {
-    return *dungeon[x][y];
+    return dungeon[x][y];
 }
 
 const TileMap &Game::getConstTilemap() const
@@ -69,10 +74,11 @@ void Game::spawnGhost(){
     string leftSpriteGhost = "data/warrior_left.png";
     string rightSpriteGhost = "data/warrior_right.png";
     posGhost = {(float)tilemap->enemySpawns[0].x, (float)tilemap->enemySpawns[0].y};
-    
-    // ghost->position = posGhost;
-    ghost = new Ghost(posGhost, force, healthGhost, strengthGhost, isDead, idleSpriteGhost, leftSpriteGhost, rightSpriteGhost);
 
+    if (ghost != nullptr)
+        delete ghost;
+
+    ghost = new Ghost(posGhost, force, healthGhost, strengthGhost, isDead, idleSpriteGhost, leftSpriteGhost, rightSpriteGhost);
     if (currentRoom.isBossRoom) {
         ghost->isBoss = true;
     }
@@ -89,20 +95,27 @@ void Game::spawnSavage(){
     string leftSpriteSavage = "data/warrior_left.png";
     string rightSpriteSavage = "data/warrior_right.png";
 
+    if (savage != nullptr) {
+        delete savage;
+        savage = nullptr;
+    }
+
     if(tilemap->savageSpawns.size() > 0)
     {
         posSavage = {(float)tilemap->savageSpawns[0].x, (float)tilemap->savageSpawns[0].y};
         savage = new Savage(posSavage, force, healthSavage, strengthSavage, isDead, idleSpriteSavage,
                              leftSpriteSavage, rightSpriteSavage);
     } 
-    else 
-        savage = NULL; 
 }
 
 void Game::spawnRegenItem(){
     string pathName = "data/burger.png";
     bool isTakenItem = false;
     Vector2D posItem;
+
+    if (item != nullptr)
+        delete item;
+
     if (tilemap->itemSpawns.size() > 0) {
         posItem = {(float)tilemap->itemSpawns[0].x, (float)tilemap->itemSpawns[0].y};
         item = new Item(posItem, pathName, isTakenItem);
@@ -117,6 +130,13 @@ int Game::getCurrentRoomY() const { return currRoomY; }
 
 void Game::initDungeon()
 {
+    if (wasInitialized) {
+        delete player;
+        delete tilemap;
+        dungeonGenerator.deleteDungeon(dungeon);
+    }
+
+
     Vector2D pos;
     Vector2D force(0, 0);
     int health = 10;
@@ -151,10 +171,13 @@ void Game::initDungeon()
     playerDead = false;
     // Point ennemyPos = tilemap->enemySpawns[rand() % tilemap->enemySpawns.size()];
     isJumping = false;
+    hasWon = false;
 
     spawnGhost();
     spawnSavage();
     spawnRegenItem();
+
+    wasInitialized = true;
 }
 
 void Game::attackSword(){
@@ -248,7 +271,7 @@ void Game::automaticActions(float dt)
 
 bool Game::checkSpikes()
 {
-    if (tilemap->getXY(round(player->position.x), (int)round(player->position.y)).type == spike) {
+    if (tilemap->getXY(round(player->position.x), round(player->position.y)).type == spike) {
         player->receiveDamage(1);
         return true;
     }
@@ -298,6 +321,7 @@ void Game::changeRoom(char direction)
     }
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
     projectiles.clear();
+
     spawnGhost();
     spawnSavage();
     spawnRegenItem();
@@ -325,7 +349,7 @@ void Game::playerShoot(bool right)
 void Game::projectileHitEnnemy()
 {
     float width = ghost->isBoss ? 2.75f : 0.75f;
-    for(int i = 0; i < projectiles.size(); i++)
+    for(unsigned int i = 0; i < projectiles.size(); i++)
     {
         if((projectiles[i].position.x <= ghost->position.x + width && projectiles[i].position.x >= ghost->position.x - width)
         && (projectiles[i].position.y <= ghost->position.y + width && projectiles[i].position.y >= ghost->position.y - width) && projectiles[i].isHit == false)
@@ -343,7 +367,7 @@ void Game::projectileHitEnnemy()
 
 void Game::updateProjectile()
 {
-    for(int i = 0; i < projectiles.size(); i++)
+    for(unsigned int i = 0; i < projectiles.size(); i++)
     {
         projectiles[i].move();
         projectiles[i].checkCollision(*tilemap);

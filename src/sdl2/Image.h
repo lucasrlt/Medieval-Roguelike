@@ -52,6 +52,7 @@ public:
 
   SDL_Texture *getTexture() const;
   void setSurface(SDL_Surface *surf);
+  ~Image();
 };
 
 #endif

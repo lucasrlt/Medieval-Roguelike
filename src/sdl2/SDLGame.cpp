@@ -16,7 +16,7 @@ SDLGame::SDLGame()
     initSDL();
     loadAssets();
 
-    hitTime = 0;
+    hitTime = -1;
 }
 
 SDLGame::~SDLGame()
@@ -334,15 +334,18 @@ void SDLGame::drawEnemy(Vector2D pos, Animator animator, bool goingRight, bool i
 }
 
 void SDLGame::drawText(const string& text, const SDL_Rect& rect, bool renderBg, const SDL_Color bg) {
-    Image txt;
-    txt.setSurface(TTF_RenderText_Solid(font, text.c_str(), font_color));
-    txt.loadFromCurrentSurface(renderer);
+    Image txtImage;
+    SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), font_color);
+    txtImage.setSurface(surface);
+    txtImage.loadFromCurrentSurface(renderer);
 
     if (renderBg) {
         SDL_SetRenderDrawColor(renderer, bg.r, bg.g, bg.b, bg.a);
         SDL_RenderFillRect(renderer, &rect);
     }
-    SDL_RenderCopy(renderer, txt.getTexture(), NULL, &rect);
+    SDL_RenderCopy(renderer, txtImage.getTexture(), NULL, &rect);
+    
+    SDL_FreeSurface(surface);
 }
 
 void SDLGame::drawEnemies(const Game &g){
@@ -367,7 +370,7 @@ void SDLGame::drawEnemies(const Game &g){
 void SDLGame::drawProjectiles(const Game &g)
 {    
     Image imgToDisplay;
-    for(int i = 0; i < g.projectiles.size(); i++)
+    for(unsigned int i = 0; i < g.projectiles.size(); i++)
     {
         if(g.projectiles[i].isHit == false)
         {
@@ -444,7 +447,7 @@ void SDLGame::drawMap(const Game& g, bool minimap) {
     
     int roomPosX, roomPosY;
 
-    Room *room;
+    Room room;
     for (int y = 0; y < MAZE_SIZE; y++) { // boucle sur toutes les salles du dnjon
         for (int x = 0; x < MAZE_SIZE; x++) {
             room = g.dungeon[x][y];
@@ -452,7 +455,7 @@ void SDLGame::drawMap(const Game& g, bool minimap) {
             roomPosX = x * (viewportWidth / MAZE_SIZE) + viewportOffset; // position initiale d'une salle
             roomPosY = y * (viewportWidth / MAZE_SIZE) + (minimap ? 10 : viewportOffset);
 
-            if (room != NULL) {
+            if (room.tilemapName != "") {
                 SDL_SetRenderDrawColor(renderer, 0, 0, 0, mapOpacity);
                 r.x = roomPosX;
                 r.y = roomPosY;
@@ -480,21 +483,21 @@ void SDLGame::drawMap(const Game& g, bool minimap) {
                 // pour chaque salle, on dessine un carré à chacune des ouvertures
                 // afin de couper la bordure noire pour rendre l'ouverture visible. 
                 r.y = roomPosY + roomWidth / 2 - doorWidth / 2; // les portes droite/gauche ont la même pos y
-                if (room->schema.openLeft) {
+                if (room.schema.openLeft) {
                     r.x = roomPosX - doorWidth / 2;
                     SDL_RenderFillRect(renderer, &r);
                 } 
-                if (room->schema.openRight) {
+                if (room.schema.openRight) {
                     r.x = roomPosX + roomWidth - doorWidth / 2;
                     SDL_RenderFillRect(renderer, &r);
                 }
 
                 r.x = roomPosX + roomWidth / 2 - doorWidth / 2; // les portes haut/bas ont la même pos x
-                if (room->schema.openTop) {
+                if (room.schema.openTop) {
                     r.y = roomPosY - doorWidth / 2;
                     SDL_RenderFillRect(renderer, &r);
                 }
-                if (room->schema.openBottom) {
+                if (room.schema.openBottom) {
                     r.y = roomPosY + roomWidth - doorWidth / 2;
                     SDL_RenderFillRect(renderer, &r);
                 }
@@ -661,9 +664,6 @@ void SDLGame::checkButton(int &xm, int &ym, Game &g)
 
 void SDLGame::updateGame(Game& g, float dt) {
     Player *p = g.getConstPlayer();
-    Savage *s = g.getConstSavage();
-    Ghost *gh = g.getConstGhost();
-    Item *item = g.getConstItems();
     const TileMap &tm = g.getConstTilemap();
     Uint32 nt = SDL_GetTicks();
     int xm,ym;
@@ -672,6 +672,10 @@ void SDLGame::updateGame(Game& g, float dt) {
     g.automaticActions(dt);
     checkButton(xm,ym,g);
 
+    Savage *s = g.getConstSavage();
+    Ghost *gh = g.getConstGhost();
+
+
     // affiche un filtre rouge quand on prend des dégats toutes les 250ms
     if (nt - hitTime < 200 && !g.playerDead) drawHitFilter(); 
 
@@ -679,7 +683,7 @@ void SDLGame::updateGame(Game& g, float dt) {
     // le joueur ne peut être touché que toutes les 500ms
     if (nt - hitTime > 500)
     {
-        isGhostAttacking = gh->checkHit(p);
+        isGhostAttacking = gh != NULL && gh->checkHit(p);
         isSavageAttacking = (s != NULL && s->checkHit(p));
         if(g.checkSpikes() || isGhostAttacking || isSavageAttacking)
         {
@@ -726,6 +730,7 @@ void SDLGame::gameLoop(Game &g)
         lastTickTime = SDL_GetTicks();
 
         SDL_RenderPresent(renderer);
+
         SDL_Delay(16);
     }
 }

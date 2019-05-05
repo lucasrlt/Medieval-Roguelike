@@ -38,7 +38,9 @@ class Room
     string tilemapName;
     bool exterior, isBossRoom;
 
+
     Room();
+    Room(const Room &r);
     ~Room();
 };
 

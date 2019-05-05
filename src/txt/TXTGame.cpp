@@ -55,9 +55,9 @@ void drawMap(const Game &g, WinTXT &win)
     {
         for (int x = 0; x < MAZE_SIZE; x++)
         {
-            Room *r = g.dungeon[x][y];
+            Room r = g.dungeon[x][y];
 
-            if (r != NULL)
+            if (r.tilemapName != "")
             {
                 for (int j = 0; j < roomSize; j++)
                 {
@@ -77,13 +77,13 @@ void drawMap(const Game &g, WinTXT &win)
                     }
                 }
 
-                if (r->schema.openBottom)
+                if (r.schema.openBottom)
                     win.print(x * roomSize + 1, y * roomSize + 2, '.');
-                if (r->schema.openTop)
+                if (r.schema.openTop)
                     win.print(x * roomSize + 1, y * roomSize, '.');
-                if (r->schema.openLeft)
+                if (r.schema.openLeft)
                     win.print(x * roomSize, y * roomSize + 1, '.');
-                if (r->schema.openRight)
+                if (r.schema.openRight)
                     win.print(x * roomSize + 2, y * roomSize + 1, '.');
             }
         }
@@ -96,6 +96,7 @@ void TXTLoop(Game &g)
     system("clear");
     bool ok = true;
     bool showMap = false;
+
     do
     {
         win.clear();
@@ -115,6 +116,7 @@ void TXTLoop(Game &g)
             ok = false;
             break;
         case 'j':
+        cout << "hey." << endl;
             g.keyboardActions('l');
             break;
         case 'l':
@@ -127,6 +129,7 @@ void TXTLoop(Game &g)
             showMap = !showMap;
         }
         g.automaticActions(1);
+        g.getConstPlayer()->updatePosition(g.getConstTilemap(), 1);
         // cout << endl;
 
     } while (ok);

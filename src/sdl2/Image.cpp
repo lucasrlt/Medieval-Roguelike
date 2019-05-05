@@ -28,7 +28,8 @@ void Image::loadFromFile(const char *filename, SDL_Renderer *renderer)
     }
 
     SDL_Surface *surfaceCorrectPixelFormat = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_ARGB8888, 0);
-    SDL_FreeSurface(surface);
+    if (surface != nullptr)
+        SDL_FreeSurface(surface);
     surface = surfaceCorrectPixelFormat;
 
     texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -78,4 +79,12 @@ SDL_Texture *Image::getTexture() const
 void Image::setSurface(SDL_Surface *surf)
 {
     surface = surf;
+}
+
+Image::~Image() {
+    // if (surface != nullptr) 
+    //     SDL_FreeSurface(surface);
+    
+    // if (texture != nullptr)
+    //     SDL_DestroyTexture(texture);
 }

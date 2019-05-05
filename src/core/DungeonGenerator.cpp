@@ -183,7 +183,7 @@ void DungeonGenerator::generateMaze(unsigned int x, unsigned int y)
 }
 
 /** DUNGEON GENERATION **/
-Room *DungeonGenerator::getRandomRoomForPos(unsigned int x, unsigned int y)
+Room DungeonGenerator::getRandomRoomForPos(unsigned int x, unsigned int y)
 {
     srand(time(NULL));
 
@@ -211,11 +211,11 @@ Room *DungeonGenerator::getRandomRoomForPos(unsigned int x, unsigned int y)
     }
 
     // Retourne une salle aléatoire parmi toutes les salles possibles.
-    Room *newRoom = new Room(possibleRooms[rand() % possibleRooms.size()]);
-    return newRoom;
+    // Room *newRoom = new Room(possibleRooms[rand() % possibleRooms.size()]);
+    return possibleRooms[rand() % possibleRooms.size()];
 }
 
-void DungeonGenerator::findBossRoom(Room *dungeon[MAZE_SIZE][MAZE_SIZE]) {
+void DungeonGenerator::findBossRoom(Room **dungeon) {
     vector<tuple<unsigned int, unsigned int>> possiblePositions;
     for (int y = 0; y < MAZE_SIZE; ++y) {
         for (int x = 0; x < MAZE_SIZE; ++x) {
@@ -230,7 +230,7 @@ void DungeonGenerator::findBossRoom(Room *dungeon[MAZE_SIZE][MAZE_SIZE]) {
 
     for (int i = 0; i < roomCount; i++) {
         if (allRooms[i].isBossRoom) {
-            dungeon[get<0>(bossRoom)][get<1>(bossRoom)] = new Room(allRooms[i]);
+            dungeon[get<0>(bossRoom)][get<1>(bossRoom)] = allRooms[i];
             break;
         }
     }
@@ -238,24 +238,21 @@ void DungeonGenerator::findBossRoom(Room *dungeon[MAZE_SIZE][MAZE_SIZE]) {
     cout << "Boss Room: " << get<0>(bossRoom) << " : " << get<1>(bossRoom) << endl;
 }
 
-void DungeonGenerator::generateDungeon(Room *dungeon[MAZE_SIZE][MAZE_SIZE])
+void DungeonGenerator::generateDungeon(Room** &dungeon)
 {
-    // Met à NULL toutes les cases du donjon
-    for (int i = 0; i < MAZE_SIZE; i++)
+    dungeon = new Room*[MAZE_SIZE];
+    for (unsigned int i = 0; i < MAZE_SIZE; ++i)
     {
-        for (int j = 0; j < MAZE_SIZE; j++)
-        {
-            dungeon[j][i] = NULL;
-        }
+        dungeon[i] = new Room[MAZE_SIZE];
     }
 
-    // Parcourt tout le tableau maze et trouve des salles adaptés à chaque case à 1.
     for (unsigned int y = 0; y < MAZE_SIZE; ++y)
     {
         for (unsigned int x = 0; x < MAZE_SIZE; ++x)
         {
-            if (maze[x][y] > 0)
+            if (maze[x][y] > 0) {   
                 dungeon[x][y] = getRandomRoomForPos(x, y);
+            }
         }
     }
 
@@ -274,4 +271,18 @@ void DungeonGenerator::regressionTest()
         }
     }
     cout << "Test des salles adjacentes ok" << endl;
+}
+
+void DungeonGenerator::deleteDungeon(Room** &dungeon) {
+    for (int i = 0; i < MAZE_SIZE; i++)
+    { 
+        for (int j = 0; j < MAZE_SIZE; j++)
+        {
+            // delete dungeon[i][j];
+            // dungeon[i][j] = nullptr;
+        }
+        delete [] dungeon[i];
+        dungeon[i] = nullptr;
+    }
+    delete [] dungeon;
 }

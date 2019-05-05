@@ -37,6 +37,22 @@ Ghost::~Ghost()
 {
 }
 
+void Ghost::init(Vector2D posInit, Vector2D forceInit, int healthInit, int strenghtInit, bool isDeadCheck,
+            std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight)
+{
+    position = posInit;
+    velocity = {0, 0};
+    health = healthInit;
+    strenght = strenghtInit;
+    isDead = isDeadCheck;
+    isBoss = false;
+    
+    idleSprite = spriteNameIdle;
+    leftSprite = spriteNameLeft;
+    rightSprite = spriteNameRight;
+
+}
+
 int Ghost::getStrenght() const
 {
     return strenght;
