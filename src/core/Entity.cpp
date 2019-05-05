@@ -64,18 +64,6 @@ void Entity::receiveDamage(int amount)
     }
 }
 
-void Entity::move(Vector2D dep, const TileMap &t, float time)
-{
-    if (t.isValidPosition(position.x + velocity.x * time, (position.y + velocity.y * time) + 1))
-    {
-        position.x += velocity.x * time;
-        position.y += velocity.y * time;
-
-        velocity.y += 10 * time;
-        // force.x -= 10 * time;
-    }
-}
-
 void Entity::updatePosition(const TileMap &t, float dt)
 {
     // Applique la gravité
