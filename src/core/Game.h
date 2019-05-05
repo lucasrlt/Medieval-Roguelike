@@ -149,7 +149,6 @@ class Game
   private:
     bool isJumping;
     bool wasInitialized;
-    bool isBossRoom;
     Room currentRoom;
     int currRoomX, currRoomY;
 

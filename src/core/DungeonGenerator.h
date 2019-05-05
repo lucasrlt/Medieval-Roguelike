@@ -2,7 +2,7 @@
  * @brief Module gérant la génération d'un donjon
  *
  * @author Lucas ROLLET
- * @file DungeonGenerator.h
+  @file DungeonGenerator.h
  */
 
 #ifndef MEDIEVALROGUELIKE_DUNGEONGENERATOR_H
