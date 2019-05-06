@@ -136,21 +136,15 @@ void Entity::addForce(Vector2D _force)
 
 void Entity::regressionTest()
 {
-    // Vector2D posUp(5, 5);
-    // a.move(posUp);
-    // assert(e.position.x == 15 && e.position.y == 15);
-    // cout << "move ok" << endl;
-    // e.show();
+    Entity e({15, 15}, {10, 10}, 10);
+    cout << endl << "- TESTS Entity -" << endl;
+    cout << "**************************" << endl;
+    e.receiveDamage(12);
+    assert(e.health == 0);
+    cout << "--> Dégâts reçus OK" << endl;
 
-    // Vector2D forceUp(5, 5);
-    // a.addForce(forceUp);
-    // assert(a.velocity.x == 25 && a.velocity.y == 25);
-    // cout << "addForce ok" << endl;
-    // e.show();
-
-    // int damage = 12;
-    // e.receiveDamage(damage);
-    // assert(e.health == 38);
-    // cout << "receiveDamage ok" << endl;
-    // e.show();
+    Entity en({15, 15}, {10, 10}, 10);
+    en.receiveDamage(-4);
+    assert(en.health == 10);
+    cout << "--> Vie max 10 OK" << endl;
 }

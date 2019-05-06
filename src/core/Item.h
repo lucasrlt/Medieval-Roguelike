@@ -23,6 +23,8 @@ public:
     ~Item();
 
     Vector2D getPosition() const;
+
+    void regressionTest();
 };
 
 #endif //MEDIEVALROGUELIKE_ITEMs_H

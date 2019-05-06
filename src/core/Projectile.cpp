@@ -60,3 +60,16 @@ void Projectile::hit(Entity &e)
 bool Projectile::isGoingRight() const {
     return velocity.x > 0; 
 }
+
+void Projectile::regressionTest(){
+    cout << endl << "- TESTS Projectiles -" << endl;
+    cout << "**************************" << endl;
+
+    Entity entity({10, 10}, {10, 10}, 10);
+    Projectile projectile({10, 10}, {10, 10}, 3);
+
+    projectile.hit(entity);
+    assert(projectile.isHit == true);
+    cout << "--> Projectiles hit OK" << endl;
+    
+}

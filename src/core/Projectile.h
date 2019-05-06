@@ -70,6 +70,8 @@ public:
     */
   bool isGoingRight() const;
 
+  void regressionTest();
+
 private:
   int damages;
   Vector2D velocity;
