@@ -72,7 +72,7 @@ void TileMap::fetchTileTypes()
             size_t endPos = content.find("/") - 1;
             string tileType = content.substr(typePos + 6, endPos - typePos - 6);
 
-            // assigne les types dnas le fichier .tsx aux types dans l'enum TileType
+            // assigne les types dans le fichier .tsx aux types dans l'enum TileType
             if (tileType == "block")
                 tileTypes[tileId] = collision;
             else if (tileType == "background")

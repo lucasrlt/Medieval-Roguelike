@@ -56,29 +56,60 @@ class TileMap
      Tile *roomMap[GRID_SIZE][GRID_SIZE];
      TileType tileTypes[NUM_TILES];
      
-
+     /**
+      * @brief Récupère les types de tous les blocs du tileset.
+     */
      void fetchTileTypes();
+     
+     /**
+     * @brief Supprime un donjon de la mémoire.
+     * 
+     */
+
      void deleteRoomMap();
 
    public:
-     Point playerSpawn;
+     Point playerSpawn; /// @brief  Position du spawn du joueur.
 
      ~TileMap();
-     vector<Point> enemySpawns;
-     vector<Point> savageSpawns;
-     vector<Point> itemSpawns;
+     vector<Point> enemySpawns; /// @brief Vector de positions de spawns de ghosts.
+     vector<Point> savageSpawns; /// @brief Vector de positions de spawns de savages.
+     vector<Point> itemSpawns; /// @brief Vector de positions de spawns d'items.
+
+     /**
+         * @brief Récupère les types de tous les blocs du tileset passé en paramètre par la fonction fetchTileTypes().
+         * @param tilesetFile : nom du fichier tileset contenant nos blocs.
+     */
      void init(const string &tilesetFile);
 
+     /**
+     * @brief Récupère le tile de positions X et Y d'un tile.
+     *
+     * @param x,y coordonnées d'un tile.
+     * @return *roomMap[x][y].
+     */
+
      const Tile &getXY(unsigned int x, unsigned int y) const;
+
+     /**
+     * @brief Vérifie si la position de coordonnées x,y est une position dans l'écran, hors d'un bloc de collision.
+     *
+     * @param x,y coordonnées que l'on va vérifier.
+     * @param goingUp booléen pour la gestion des plateformes.
+     * 
+     * @return true si les coordonnées sont bien dans la fenêtre et hors d'un bloc de collision.
+     */
 
      bool isValidPosition(const int x, const int y, bool goingUp = false) const;
 
      /**
-         * @brief Récupère la salle depuis le fichier
+         * @brief Récupère la grille d'id a partir du fichier en paramètre.
+         * @brief Ajoute des joueurs/ennemis dans les vector.
          * @param filename : nom du fichier du tile
          */
-     void fetchRoomFromFile(const string &filename); //Room* out_room;
+     void fetchRoomFromFile(const string &filename);
 
+     /// @brief Test de regression de la classe TileMap.
      void regressionTest();
 };
 
