@@ -171,11 +171,13 @@ void Game::keyboardActions(char action)
     {
     case 'r': // déplacer à droite
         player->moveRight(*tilemap);
-        checkRoomChange('r');
+        player->lastDirectionRight = true;
+        checkRoomChange();
         break;
     case 'l': // déplacer à gauche
         player->moveLeft(*tilemap);
-        checkRoomChange('l');
+        player->lastDirectionRight = false;
+        checkRoomChange();
         break;
     case 'j': // sauter
         player->jump();
@@ -196,7 +198,7 @@ void Game::keyboardActions(char action)
 
 void Game::automaticActions(float dt)
 {
-    checkRoomChange(' ');
+    checkRoomChange();
 
     player->updatePosition(*tilemap, dt);
     ghost->flyToPlayer(player, dt);
@@ -226,7 +228,7 @@ bool Game::checkSpikes()
     return false;
 }
 
-void Game::checkRoomChange(char direction)
+void Game::checkRoomChange()
 {
     if (tilemap->getXY(player->getPosition().x, player->getPosition().y).type == background)
     {
@@ -281,7 +283,7 @@ void Game::playerShoot()
 {
     Vector2D position;
     Vector2D velocity = {PROJECTILE_SPEED, 0};
-    if(player->isMovingRight())
+    if(player->lastDirectionRight)
     {
         position = {player->getPosition().x,player->getPosition().y};
     }

@@ -88,7 +88,6 @@ class TileMap
      * @param x,y coordonnées d'un tile.
      * @return *roomMap[x][y].
      */
-
      const Tile &getXY(unsigned int x, unsigned int y) const;
 
      /**

@@ -41,6 +41,11 @@ void drawRoom(const Game &g, WinTXT &win)
     const Savage *s = g.getConstSavage();
     if (s != nullptr && !s->isDead)
         win.print((int)s->getPosition().x, (int)s->getPosition().y, 'S');
+    
+    for (unsigned int i = 0; i < g.projectiles.size(); i++) {
+        if (g.projectiles[i].isHit)
+            win.print((int) g.projectiles[i].position.x, (int) g.projectiles[i].position.y, '-');
+    } 
 
 
     const Player *p = g.getConstPlayer();

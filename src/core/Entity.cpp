@@ -13,6 +13,7 @@ Entity::Entity()
     
     grounded = false;
     isDead = false;
+    lastDirectionRight = true;
 }
 
 Entity::Entity(Vector2D positionInit, Vector2D forceInit, int healthInit)
@@ -23,6 +24,7 @@ Entity::Entity(Vector2D positionInit, Vector2D forceInit, int healthInit)
 
     grounded = false;
     isDead = false;
+    lastDirectionRight = true;
 }
 
 Entity::~Entity()

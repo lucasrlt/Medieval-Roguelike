@@ -59,13 +59,6 @@ public:
      */
     void flyToPlayer(Player *player, float dt);
 
-    /**
-     * @brief Tire les projectile du ghost
-     * 
-     * @param player joueur
-     */
-    void fireProjectile(Player *player);
-
     void regressionTest();
 
 private:

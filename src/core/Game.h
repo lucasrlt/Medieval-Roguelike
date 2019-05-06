@@ -124,10 +124,8 @@ class Game
 
     /**
      * @brief Vérifie si le joueur est sur un bord de map, et appelle changeRoom en fonction de direction
-     * 
-     * @param direction direction du joueur
      */
-    void checkRoomChange(char direction);
+    void checkRoomChange();
 
     /**
      * @brief change la salle en fonction de la position du joueur dans la map (s'il est à gauche, à droite, en haut ou en bas)

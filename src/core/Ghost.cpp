@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cassert>
 #include "Ghost.h"
 
 using namespace std;
@@ -61,8 +62,6 @@ void Ghost::flyToPlayer(Player *player, float dt){
 
 void Ghost::regressionTest(){
     Ghost ghost({15, 15}, {10, 10}, 10, 3, false);
-    Player *p;
-    p = new Player();
     cout << endl << endl << "- TESTS Ghost-" << endl;
     cout << "**************************" << endl;
 
