@@ -13,7 +13,7 @@
  * @brief Module gérant les ennemis de type mêlée
  */
 
-float const SAVAGE_SPEED = 2;
+float const SAVAGE_SPEED = 2.0f;
 
 class Game;
 class Player;

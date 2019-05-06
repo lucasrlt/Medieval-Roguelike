@@ -198,9 +198,10 @@ void Game::automaticActions(float dt)
 {
     checkRoomChange(' ');
 
-    ghost->flyToPlayer(player);
+    player->updatePosition(*tilemap, dt);
+    ghost->flyToPlayer(player, dt);
     if (savage != NULL)
-        savage->runToPlayer(player,getConstTilemap(),dt);
+        savage->runToPlayer(player, *tilemap, dt);
 
     updateProjectiles();
     checkProjectileHit();

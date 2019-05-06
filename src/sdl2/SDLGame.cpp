@@ -669,7 +669,6 @@ void SDLGame::updateGame(Game& g, float dt) {
     Uint32 nt = SDL_GetTicks();
     int xm,ym;
 
-    p->updatePosition(tm, dt);
     g.automaticActions(dt);
     updateButtons(xm,ym,g);
 

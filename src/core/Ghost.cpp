@@ -44,7 +44,7 @@ bool Ghost::checkHit(Player *player){
 }
 
 
-void Ghost::flyToPlayer(Player *player){
+void Ghost::flyToPlayer(Player *player, float dt){
     if(!isDead) {
         // vecteur allant du fantôme vers le joeur
         Vector2D newPos;
@@ -54,7 +54,7 @@ void Ghost::flyToPlayer(Player *player){
         float m = newPos.module();
         if(position.x == 0 && position.y == 0) position = {0, 1};
 
-        position.x = position.x + ((newPos.x / m) * GHOST_SPEED);
-        position.y = position.y + ((newPos.y / m) * GHOST_SPEED);
+        position.x = position.x + ((newPos.x / m) * GHOST_SPEED * dt);
+        position.y = position.y + ((newPos.y / m) * GHOST_SPEED * dt);
     }
 }
