@@ -44,7 +44,7 @@ Le programme suit l'organisation suivante:
 
 @section a Exécution et lancement du programme
 Trois exécutables sont disponibles pour ce programme.  Tous les executables peuvent être
-compilés sur Mac et sur Linux. Le support Windows devrait être fonctionnel mais n'a pas pu être testé.
+compilés sur Mac et sur Linux.
 
 Pour compiler le programme, se placer à la racine du projet et faire: 
   make (ou make -B)
