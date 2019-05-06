@@ -26,6 +26,7 @@ class Entity
   public:
     /// @brief vrai si l'entité est morte
     bool isDead;
+    bool lastDirectionRight;
     
 
     /**

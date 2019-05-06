@@ -15,7 +15,7 @@
  * @author Alexandre PUILLET
  */
 
-float const GHOST_SPEED = 0.03f;
+float const GHOST_SPEED = 2.1f;
 
 class Game;
 class Player;
@@ -57,14 +57,9 @@ public:
      * 
      * @param player joueur
      */
-    void flyToPlayer(Player *player);
+    void flyToPlayer(Player *player, float dt);
 
-    /**
-     * @brief Tire les projectile du ghost
-     * 
-     * @param player joueur
-     */
-    void fireProjectile(Player *player);
+    void regressionTest();
 
 private:
     int strength;   

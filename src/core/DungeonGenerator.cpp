@@ -283,7 +283,7 @@ void DungeonGenerator::regressionTest()
             assert(dungeon_test.size() > 0);
         }
     }
-    cout << "Toutes les salles ont une salle voisine OK" << endl;
+    cout << "--> Toutes les salles ont une salle voisine OK" << endl;
 
     for (int k = 0; k < 100; k++) {
         deleteDungeon(dungeon);
@@ -303,7 +303,7 @@ void DungeonGenerator::regressionTest()
         assert(hasBoss);
     }
 
-    cout << "Tous les donjons ont une salle de boss (100 essais) OK";
+    cout << "--> Tous les donjons ont une salle de boss (100 essais) OK";
 
 }
 

@@ -1,6 +1,7 @@
 #include "Button.h"
 #include <string>
-
+#include <cassert>
+#include <iostream>
 using namespace std;
 
 Button::Button()
@@ -66,4 +67,20 @@ bool Button::clickZone(const Point &_pos) // Définit la zone de click du bouton
     if(_pos.x >= pos.x && _pos.y >= pos.y && _pos.x <= (pos.x + size.x) && _pos.y <= (pos.y + size.y))
         return true;
     return false;
+}
+
+void Button::regressionTest()
+{
+    cout << endl << endl << "- TESTS Button -" << endl;
+    cout << "**************************" << endl;
+
+    Button button("name", {15, 15}, {30, 30});
+    assert(button.size.x == 30 && button.size.y == 30 && button.pos.x == 15 && button.pos.y == 15 && button.name == "name");
+
+    cout << "--> Initialisation du bouton OK" << endl;
+
+    bool touch = clickZone({25, 17});
+    assert(touch == true);
+
+    cout << "--> Zone de click OK" << endl;
 }

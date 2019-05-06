@@ -87,17 +87,22 @@ Collaboration diagram for TileMap:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a3448728e45d6a43fff3a02d4c6d72e9d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTileMap.html#a3448728e45d6a43fff3a02d4c6d72e9d">~TileMap</a> ()</td></tr>
+<tr class="memdesc:a3448728e45d6a43fff3a02d4c6d72e9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position du spawn du joueur.  <a href="#a3448728e45d6a43fff3a02d4c6d72e9d">More...</a><br /></td></tr>
 <tr class="separator:a3448728e45d6a43fff3a02d4c6d72e9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a756f9e6a7359c09e0caa054fc9ee6c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTileMap.html#a1a756f9e6a7359c09e0caa054fc9ee6c">init</a> (const string &amp;tilesetFile)</td></tr>
+<tr class="memdesc:a1a756f9e6a7359c09e0caa054fc9ee6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector de positions de spawns d'items.  <a href="#a1a756f9e6a7359c09e0caa054fc9ee6c">More...</a><br /></td></tr>
 <tr class="separator:a1a756f9e6a7359c09e0caa054fc9ee6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a222690898527e250568a5cf36a1dcb5d"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="structTile.html">Tile</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTileMap.html#a222690898527e250568a5cf36a1dcb5d">getXY</a> (unsigned int x, unsigned int y) const</td></tr>
+<tr class="memdesc:a222690898527e250568a5cf36a1dcb5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Récupère le tile de positions X et Y d'un tile.  <a href="#a222690898527e250568a5cf36a1dcb5d">More...</a><br /></td></tr>
 <tr class="separator:a222690898527e250568a5cf36a1dcb5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a316389d36736e72f1dc277ca06ce21ee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTileMap.html#a316389d36736e72f1dc277ca06ce21ee">isValidPosition</a> (const int x, const int y, bool goingUp=false) const</td></tr>
+<tr class="memdesc:a316389d36736e72f1dc277ca06ce21ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vérifie si la position de coordonnées x,y est une position dans l'écran, hors d'un bloc de collision.  <a href="#a316389d36736e72f1dc277ca06ce21ee">More...</a><br /></td></tr>
 <tr class="separator:a316389d36736e72f1dc277ca06ce21ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a927cb6a7427d44bca5d5e203dab6915e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTileMap.html#a927cb6a7427d44bca5d5e203dab6915e">fetchRoomFromFile</a> (const string &amp;filename)</td></tr>
-<tr class="memdesc:a927cb6a7427d44bca5d5e203dab6915e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Récupère la salle depuis le fichier.  <a href="#a927cb6a7427d44bca5d5e203dab6915e">More...</a><br /></td></tr>
+<tr class="memdesc:a927cb6a7427d44bca5d5e203dab6915e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Récupère la grille d'id a partir du fichier en paramètre.  <a href="#a927cb6a7427d44bca5d5e203dab6915e">More...</a><br /></td></tr>
 <tr class="separator:a927cb6a7427d44bca5d5e203dab6915e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf8bf1a1cc0f5ee1078ce3c3917f16b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTileMap.html#abf8bf1a1cc0f5ee1078ce3c3917f16b3">regressionTest</a> ()</td></tr>
+<tr class="memdesc:abf8bf1a1cc0f5ee1078ce3c3917f16b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test de regression de la classe <a class="el" href="classTileMap.html" title="Classe gérant la TileMap. Une tilemap est un tableau de tiles qui provient d&#39;un fichier ....">TileMap</a>.  <a href="#abf8bf1a1cc0f5ee1078ce3c3917f16b3">More...</a><br /></td></tr>
 <tr class="separator:abf8bf1a1cc0f5ee1078ce3c3917f16b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -107,8 +112,10 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a079713e62b66b4f100082475201a7d60"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="structPoint.html">Point</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTileMap.html#a079713e62b66b4f100082475201a7d60">enemySpawns</a></td></tr>
 <tr class="separator:a079713e62b66b4f100082475201a7d60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aedb49843b0198621ea847316800c14a0"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="structPoint.html">Point</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTileMap.html#aedb49843b0198621ea847316800c14a0">savageSpawns</a></td></tr>
+<tr class="memdesc:aedb49843b0198621ea847316800c14a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector de positions de spawns de ghosts.  <a href="#aedb49843b0198621ea847316800c14a0">More...</a><br /></td></tr>
 <tr class="separator:aedb49843b0198621ea847316800c14a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfa539232947a509521cd81608271fa8"><td class="memItemLeft" align="right" valign="top">vector&lt; <a class="el" href="structPoint.html">Point</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTileMap.html#adfa539232947a509521cd81608271fa8">itemSpawns</a></td></tr>
+<tr class="memdesc:adfa539232947a509521cd81608271fa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector de positions de spawns de savages.  <a href="#adfa539232947a509521cd81608271fa8">More...</a><br /></td></tr>
 <tr class="separator:adfa539232947a509521cd81608271fa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -129,6 +136,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Position du spawn du joueur. </p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -148,8 +157,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Récupère la salle depuis le fichier. </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Récupère la grille d'id a partir du fichier en paramètre. </p>
+<p>Ajoute des joueurs/ennemis dans les vector. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">filename</td><td>: nom du fichier du tile </td></tr>
   </table>
@@ -184,6 +193,15 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Récupère le tile de positions X et Y d'un tile. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x,y</td><td>coordonnées d'un tile. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>*roomMap[x][y]. </dd></dl>
+
 </div>
 </div>
 <a id="a1a756f9e6a7359c09e0caa054fc9ee6c"></a>
@@ -201,6 +219,14 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Vector de positions de spawns d'items. </p>
+<p>Récupère les types de tous les blocs du tileset passé en paramètre par la fonction fetchTileTypes(). </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tilesetFile</td><td>: nom du fichier tileset contenant nos blocs. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -236,6 +262,16 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Vérifie si la position de coordonnées x,y est une position dans l'écran, hors d'un bloc de collision. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x,y</td><td>coordonnées que l'on va vérifier. </td></tr>
+    <tr><td class="paramname">goingUp</td><td>booléen pour la gestion des plateformes.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true si les coordonnées sont bien dans la fenêtre et hors d'un bloc de collision. </dd></dl>
+
 </div>
 </div>
 <a id="abf8bf1a1cc0f5ee1078ce3c3917f16b3"></a>
@@ -252,6 +288,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Test de regression de la classe <a class="el" href="classTileMap.html" title="Classe gérant la TileMap. Une tilemap est un tableau de tiles qui provient d&#39;un fichier ....">TileMap</a>. </p>
 
 </div>
 </div>
@@ -282,6 +320,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Vector de positions de spawns de savages. </p>
+
 </div>
 </div>
 <a id="a20644f6737cbb0d16c451a47c1a380ce"></a>
@@ -309,6 +349,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Vector de positions de spawns de ghosts. </p>
 
 </div>
 </div>

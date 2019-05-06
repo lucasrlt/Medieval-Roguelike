@@ -3,6 +3,8 @@
 //
 
 #include "TXTGame.h"
+#include <chrono>
+#include <ctime>
 #include <unistd.h>
 
 #include "WinTXT.h"
@@ -25,10 +27,6 @@ void drawRoom(const Game &g, WinTXT &win)
             {
                 win.print(x, y, '^');
             }
-            else if (tile.type == spawnMonster)
-            {
-                win.print(x, y, 'E');
-            }
             else
             {
                 win.print(x, y, 'X');
@@ -36,14 +34,37 @@ void drawRoom(const Game &g, WinTXT &win)
         }
     }
 
+    const Ghost *gh = g.getConstGhost();
+    if (!gh->isDead)
+        win.print((int)gh->getPosition().x, (int)gh->getPosition().y, 'G');
+
+    const Savage *s = g.getConstSavage();
+    if (s != nullptr && !s->isDead)
+        win.print((int)s->getPosition().x, (int)s->getPosition().y, 'S');
+    
+    for (unsigned int i = 0; i < g.projectiles.size(); i++) {
+        if (g.projectiles[i].isHit)
+            win.print((int) g.projectiles[i].position.x, (int) g.projectiles[i].position.y, '-');
+    } 
+
+
     const Player *p = g.getConstPlayer();
     win.print((int)p->getPosition().x, (int)p->getPosition().y, 'P');
 
+
     string health = "Vie: " + to_string(p->getHealth());
     string energy = "Energie: " + to_string(p->getEnergy());
+    
+    string ghost_health = "Vie ghost: " + to_string(g.getConstGhost()->getHealth());
+
+    if (g.getConstSavage() != nullptr) {
+        string savage_health = "Vie sauvage: " + to_string(g.getConstGhost()->getHealth());
+        win.print(0, 20, savage_health.c_str());
+    }
 
     win.print(0, 17, health.c_str());
     win.print(0, 18, energy.c_str());
+    win.print(0, 19, ghost_health.c_str());
 }
 
 void drawMap(const Game &g, WinTXT &win)
@@ -95,8 +116,66 @@ void TXTLoop(Game &g)
     bool ok = true;
     bool showMap = false;
 
+    bool r = false, l = false;
+
+    Player *p = g.getConstPlayer();
+
+    auto now = std::chrono::system_clock::now();
+    // Some computation here
+    auto lastHit = std::chrono::system_clock::now();
+
     do
     {
+        now = std::chrono::system_clock::now();
+
+        char c = win.getCh();
+        switch (c)
+        {
+        case 't': // stop
+            ok = false;
+            break;
+        case 'i': // jump
+            g.keyboardActions('j');
+            break;
+        case 'l': // droite
+            if (l) { g.keyboardActions('r'); }
+            if (!r) {
+                g.keyboardActions('r');
+                r = true;
+                l = false;
+            }
+            break;
+        case 'j': // gauche
+            if (r) { g.keyboardActions('l'); }
+            if (!l) {
+                g.keyboardActions('l');
+                r = false;
+                l = true;
+            }
+            break;
+        case 'm': // map
+            showMap = !showMap;
+            break;
+        case 'h':
+            g.keyboardActions('h');
+            break;
+        case 'f':
+            g.keyboardActions('e');
+            break;
+        }
+
+        g.automaticActions(0.002f); 
+
+        std::chrono::duration<double> elapsed_seconds = now - lastHit;
+        // cout << elapsed_seconds.count();
+        // if (now - lastH)
+        
+        if (elapsed_seconds.count() >= 0.5) {
+            if (g.checkSpikes() || g.getConstGhost()->checkHit(p) || (g.getConstSavage() != nullptr && g.getConstSavage()->checkHit(p))) {
+                lastHit = std::chrono::system_clock::now();
+            }
+        }
+
         win.clear();
         if (showMap)
             drawMap(g, win);
@@ -104,31 +183,9 @@ void TXTLoop(Game &g)
             drawRoom(g, win);
 
         win.draw();
-        // sleep(1);
+
         usleep(1000);
+    } while (ok && !g.playerDead);
 
-        char c = win.getCh();
-        switch (c)
-        {
-        case 't':
-            ok = false;
-            break;
-        case 'j':
-        cout << "hey." << endl;
-            g.keyboardActions('l');
-            break;
-        case 'l':
-            g.keyboardActions('r');
-            break;
-        case 'i':
-            g.keyboardActions('t');
-            break;
-        case 'm':
-            showMap = !showMap;
-        }
-        g.automaticActions(1);
-        g.getConstPlayer()->updatePosition(g.getConstTilemap(), 1);
-        // cout << endl;
-
-    } while (ok);
+    cout << "Vous êtes mort." << endl;
 }

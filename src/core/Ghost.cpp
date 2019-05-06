@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cassert>
 #include "Ghost.h"
 
 using namespace std;
@@ -44,7 +45,7 @@ bool Ghost::checkHit(Player *player){
 }
 
 
-void Ghost::flyToPlayer(Player *player){
+void Ghost::flyToPlayer(Player *player, float dt){
     if(!isDead) {
         // vecteur allant du fantôme vers le joeur
         Vector2D newPos;
@@ -54,7 +55,16 @@ void Ghost::flyToPlayer(Player *player){
         float m = newPos.module();
         if(position.x == 0 && position.y == 0) position = {0, 1};
 
-        position.x = position.x + ((newPos.x / m) * GHOST_SPEED);
-        position.y = position.y + ((newPos.y / m) * GHOST_SPEED);
+        position.x = position.x + ((newPos.x / m) * GHOST_SPEED * dt);
+        position.y = position.y + ((newPos.y / m) * GHOST_SPEED * dt);
     }
+}
+
+void Ghost::regressionTest(){
+    Ghost ghost({15, 15}, {10, 10}, 10, 3, false);
+    cout << endl << endl << "- TESTS Ghost-" << endl;
+    cout << "**************************" << endl;
+
+    assert(!ghost.isDead);
+    cout << "--> Ghost initialisé OK" << endl;
 }
