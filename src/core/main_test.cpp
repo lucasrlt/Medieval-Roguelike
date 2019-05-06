@@ -6,8 +6,9 @@ using namespace std;
 int main()
 {
 
-  TileMap tm;
-  tm.regressionTest();
+  TileMap* tm = new TileMap();
+  tm->regressionTest();
+  delete tm;
 
   DungeonGenerator d;
   d.regressionTest();

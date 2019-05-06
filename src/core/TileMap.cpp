@@ -173,22 +173,29 @@ const Tile &TileMap::getXY(unsigned int x, unsigned int y) const
 
 void TileMap::regressionTest()
 {
+    cout << endl << "- TESTS TileMap -" << endl;
+    cout << "*********************" << endl;
 
-    TileMap tm;
+    TileMap* tm = new TileMap();
+    tm->init("data/tileset.tsx");
+    tm->fetchRoomFromFile("data/test_tilemap.tmx");
+    cout << "--> Création TileMap OK" << endl;
 
-    tm.init("data/tileset.tsx");
+    assert(tm->roomMap[0][0]->id == 8 && tm->roomMap[0][0]->type == collision);
+    assert(tm->roomMap[1][0]->id == 116 && tm->roomMap[1][0]->type == background);
+    assert(tm->roomMap[2][0]->id == 195 && tm->roomMap[2][0]->type == spike);
+    assert(tm->roomMap[15][15]->id == 104 && tm->roomMap[15][15]->type == collision);
+    cout << "--> Récupération des Tiles standard depuis la tilemap de test OK" << endl;
 
-    tm.fetchRoomFromFile("data/test_tilemap.tmx");
+    assert(tm->enemySpawns.size() == 1);
+    cout << "--> Récupération du spawn du Ghost OK" << endl;
 
-    assert(tm.roomMap[0][0]->id == 8 && tm.roomMap[0][0]->type == collision);
-    cout << "Case [0][0] bonne" << endl;
+    assert(tm->savageSpawns.size() == 1);
+    cout << "--> Récupération du spawn du sauvage OK" << endl;
 
-    assert(tm.roomMap[1][0]->id == 116 && tm.roomMap[1][0]->type == background);
-    cout << "Case [1][0] bonne" << endl;
+    assert(tm->playerSpawn.x == 0 && tm->playerSpawn.y == 2);
+    cout << "--> Récupération du spawn du joueur OK" << endl;
 
-    assert(tm.roomMap[2][0]->id == 195 && tm.roomMap[2][0]->type == spike);
-    cout << "Case [2][0] bonne" << endl;
-
-    assert(tm.roomMap[15][15]->id == 104 && tm.roomMap[15][15]->type == collision);
-    cout << "Case [15][15] bonne" << endl;
+    delete tm;
+    cout << "--> Supression de la mémoire OK" << endl;
 }

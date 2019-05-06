@@ -266,6 +266,14 @@ void DungeonGenerator::generateDungeon(Room** &dungeon)
 
 void DungeonGenerator::regressionTest()
 {
+    cout << endl << "- TESTS DungeonGenerator -" << endl;
+    cout << "**************************" << endl;
+
+    Room** dungeon;
+    generateDungeon(dungeon);
+    
+    displayMaze();
+
     vector<Point> dungeon_test;
     for (int i = 0; i < MAZE_SIZE; i++)
     {
@@ -275,7 +283,28 @@ void DungeonGenerator::regressionTest()
             assert(dungeon_test.size() > 0);
         }
     }
-    cout << "Test des salles adjacentes ok" << endl;
+    cout << "Toutes les salles ont une salle voisine OK" << endl;
+
+    for (int k = 0; k < 100; k++) {
+        deleteDungeon(dungeon);
+        generateDungeon(dungeon);
+        
+        bool hasBoss = false;
+        for (int i = 0; i < MAZE_SIZE; i++)
+        {
+            for (int j = 0; j < MAZE_SIZE; j++)
+            {
+                if (countAdjacentRooms(j, i) == 1) {
+                    hasBoss = true;
+                    break;
+                }
+            }
+        }
+        assert(hasBoss);
+    }
+
+    cout << "Tous les donjons ont une salle de boss (100 essais) OK";
+
 }
 
 void DungeonGenerator::deleteDungeon(Room** &dungeon) {
