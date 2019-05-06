@@ -1,12 +1,84 @@
 /**
  * @mainpage Medieval Roguelike
  * 
- * @section Auteurs
- * Lucas ROLLET p1709538\n
- * Alexandre PUILLET \n
- * Hadrien GUY\n
- * 
- * @section Exécution
- * Lancer make && bin/medieval_roguelike_sdl
+ *  
+@section Développeurs
+- ROLLET Lucas      11709538
+- GUY Hadrien       11710505
+- PUILLET Alexandre 11707082
+- ID de la forge: https://forge.univ-lyon1.fr/p1709538/medieval-roguelike
+
+
+@section a Présentation
+Ce projet est un jeu vidéo de type "RogueLike", en vue de côté style jeu de plateforme.
+Un roguelike est est un jeu dans lequel les niveaux sont générés de manière procédurale,
+c'est-à-dire que le joueur va évoluer dans un donjon, qui sera différent à chaque partie.
+
+Dans notre jeu, vous incarnez un chevalier perdu dans un donjon. Son but est d'aller déloger un
+fantôme qui a élu domicile dans une des salles du château. Pour cela, il va devoir trouver son
+chemin dans le labyrinthe des salles du château, tout en affrontant les ennemis qui se trouvent 
+sur son chemin.
+
+
+@section b Fonctionnalités développées
+  - Génération d'un donjon de manière procédurale
+  - Récupération de tilemaps créées dans le logiciel Tiled
+  - Déplacement du joueur de salle en salle et dans le donjon
+  - Apparition de monstres attaquant le joueur
+  - Possibilité pour le joueur d'attaquer à l'épée ou à l'arc
+  - Salle de boss
+  - Animations 
+
+
+@section c Organisation
+Le programme suit l'organisation suivante: 
+  - bin/  = fichiers exécutables
+  - data/ = ressources (images, tilemaps, sons)
+  - doc/  = documentation doxygen, diagramme des classes et diagramme de Gantt
+  - obj/  = fichiers objets générés à la compilation
+  - src/  = tous les fichiers source \n
+    - src/core/     = fichiers "coeur" du projet, qui gèrent la logique du jeu
+    - src/core/sdl2 = fichiers s'occupant de l'affichage SDL
+    - src/core/txt  = fichiers s'occupant de l'affichage texte
+
+
+@section a Exécution et lancement du programme
+Trois exécutables sont disponibles pour ce programme.  Tous les executables peuvent être
+compilés sur Mac et sur Linux. Le support Windows devrait être fonctionnel mais n'a pas pu être testé.
+
+Pour compiler le programme, se placer à la racine du projet et faire: 
+  make (ou make -B)
+
+Les librairies suivantes sont requises: 
+  - SDL2              - SDL2_ttf
+  - SDL2_image        - SDL2_mixer
+
+Un exécutable de test, qui lance les tests de regression de toutes les classes:
+  - bin/medieval_roguelike_test
+
+Un exécutable avec la SDL, qui affiche le jeu dans sa version finale:
+  - Installer les librairies nécessaires \n
+    - Sous Linux:\n
+      - sudo apt install doxygenlibsdl2-dev libsdl2 libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev \n
+    - Sous MacOS: \n
+      - brew install SDL2 SDL2_image SDL2_ttf SDL2_mixer \n
+  - Lancer le programme 
+    - bin/medieval_roguelike_sdl 
+
+Un exécutable avec le mode texte: \n
+  - bin/medieval_roguelike_txt
+
+
+@section d Génération de la doc
+Pour générer la documentation, aller dans le dossier doc/ et taper:
+  doxygen doxyfile
+
+La documentation sera générée dans le fichier doc/html/index.html
+
+@section e Diagramme de Gantt
+<img src="../diagramme_gantt.png" />
+
+@section f Diagramme des Classes
+<img src="../diagramme_classes.png" />
  * 
  */

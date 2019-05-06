@@ -56,11 +56,11 @@ class TileMap
      Tile *roomMap[GRID_SIZE][GRID_SIZE];
      TileType tileTypes[NUM_TILES];
      
-     /**
+     /**      
       * @brief Récupère les types de tous les blocs du tileset.
      */
      void fetchTileTypes();
-     
+
      /**
      * @brief Supprime un donjon de la mémoire.
      * 
@@ -83,12 +83,11 @@ class TileMap
      void init(const string &tilesetFile);
 
      /**
-     * @brief Récupère le tile de positions X et Y d'un tile.
+     * @brief Récupère le tile de coordonnées X,Y de la salle actuelle.
      *
      * @param x,y coordonnées d'un tile.
      * @return *roomMap[x][y].
      */
-
      const Tile &getXY(unsigned int x, unsigned int y) const;
 
      /**

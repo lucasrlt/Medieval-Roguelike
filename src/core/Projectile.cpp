@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cassert>
 #include "Projectile.h"
 
 using namespace std;

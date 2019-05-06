@@ -313,7 +313,7 @@ void SDLGame::drawPlayer(const Player *player)
     if (isPlayerAttacking) spritesheetRow = 0;
     else if (isPlayerShooting) spritesheetRow = 2;
 
-    playerAnimator.draw(renderer, player->getPosition(), spritesheetRow, player->isMovingRight());
+    playerAnimator.draw(renderer, player->getPosition(), spritesheetRow, player->lastDirectionRight);
 }
 
 void SDLGame::drawEnemy(Vector2D pos, Animator animator, bool goingRight, bool isAttacking, bool isDead) {
@@ -665,11 +665,9 @@ void SDLGame::updateButtons(int &xm, int &ym, Game &g)
 
 void SDLGame::updateGame(Game& g, float dt) {
     Player *p = g.getConstPlayer();
-    const TileMap &tm = g.getConstTilemap();
     Uint32 nt = SDL_GetTicks();
     int xm,ym;
 
-    p->updatePosition(tm, dt);
     g.automaticActions(dt);
     updateButtons(xm,ym,g);
 
