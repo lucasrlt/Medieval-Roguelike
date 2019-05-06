@@ -65,16 +65,92 @@ $(function() {
 <div class="title">Medieval Roguelike </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="Auteurs"></a>
-Auteurs</h1>
-<p>Lucas ROLLET p1709538<br />
-Alexandre PUILLET <br />
-Hadrien GUY<br />
- </p>
-<h1><a class="anchor" id="Exécution"></a>
-Exécution</h1>
-<p>Lancer make &amp;&amp; bin/medieval_roguelike_sdl </p>
-</div></div><!-- PageDoc -->
+<div class="textblock"><h1><a class="anchor" id="Développeurs"></a>
+Développeurs</h1>
+<ul>
+<li>ROLLET Lucas 11709538</li>
+<li>GUY Hadrien 11710505</li>
+<li>PUILLET Alexandre 11707082</li>
+<li>ID de la forge: <a href="https://forge.univ-lyon1.fr/p1709538/medieval-roguelike">https://forge.univ-lyon1.fr/p1709538/medieval-roguelike</a></li>
+</ul>
+<h1><a class="anchor" id="a"></a>
+Présentation</h1>
+<p>Ce projet est un jeu vidéo de type "RogueLike", en vue de côté style jeu de plateforme. Un roguelike est est un jeu dans lequel les niveaux sont générés de manière procédurale, c'est-à-dire que le joueur va évoluer dans un donjon, qui sera différent à chaque partie.</p>
+<p>Dans notre jeu, vous incarnez un chevalier perdu dans un donjon. Son but est d'aller déloger un fantôme qui a élu domicile dans une des salles du château. Pour cela, il va devoir trouver son chemin dans le labyrinthe des salles du château, tout en affrontant les ennemis qui se trouvent sur son chemin.</p>
+<h1><a class="anchor" id="b"></a>
+Fonctionnalités développées</h1>
+<ul>
+<li>Génération d'un donjon de manière procédurale</li>
+<li>Récupération de tilemaps créées dans le logiciel Tiled</li>
+<li>Déplacement du joueur de salle en salle et dans le donjon</li>
+<li>Apparition de monstres attaquant le joueur</li>
+<li>Possibilité pour le joueur d'attaquer à l'épée ou à l'arc</li>
+<li>Salle de boss</li>
+<li>Animations</li>
+</ul>
+<h1><a class="anchor" id="c"></a>
+Organisation</h1>
+<p>Le programme suit l'organisation suivante:</p><ul>
+<li>bin/ = fichiers exécutables</li>
+<li>data/ = ressources (images, tilemaps, sons)</li>
+<li>doc/ = documentation doxygen, diagramme des classes et diagramme de Gantt</li>
+<li>obj/ = fichiers objets générés à la compilation</li>
+<li>src/ = tous les fichiers source <br />
+<ul>
+<li>src/core/ = fichiers "coeur" du projet, qui gèrent la logique du jeu</li>
+<li>src/core/sdl2 = fichiers s'occupant de l'affichage SDL</li>
+<li>src/core/txt = fichiers s'occupant de l'affichage texte</li>
+</ul>
+</li>
+</ul>
+<h1><a class="anchor" id="a"></a>
+Présentation</h1>
+<p>Trois exécutables sont disponibles pour ce programme. Tous les executables peuvent être compilés sur Mac et sur Linux. Le support Windows devrait être fonctionnel mais n'a pas pu être testé.</p>
+<p>Pour compiler le programme, se placer à la racine du projet et faire: make (ou make -B)</p>
+<p>Les librairies suivantes sont requises:</p><ul>
+<li>SDL2 - SDL2_ttf</li>
+<li>SDL2_image - SDL2_mixer</li>
+</ul>
+<p>Un exécutable de test, qui lance les tests de regression de toutes les classes:</p><ul>
+<li>bin/medieval_roguelike_test</li>
+</ul>
+<p>Un exécutable avec la SDL, qui affiche le jeu dans sa version finale:</p><ul>
+<li>Installer les librairies nécessaires <br />
+<ul>
+<li>Sous Linux:<br />
+<ul>
+<li>sudo apt install doxygenlibsdl2-dev libsdl2 libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev <br />
+</li>
+</ul>
+</li>
+<li>Sous MacOS: <br />
+<ul>
+<li>brew install SDL2 SDL2_image SDL2_ttf SDL2_mixer <br />
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Lancer le programme<ul>
+<li>bin/medieval_roguelike_sdl</li>
+</ul>
+</li>
+</ul>
+<p>Un exécutable avec le mode texte: <br />
+</p><ul>
+<li>bin/medieval_roguelike_txt</li>
+</ul>
+<h1><a class="anchor" id="d"></a>
+Génération de la doc</h1>
+<p>Pour générer la documentation, aller dans le dossier doc/ et taper: doxygen doxyfile</p>
+<p>La documentation sera générée dans le fichier doc/html/index.html</p>
+<h1><a class="anchor" id="e"></a>
+Diagramme de Gantt</h1>
+<img src="../diagramme_gantt.png" alt="" class="inline"/>
+<h1><a class="anchor" id="f"></a>
+Diagramme des Classes</h1>
+<img src="../diagramme_classes.png" alt="" class="inline"/>
+ </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
