@@ -151,8 +151,6 @@ class Game
      * 
      */
     void checkItemTaken();
-
-    void regressionTest();
 };
 
 #endif //MEDIVALROGUELIKE_GAME_H
