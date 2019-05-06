@@ -1,0 +1,12 @@
+<map id="/Users/lucas/Documents/Fac/MedievalRogueLike/src/sdl2/Animator.h" name="/Users/lucas/Documents/Fac/MedievalRogueLike/src/sdl2/Animator.h">
+<area shape="rect" id="node1" title="Module simplifiant la gestion des animations pour la SDL." alt="" coords="160,5,328,57"/>
+<area shape="rect" id="node2" title=" " alt="" coords="276,179,334,204"/>
+<area shape="rect" id="node3" href="$TileMap_8h.html" title=" " alt="" coords="86,105,206,131"/>
+<area shape="rect" id="node4" title=" " alt="" coords="198,179,252,204"/>
+<area shape="rect" id="node6" href="$Vector2D_8h.html" title="Module gérant les Vecteurs 2D." alt="" coords="5,179,93,204"/>
+<area shape="rect" id="node7" href="$Image_8h.html" title="Module permettant une interaction simple avec les images dans la SDL." alt="" coords="356,105,425,131"/>
+<area shape="rect" id="node5" title=" " alt="" coords="116,179,174,204"/>
+<area shape="rect" id="node8" title=" " alt="" coords="358,179,460,204"/>
+<area shape="rect" id="node9" title=" " alt="" coords="483,179,548,204"/>
+<area shape="rect" id="node10" title=" " alt="" coords="571,179,644,204"/>
+</map>

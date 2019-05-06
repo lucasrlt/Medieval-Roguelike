@@ -27,13 +27,17 @@ enum TileType  // Tous les blocks existants dans la création d'une tilemap
      spawnMonsterSavage,
      regenItem
 };
+
 /**
- * @brief structure contenant les paramètres d'un tile
+ * @brief structure contenant les paramètres d'une tile
  */
 struct Tile
 {
+     /// @brief id de la tile dans le tileset
      int id;
+     /// @brief Position de la tile dans l'affichage
      int posX, posY;
+     /// @brief type de tile, utile pour les collisions
      TileType type;
      
 
@@ -41,7 +45,9 @@ struct Tile
 };
 
 /**
- @brief Classe qui récupère la couleur d'un sprite et la forme d'un tile
+ @brief Classe gérant la TileMap. Une tilemap est un tableau de tiles qui provient d'un fichier .tmx 
+ * créé avec le logiciel Tiled.  Les tiles sont des images carrées que l'on assemble pour créer des niveaux.
+ * Ce module gére la récupération et le traitement de TileMaps depuis un fichier .tmx pour gérer les niveaux dans le jeu.
  */
 class TileMap
 {
@@ -70,8 +76,6 @@ class TileMap
      /**
          * @brief Récupère la salle depuis le fichier
          * @param filename : nom du fichier du tile
-         * @param gridSize  : Taille d'une salle de tiles
-         * @param linesBeforeGrid : Lignes de textes du fichier filename avant les tiles
          */
      void fetchRoomFromFile(const string &filename); //Room* out_room;
 

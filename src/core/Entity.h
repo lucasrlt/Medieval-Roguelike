@@ -24,39 +24,32 @@ const int MAX_HEALTH = 10;
 class Entity
 {
   public:
-    bool movingRight, movingLeft, movingUp, movingBottom;
+    /// @brief vrai si l'entité est morte
     bool isDead;
     
-    Vector2D position;
-
-    std::string idleSprite;
-    std::string leftSprite;
-    std::string rightSprite;
-
-    Entity();
 
     /**
      * @brief Initialisation de l'entité avec une vie, une position, et une force.
      * @param position position de l'entité.
      * @param force force de l'entité.
      * @param health vie de l'entité.
-     * @param spriteName.. sprites de l'entité.
      */
-    Entity(Vector2D position, Vector2D force, int health, std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight);
-
+    Entity(Vector2D position, Vector2D force, int health);
+    Entity();
     ~Entity();
 
-    /**
-     * @brief récupère la vie de l'entité.
-     * @return health (entier).
-     */
     int getHealth() const;
+    Vector2D getVelocity() const;
+    Vector2D getPosition() const;
+    void setPosition(Vector2D position);
 
     /**
-     * @brief Récupère la vie de l'entité
-     * @return Vector2D 
+     * @brief Vérifie la direction du joueur.
+     * 
+     * @return true le joueur va à droite
+     * @return false le joueur va à gauche
      */
-    Vector2D getForce() const;
+    bool isMovingRight() const;
 
     /**
      * @brief Dégâts reçus par l'entité.
@@ -71,12 +64,6 @@ class Entity
      * @param dt intervalle de temps entre 2 updates
      */
     void updatePosition(const TileMap &t, float dt);
-    /**
-     * @brief Fait sauter l'entité.
-     */
-    void jump();
-
-    // void move(Vector2D dep, const TileMap &t, float time);
 
     /**
      * @brief Déplace le joueur à gauche
@@ -93,15 +80,16 @@ class Entity
     void moveRight(const TileMap &t);
 
     /**
+     * @brief Fait sauter l'entité.
+     */
+    void jump();
+
+    /**
      * @brief Ajoute une force à l'entité
      * 
      * @param _force vecteur de force.
      */
     void addForce(Vector2D _force);
-    /**
-     * @brief Affiche l'entité.
-     */
-    void show();
 
     /**
      * @brief Tests du module.
@@ -110,9 +98,14 @@ class Entity
 
 
   protected:
+    /// @brief vitesse de l'entité, utilisée pour son déplacement
     Vector2D velocity;
+    /// @brief position de l'entité
+    Vector2D position;
+    /// @brief vie de l'entité
     int health;
-    bool grounded;  // si l'entité est sur le sol ou pas
+    /// @brief vrai si l'entité est au sol
+    bool grounded;
 };
 
 #endif //MEDIEVAL_ROGUELIKE_ENTITY_H

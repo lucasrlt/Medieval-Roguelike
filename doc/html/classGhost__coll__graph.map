@@ -1,0 +1,5 @@
+<map id="Ghost" name="Ghost">
+<area shape="rect" id="node1" title="Classe gérant les fantômes. Les fantômes sont des ennemis qui volent et traversent les murss...." alt="" coords="15,649,130,789"/>
+<area shape="rect" id="node2" href="$classEntity.html" title="Classe représentant les caractéristiques communes des entités du jeu." alt="" coords="5,313,140,600"/>
+<area shape="rect" id="node3" href="$classVector2D.html" title="Classe représentant un point de coordonnées float x et y." alt="" coords="9,5,137,239"/>
+</map>

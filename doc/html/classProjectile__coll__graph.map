@@ -1,0 +1,4 @@
+<map id="Projectile" name="Projectile">
+<area shape="rect" id="node1" title="Classe gérant les projectiles. Les projectiles sont principalement des flèches tirées par le joueur...." alt="" coords="6,300,133,453"/>
+<area shape="rect" id="node2" href="$classVector2D.html" title="Classe représentant un point de coordonnées float x et y." alt="" coords="5,5,134,239"/>
+</map>

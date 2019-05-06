@@ -58,7 +58,7 @@ class DungeonGenerator
      * @param neighbours retour des coordonnées voisines au point (x,y) sous la forme
      * d'un vecteur de tuples
      */
-    void findNeighbours(unsigned int x, unsigned int y, vector<tuple<unsigned int, unsigned int>> &neighbours) const;
+    void findNeighbours(unsigned int x, unsigned int y, vector<Point> &neighbours) const;
 
     /**
      * @brief Retourne une salle adaptée au point (x,y), c'est-à-dire qu'elle doit avoir des
@@ -73,7 +73,15 @@ class DungeonGenerator
      */
     Room getRandomRoomForPos(unsigned int x, unsigned int y);
 
-    void findBossRoom(Room** dungeon);
+    /**
+     * @brief Trouve une salle correspondant aux critères d'une salle de boss dans le donjon.
+     * C'est une salle à l'extrémité d'un chemin, donc avec un seul voisin.
+     * 
+     * @param dungeon donjon dans lequel chercher la salle
+     * @return true la fonction a réussi à trouver une salle
+     * @return false la fonction n'a pas réussi à trouver de salle
+     */
+    bool findBossRoom(Room** dungeon);
 
   public:
     DungeonGenerator();
@@ -98,8 +106,14 @@ class DungeonGenerator
      */
     void fetchRooms(const char *dir);
 
+    /**
+     * @brief Supprime un donjon de la mémoire.
+     * 
+     * @param dungeon le donjon à supprimer.
+     */
     void deleteDungeon(Room** &dungeon);
 
+    /// @brief Test de regression de la classe DungeonGenerator.
     void regressionTest();
 };
 

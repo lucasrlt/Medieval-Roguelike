@@ -1,0 +1,5 @@
+<map id="Savage" name="Savage">
+<area shape="rect" id="node1" title="Classe gérant un sauvage. Un sauvage est un ennemi plus puissant qu&#39;un fantôme (plus de vie et plus d..." alt="" coords="16,649,129,776"/>
+<area shape="rect" id="node2" href="$classEntity.html" title="Classe représentant les caractéristiques communes des entités du jeu." alt="" coords="5,313,140,600"/>
+<area shape="rect" id="node3" href="$classVector2D.html" title="Classe représentant un point de coordonnées float x et y." alt="" coords="9,5,137,239"/>
+</map>

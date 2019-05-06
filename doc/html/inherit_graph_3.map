@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classEntity.html" title="Classe représentant les caractéristiques communes des entités du jeu." alt="" coords="5,55,60,80"/>
+<area shape="rect" id="node2" href="$classGhost.html" title="Classe gérant les fantômes. Les fantômes sont des ennemis qui volent et traversent les murss...." alt="" coords="113,5,170,31"/>
+<area shape="rect" id="node3" href="$classPlayer.html" title="Classe représentant les caractéristiques d&#39;un personnage." alt="" coords="112,55,171,80"/>
+<area shape="rect" id="node4" href="$classSavage.html" title="Classe gérant un sauvage. Un sauvage est un ennemi plus puissant qu&#39;un fantôme (plus de vie et plus d..." alt="" coords="108,104,175,129"/>
+</map>

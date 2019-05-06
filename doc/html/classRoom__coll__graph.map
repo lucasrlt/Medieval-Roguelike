@@ -1,0 +1,4 @@
+<map id="Room" name="Room">
+<area shape="rect" id="node1" title="Classe représentant une salle dans le donjon. Contient un schéma d&#39;ouvertures et le chemin vers le fi..." alt="" coords="5,180,117,307"/>
+<area shape="rect" id="node2" href="$structRoomSchema.html" title="Structure contenant le schéma des portes d&#39;une salle. Contient quatre paramètres booléens,..." alt="" coords="8,5,114,119"/>
+</map>

@@ -1,0 +1,3 @@
+<map id="SDLGame" name="SDLGame">
+<area shape="rect" id="node1" title="Classe gérant tout l&#39;affichage du jeu avec la SDL. Ce jeu fait appel aux fonctions d&#39;update du module..." alt="" coords="5,5,117,105"/>
+</map>

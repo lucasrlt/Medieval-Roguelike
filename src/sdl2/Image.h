@@ -15,6 +15,10 @@
 
 using namespace std;
 
+/**
+ * @brief Classe représentant une Image pour la SDL.
+ * Cette classe permet de charger et afficher une image depuis un fichier.
+ */
 class Image
 {
 private:

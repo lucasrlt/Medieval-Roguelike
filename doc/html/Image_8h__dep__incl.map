@@ -1,0 +1,9 @@
+<map id="/Users/lucas/Documents/Fac/MedievalRogueLike/src/sdl2/Image.h" name="/Users/lucas/Documents/Fac/MedievalRogueLike/src/sdl2/Image.h">
+<area shape="rect" id="node1" title="Module permettant une interaction simple avec les images dans la SDL." alt="" coords="197,5,365,57"/>
+<area shape="rect" id="node2" href="$Animator_8h.html" title="Module simplifiant la gestion des animations pour la SDL." alt="" coords="76,105,244,157"/>
+<area shape="rect" id="node4" href="$SDLGame_8h.html" title="Contient le code du jeu SDL, gère l&#39;affichage graphique et les actions executées en fonction du temps..." alt="" coords="197,205,365,257"/>
+<area shape="rect" id="node7" href="$Image_8cpp.html" title=" " alt="" coords="319,105,487,157"/>
+<area shape="rect" id="node3" href="$Animator_8cpp.html" title=" " alt="" coords="5,205,173,257"/>
+<area shape="rect" id="node5" href="$main__sdl_8cpp.html" title=" " alt="" coords="101,305,269,357"/>
+<area shape="rect" id="node6" href="$SDLGame_8cpp.html" title=" " alt="" coords="293,305,461,357"/>
+</map>

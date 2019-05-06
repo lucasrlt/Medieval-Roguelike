@@ -1,0 +1,3 @@
+<map id="Item" name="Item">
+<area shape="rect" id="node1" title="Classe gérant les items du jeu. A l&#39;heure actuelle, seuls des items de régénération existent." alt="" coords="5,5,113,119"/>
+</map>

@@ -37,15 +37,13 @@ void drawRoom(const Game &g, WinTXT &win)
     }
 
     const Player *p = g.getConstPlayer();
-    win.print((int)p->position.x, (int)p->position.y, 'P');
+    win.print((int)p->getPosition().x, (int)p->getPosition().y, 'P');
 
     string health = "Vie: " + to_string(p->getHealth());
     string energy = "Energie: " + to_string(p->getEnergy());
-    string shield = "Bouclier: " + to_string(p->getShield());
 
     win.print(0, 17, health.c_str());
     win.print(0, 18, energy.c_str());
-    win.print(0, 19, shield.c_str());
 }
 
 void drawMap(const Game &g, WinTXT &win)

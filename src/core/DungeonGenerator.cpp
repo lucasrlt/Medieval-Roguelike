@@ -15,9 +15,7 @@ using namespace std;
 
 DungeonGenerator::DungeonGenerator()
 {
-    fillMazeWithZeros();
     allRooms = nullptr;
-    generateMaze((int)MAZE_SIZE / 2, (int)MAZE_SIZE / 2);
     fetchRooms("data/tilemaps/");
 }
 
@@ -111,13 +109,13 @@ int DungeonGenerator::countAdjacentRooms(unsigned int x, unsigned int y) const
 {
     unsigned int count = 0;
 
-    vector<tuple<unsigned int, unsigned int>> neighbours;
+    vector<Point> neighbours;
     findNeighbours(x, y, neighbours);
 
     // pour chacun des points voisins, s'il est > 0 incrémente count.
     for (unsigned int i = 0; i < neighbours.size(); i++)
     {
-        if (maze[get<0>(neighbours[i])][get<1>(neighbours[i])] > 0)
+        if (maze[neighbours[i].x][neighbours[i].y] > 0)
             count++;
     }
 
@@ -135,18 +133,18 @@ void DungeonGenerator::fillMazeWithZeros()
     }
 }
 
-void DungeonGenerator::findNeighbours(unsigned int x, unsigned int y, vector<tuple<unsigned int, unsigned int>> &neighbours) const
+void DungeonGenerator::findNeighbours(unsigned int x, unsigned int y, vector<Point> &neighbours) const
 {
     // prépare toutes les positions voisines au point (x,y). On utilise des tuples
     // pour simplifier le code.
     if (x > 0)
-        neighbours.push_back(make_tuple(x - 1, y));
+        neighbours.push_back({(int) x - 1, (int) y});
     if (x < MAZE_SIZE - 1)
-        neighbours.push_back(make_tuple(x + 1, y));
+        neighbours.push_back({(int) x + 1, (int) y});
     if (y > 0)
-        neighbours.push_back(make_tuple(x, y - 1));
+        neighbours.push_back({(int) x, (int) y - 1});
     if (y < MAZE_SIZE - 1)
-        neighbours.push_back(make_tuple(x, y + 1));
+        neighbours.push_back({(int) x, (int) y + 1});
 }
 
 // L'algorithme utilisé ici est un algorithme de recherche en profondeur (récursif).
@@ -160,7 +158,7 @@ void DungeonGenerator::generateMaze(unsigned int x, unsigned int y)
     maze[x][y] = 1;
 
     // trouve toutes les positions voisines au point (x, y)
-    vector<tuple<unsigned int, unsigned int>> neighbours;
+    vector<Point> neighbours;
     findNeighbours(x, y, neighbours);
 
     // mélange le tableau de positions voisines, ce qui permet de rendre la génération aléatoire.
@@ -172,8 +170,8 @@ void DungeonGenerator::generateMaze(unsigned int x, unsigned int y)
     // qui sera un nouveau point de départ pour generateMaze.
     for (unsigned int i = 0; i < neighbours.size(); ++i)
     {
-        unsigned int nx = get<0>(neighbours[i]); // posX du voisin
-        unsigned int ny = get<1>(neighbours[i]); // posY du voisin
+        unsigned int nx = neighbours[i].x; // posX du voisin
+        unsigned int ny = neighbours[i].y; // posY du voisin
 
         if (maze[nx][ny] == 0 && countAdjacentRooms(nx, nx) <= 1)
         {
@@ -215,27 +213,32 @@ Room DungeonGenerator::getRandomRoomForPos(unsigned int x, unsigned int y)
     return possibleRooms[rand() % possibleRooms.size()];
 }
 
-void DungeonGenerator::findBossRoom(Room **dungeon) {
-    vector<tuple<unsigned int, unsigned int>> possiblePositions;
+bool DungeonGenerator::findBossRoom(Room **dungeon) {
+    vector<Point> possiblePositions;
+
+    // cherche une salle qui n'a qu'un voisin (extrêmité d'un chemin)
     for (int y = 0; y < MAZE_SIZE; ++y) {
         for (int x = 0; x < MAZE_SIZE; ++x) {
             if (maze[x][y] > 0 && countAdjacentRooms(x, y) == 1) {
-                possiblePositions.push_back(make_tuple(x, y));
+                possiblePositions.push_back({x, y});
             }
         }
     }
 
+    // le donjon ne contient pas d'extrêmité
+    if (possiblePositions.size() == 0)
+        return false;
     
-    tuple<unsigned int, unsigned int> bossRoom = possiblePositions[rand() % possiblePositions.size()];
+    Point bossRoom = possiblePositions[rand() % possiblePositions.size()];
 
     for (int i = 0; i < roomCount; i++) {
         if (allRooms[i].isBossRoom) {
-            dungeon[get<0>(bossRoom)][get<1>(bossRoom)] = allRooms[i];
+            dungeon[bossRoom.x][bossRoom.y] = allRooms[i];
             break;
         }
     }
 
-    cout << "Boss Room: " << get<0>(bossRoom) << " : " << get<1>(bossRoom) << endl;
+    return true;
 }
 
 void DungeonGenerator::generateDungeon(Room** &dungeon)
@@ -246,22 +249,24 @@ void DungeonGenerator::generateDungeon(Room** &dungeon)
         dungeon[i] = new Room[MAZE_SIZE];
     }
 
-    for (unsigned int y = 0; y < MAZE_SIZE; ++y)
-    {
-        for (unsigned int x = 0; x < MAZE_SIZE; ++x)
+    Room emptyRoom;
+    do {
+        fillMazeWithZeros();
+        generateMaze((int)MAZE_SIZE / 2, (int)MAZE_SIZE / 2);
+
+        for (unsigned int y = 0; y < MAZE_SIZE; ++y)
         {
-            if (maze[x][y] > 0) {   
-                dungeon[x][y] = getRandomRoomForPos(x, y);
+            for (unsigned int x = 0; x < MAZE_SIZE; ++x)
+            {
+                dungeon[x][y] = maze[x][y] > 0 ? getRandomRoomForPos(x, y) : emptyRoom;
             }
         }
-    }
-
-    findBossRoom(dungeon);
+    } while(!findBossRoom(dungeon));
 }
 
 void DungeonGenerator::regressionTest()
 {
-    vector<tuple<unsigned int, unsigned int>> dungeon_test;
+    vector<Point> dungeon_test;
     for (int i = 0; i < MAZE_SIZE; i++)
     {
         for (int j = 0; j < MAZE_SIZE; j++)
@@ -276,11 +281,6 @@ void DungeonGenerator::regressionTest()
 void DungeonGenerator::deleteDungeon(Room** &dungeon) {
     for (int i = 0; i < MAZE_SIZE; i++)
     { 
-        for (int j = 0; j < MAZE_SIZE; j++)
-        {
-            // delete dungeon[i][j];
-            // dungeon[i][j] = nullptr;
-        }
         delete [] dungeon[i];
         dungeon[i] = nullptr;
     }

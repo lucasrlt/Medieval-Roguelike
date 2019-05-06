@@ -14,6 +14,10 @@
 
 using namespace std;
 
+/**
+ * @brief Principalement utiles dans la SDL, un bouton est un rectangle dans lequel
+ * on peut cliquer. 
+ */
 class Button
 {
     private:

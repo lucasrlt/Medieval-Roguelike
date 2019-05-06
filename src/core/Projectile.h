@@ -16,15 +16,18 @@
 
 
 const int UPDATE_PROJECTILE = 5;
-/**
- * @brief Classe créant les projectiles.
- */
 
+/**
+ * @brief Classe gérant les projectiles. Les projectiles sont principalement des flèches tirées par le joueur.
+ * Un projectile peut toucher une éntité et lui infliger des dégâts, ou s'écraser contre un mur.
+ * Les projectiles passent à travers les plateformes mais pas les blocs.
+ */
 class Projectile
 {
 public:
+  /// @brief position du projectile
   Vector2D position;
-  string spriteName;
+  /// @brief vrai si le projectile est entré en collision avec quelque chose
   bool isHit;
 
   Projectile();
@@ -33,19 +36,15 @@ public:
      * @brief Construit un Projectile.
      * 
      * @param position position du projectile.
-     * @param force force appliquée au projectile.
+     * @param velocity vitesse appliquée au projectile.
      * @param damages dégâts du projectile.
-     * @param spriteName nom du sprite du projectile.
      */
-  Projectile(Vector2D position, Vector2D velocity, int damages, string spriteName);
+  Projectile(Vector2D position, Vector2D velocity, int damages);
 
   ~Projectile();
 
   /**
-     * @brief Déplacement du projectile.
-     * 
-     * @param dep déplacement du projectile.
-     * @param game appelle le jeu.
+     * @brief Déplacement du projectile. 
      */
   void move();
 

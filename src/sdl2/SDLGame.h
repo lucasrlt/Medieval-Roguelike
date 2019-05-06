@@ -23,25 +23,27 @@ const int dimx = GRID_SIZE * TILE_SIZE * SCALE;
 const int dimy = GRID_SIZE * TILE_SIZE * SCALE;
 const int numSprites = 7;
 
+/**
+ * @brief Classe gérant tout l'affichage du jeu avec la SDL.
+ * Ce jeu fait appel aux fonctions d'update du module Game, il s'occupe uniquement 
+ * de la gestion des inputs et de l'affichage à l'écran.
+ */
 class SDLGame
 {
 private:
   /* ==== GESTION DE L'ETAT DU JEU ==== */
-  bool left;
-  bool right;
-  bool stop;
-  bool drawBigMap;
-  bool isSelectionScreen;
-  bool isHTPScreen;
-  bool isDeathScreen;
-  bool playing;
-  bool isPauseScreen;
+  bool drawBigMap; // dessine la map en petit ou en grand
+  bool isPlaying; // vrai si le jeu est lancé
+
+  /* === GESTION DES ECRANS DE MENU === */
+  bool isSelectionScreen; // écran principal / d'acceuil
+  bool isHTPScreen; // écran "how to play" 
+  bool isDeathScreen; // écran de mort
+  bool isPauseScreen; // écran de pause
   
   /* ==== GESTION DU SON ==== */
   bool withSound;
-  bool withDeathSound;
   struct _Mix_Music *backGroundMusic;
-  struct _Mix_Music *deathMusic;
   struct Mix_Chunk *hitPlayerSound;
   struct Mix_Chunk *playerAttackSwordSound;
   struct Mix_Chunk *playerProjectileSound;
@@ -61,9 +63,9 @@ private:
 
   /* ==== GESTION DU TEMPS ==== */
   Uint32 lastTickTime;
-  Uint32 playerAttackTime;
-  Uint32 playerShootTime;
-  Uint32 hitTime;
+  Uint32 playerAttackTime; // dernière attaque du joueur (CàC)
+  Uint32 playerShootTime; // dernier tir du jouer (flèche distance)
+  Uint32 hitTime; // dernière fois que le joueur a été touché
 
   /* ==== IMAGES ==== */
   Image playerIdle;
@@ -81,8 +83,7 @@ private:
   Image heartSprite;
   Image energySprite;
 
-  /* BOUTONS */
-
+  /* === BOUTONS DES MENUS === */
   Button returnToSelectionScreen;
   Button goToHTP;
   Button newGameSelectionScreen;
@@ -91,8 +92,7 @@ private:
   Button goBackToFirstScreen;
   Button afterVictoryScreen;
   
-  /* POLICE ET COULEUR DE POLICE */
-
+  /* === POLICE ET COULEUR DE POLICE */
   TTF_Font * font;
   SDL_Color font_color;
   
@@ -139,11 +139,11 @@ private:
   /* ==== FONCTIONS D'AFFICHAGE ==== */
   void drawGame(const Game &g);
   void drawCurrentRoom(const Game &g);
-  void drawPlayer(Player *player);
+  void drawPlayer(const Player *player);
   void drawPlayerHeart(const Game &g);
   void drawPlayerEnergy(const Game &g);
   void drawBackground(const Game& g);
-  void renderProjectiles(const Game &g);
+  void drawProjectiles(const Game &g);
 
   void drawHitFilter();
   void drawDeathScreen();
@@ -155,7 +155,6 @@ private:
   void drawEnemies(const Game &g);
   void drawEnemiesHeart(const Game &g);
   
-  void checkButton(int &xm, int &ym, Game &g);
 
   /**
    * @brief Affiche du texte à l'écran.
@@ -197,15 +196,26 @@ private:
   void drawMap(const Game& g, bool minimap = true);
   
   /**
-   * @brief Dessine les projectiles tirés par le joueur.
+   * @brief Fonction gérant les actions lors des clics sur les boutons de menus.
    * 
-   * @param g instance du jeu.
+   * @param xm position x de la souris
+   * @param ym position y de la souris
+   * @param g instance du jeu
+   * 
+   * @note L'écran courant du menu à afficher est géré par différentes variables booléennes.
    */
-  void drawProjectiles(const Game &g);
-
+  void updateButtons(int &xm, int &ym, Game &g);
 
 public:
+  /**
+   * @brief Crée un objet SDLGame. Initialise les librairies SDL2, SDL_image, SDL_ttf, SDL_mixer,
+   * puis initialise l'état du jeu et charge les assets.
+   */ 
   SDLGame();
+
+  /**
+   * @brief Détruit un objet SDLGame en libérant les textures, renderer, polices d'écritures, et les sons.
+   */
   ~SDLGame();
 
   /**

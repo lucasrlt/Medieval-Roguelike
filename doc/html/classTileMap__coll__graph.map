@@ -1,0 +1,4 @@
+<map id="TileMap" name="TileMap">
+<area shape="rect" id="node1" title="Classe gérant la TileMap. Une tilemap est un tableau de tiles qui provient d&#39;un fichier ...." alt="" coords="5,153,164,320"/>
+<area shape="rect" id="node2" href="$structPoint.html" title="Classe représentant un point de coordonnées entières x et y." alt="" coords="59,5,111,92"/>
+</map>

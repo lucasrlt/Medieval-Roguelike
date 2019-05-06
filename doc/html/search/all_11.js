@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['savage',['Savage',['../classSavage.html',1,'Savage'],['../classSavage.html#ac82b89b23f455679c8c5f31b99cf9edb',1,'Savage::Savage()'],['../classSavage.html#a172892fc8d5cffd65963ed8bfb13c3fa',1,'Savage::Savage(Vector2D posInit, Vector2D velocityInit, int healthInit, int strengthInit, bool isDeadCheck)']]],
+  ['savage_2ecpp',['Savage.cpp',['../Savage_8cpp.html',1,'']]],
+  ['savage_2eh',['Savage.h',['../Savage_8h.html',1,'']]],
+  ['savage_5fspeed',['SAVAGE_SPEED',['../Savage_8h.html#a4c2f416a1429c516f4c0572d9045c1d1',1,'Savage.h']]],
+  ['savagespawns',['savageSpawns',['../classTileMap.html#aedb49843b0198621ea847316800c14a0',1,'TileMap']]],
+  ['scale',['SCALE',['../SDLGame_8h.html#a8334f0c0c56b96debb10231b86050ead',1,'SDLGame.h']]],
+  ['schema',['schema',['../classRoom.html#af520cbb48c5999d0310718f9b88b76a9',1,'Room']]],
+  ['sdlgame',['SDLGame',['../classSDLGame.html',1,'SDLGame'],['../classSDLGame.html#a200db0b6af681960e7fc0c12a90e9c95',1,'SDLGame::SDLGame()']]],
+  ['sdlgame_2ecpp',['SDLGame.cpp',['../SDLGame_8cpp.html',1,'']]],
+  ['sdlgame_2eh',['SDLGame.h',['../SDLGame_8h.html',1,'']]],
+  ['setname',['setName',['../classButton.html#ae9ffe01e228623458eedef88ccb42dc6',1,'Button']]],
+  ['setpos',['setPos',['../classButton.html#af0f06b256ef72ce07874717f953d3ab2',1,'Button']]],
+  ['setposition',['setPosition',['../classEntity.html#a26c1bab6aca4cb690cc9f438bc980443',1,'Entity']]],
+  ['setsize',['setSize',['../classButton.html#ac5600b084e07d829e9d9443dfe02d68a',1,'Button']]],
+  ['setsurface',['setSurface',['../classImage.html#a833f5d3b4b9f905320c6dffcc9b84b95',1,'Image']]],
+  ['show',['show',['../classVector2D.html#ad2d218f4b16c21f4ecba1952bd9057c4',1,'Vector2D']]],
+  ['spawn',['spawn',['../TileMap_8h.html#ac9e486ec80ccfdb28a4f4837d419c9f1a94b8edcc51bb7aec44080bf0278d9430',1,'TileMap.h']]],
+  ['spawnmonster',['spawnMonster',['../TileMap_8h.html#ac9e486ec80ccfdb28a4f4837d419c9f1ac97c5d0ae312cdb91f3561ee8fa278f9',1,'TileMap.h']]],
+  ['spawnmonstersavage',['spawnMonsterSavage',['../TileMap_8h.html#ac9e486ec80ccfdb28a4f4837d419c9f1ab17f9d366d353801335a6751ed675152',1,'TileMap.h']]],
+  ['spike',['spike',['../TileMap_8h.html#ac9e486ec80ccfdb28a4f4837d419c9f1a91df781bfe03f6f04564a48420604f85',1,'TileMap.h']]],
+  ['spikes_5fdamages',['SPIKES_DAMAGES',['../Game_8h.html#a8510ce23c408ec147192d2b3e61c6068',1,'Game.h']]],
+  ['sprint',['sprint',['../classPlayer.html#a7e1041ef417579b30f0f719a830f2192',1,'Player']]]
+];

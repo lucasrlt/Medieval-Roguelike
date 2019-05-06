@@ -7,17 +7,22 @@ using namespace std;
 #ifndef MEDIEVALROGUELIKE_ITEM_H
 #define MEDIEVALROGUELIKE_ITEM_H
 
-class Item{
-    public:
+/**
+ * @brief Classe gérant les items du jeu.
+ * A l'heure actuelle, seuls des items de régénération existent.
+ */
+class Item {
+private: 
     Vector2D position;
-    string itemName;
+
+public:
     bool isTaken;
 
     Item();
-
-    Item(Vector2D posInit, string spriteName, bool isTakenCheck);
-
+    Item(Vector2D posInit, bool isTakenCheck);
     ~Item();
+
+    Vector2D getPosition() const;
 };
 
 #endif //MEDIEVALROGUELIKE_ITEMs_H

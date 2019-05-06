@@ -8,15 +8,19 @@
  @date 05/03/2019
  @author Alexandre PUILLET
  */
+
+/**
+ * @brief Classe représentant un point de coordonnées entières x et y.
+ */
 struct Point
 {
   int x;
   int y;
 };
-/**
- * @brief Classe représentant un point de coordonnées x et y
- */
 
+/**
+ * @brief Classe représentant un point de coordonnées float x et y
+ */
 class Vector2D
 {
   public:

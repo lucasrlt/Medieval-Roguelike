@@ -33,68 +33,39 @@ Game::Game() {
     initDungeon();
 }
 
-Room &Game::getConstRoom(int x, int y) const
-{
-    return dungeon[x][y];
-}
+Room &Game::getConstRoom(int x, int y) const {return dungeon[x][y]; }
 
-const TileMap &Game::getConstTilemap() const
-{
-    return *tilemap;
-}
+const TileMap &Game::getConstTilemap() const { return *tilemap; }
 
-Player *Game::getConstPlayer() const
-{
-    return player;
-}
+Player *Game::getConstPlayer() const { return player; }
 
-Savage *Game::getConstSavage() const
-{
-    return savage;
-}
+Savage *Game::getConstSavage() const { return savage; }
 
-Ghost *Game::getConstGhost() const
-{
-    return ghost;   
-}
+Ghost *Game::getConstGhost() const { return ghost; }
 
-Item *Game::getConstItems() const
-{
-    return item;
-}
+Item *Game::getConstItems() const { return item; }
+
+int Game::getCurrentRoomX() const { return currRoomX; }
+int Game::getCurrentRoomY() const { return currRoomY; }
+
 
 void Game::spawnGhost(){
     //Caratéristiques du Ghost
-    Vector2D posGhost;
+    // Le boss est un fantôme spécial, donc ses caractéristiques ne sont pas les mêmes
     int healthGhost = currentRoom.isBossRoom ? 8 : 3;
     int strengthGhost = currentRoom.isBossRoom ? 3 : 1;
-    bool isDead = false;
-    Vector2D force(0, 0);
-    string idleSpriteGhost = "data/warrior_front.png";
-    string leftSpriteGhost = "data/warrior_left.png";
-    string rightSpriteGhost = "data/warrior_right.png";
-    posGhost = {(float)tilemap->enemySpawns[0].x, (float)tilemap->enemySpawns[0].y};
+    Vector2D posGhost = {(float)tilemap->enemySpawns[0].x, (float)tilemap->enemySpawns[0].y};
 
     if (ghost != nullptr)
         delete ghost;
 
-    ghost = new Ghost(posGhost, force, healthGhost, strengthGhost, isDead, idleSpriteGhost, leftSpriteGhost, rightSpriteGhost);
+    ghost = new Ghost(posGhost, {0, 0}, healthGhost, strengthGhost, false);
     if (currentRoom.isBossRoom) {
         ghost->isBoss = true;
     }
 }
 
-void Game::spawnSavage(){
-    //Caratéristiques du Savage
-    Vector2D posSavage;
-    int healthSavage = 5;
-    int strengthSavage = 3;
-    bool isDead = false;
-    Vector2D force(0, 0);
-    string idleSpriteSavage = "data/warrior_front.png";
-    string leftSpriteSavage = "data/warrior_left.png";
-    string rightSpriteSavage = "data/warrior_right.png";
-
+void Game::spawnSavage() {
     if (savage != nullptr) {
         delete savage;
         savage = nullptr;
@@ -102,34 +73,28 @@ void Game::spawnSavage(){
 
     if(tilemap->savageSpawns.size() > 0)
     {
-        posSavage = {(float)tilemap->savageSpawns[0].x, (float)tilemap->savageSpawns[0].y};
-        savage = new Savage(posSavage, force, healthSavage, strengthSavage, isDead, idleSpriteSavage,
-                             leftSpriteSavage, rightSpriteSavage);
+        Vector2D posSavage = {(float)tilemap->savageSpawns[0].x, (float)tilemap->savageSpawns[0].y};
+        savage = new Savage(posSavage, {0, 0}, 5, 3, false);
     } 
 }
 
 void Game::spawnRegenItem(){
-    string pathName = "data/burger.png";
-    bool isTakenItem = false;
-    Vector2D posItem;
-
     if (item != nullptr)
         delete item;
 
     if (tilemap->itemSpawns.size() > 0) {
-        posItem = {(float)tilemap->itemSpawns[0].x, (float)tilemap->itemSpawns[0].y};
-        item = new Item(posItem, pathName, isTakenItem);
+        Vector2D posItem = {(float)tilemap->itemSpawns[0].x, (float)tilemap->itemSpawns[0].y};
+        item = new Item(posItem, false);
     }
-    else{
-        item = NULL;
+    else {
+        item = nullptr;
     }
 }
 
-int Game::getCurrentRoomX() const { return currRoomX; }
-int Game::getCurrentRoomY() const { return currRoomY; }
-
 void Game::initDungeon()
 {
+    // Si wasInitialized == true, alors ce n'est pas le premier appel à initDungeon
+    // (nouvelle partie) donc il faut supprimer les anciens éléments
     if (wasInitialized) {
         delete player;
         delete tilemap;
@@ -137,65 +102,52 @@ void Game::initDungeon()
     }
 
 
-    Vector2D pos;
-    Vector2D force(0, 0);
-    int health = 10;
-    int energy = 5;
-    int shield = 5;
-    string idleSpritePlayer = "data/warrior_front.png";
-    string leftSpritePlayer = "data/warrior_left.png";
-    string rightSpritePlayer = "data/warrior_right.png";
-
-    unsigned int damages = 1;
-    unsigned int energyCost = 3;
-    unsigned int attackSpeed = 5;
-    int type = 1;
-    float attackRange = 2;
-    string weaponName = "Lance";
-
-    Weapon weapon(damages, energyCost, attackSpeed, type, attackRange, weaponName);
-
+    // Init donjon
     dungeonGenerator.generateDungeon(dungeon);
-
     currRoomX = (int)MAZE_SIZE / 2;
     currRoomY = (int)MAZE_SIZE / 2;
     currentRoom = getConstRoom((int)MAZE_SIZE / 2, (int)MAZE_SIZE / 2);
 
+    // Init tilemap
     tilemap = new TileMap();
     tilemap->init("data/tileset.tsx");
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
 
-    pos = {(float)tilemap->playerSpawn.x, (float)tilemap->playerSpawn.y};
+    // Init joueur
+    Weapon playerWeapon(1, 5, 2);
+    Vector2D playerPos = {(float)tilemap->playerSpawn.x, (float)tilemap->playerSpawn.y};
+    player = new Player(playerPos, {0, 0}, 10, 5, playerWeapon);
 
-    player = new Player(pos, force, health, energy, shield, weapon, idleSpritePlayer, leftSpritePlayer, rightSpritePlayer);
+    // Init l'état du jeu
     playerDead = false;
-    // Point ennemyPos = tilemap->enemySpawns[rand() % tilemap->enemySpawns.size()];
-    isJumping = false;
     hasWon = false;
+    projectiles.clear();
+    wasInitialized = true;
 
+    // Init le contenu de la salle (ennemis/items)
     spawnGhost();
     spawnSavage();
     spawnRegenItem();
 
-    wasInitialized = true;
 }
 
 
 void Game::attackSword(){
     float width = ghost->isBoss ? 2 : 1;
-    if((player->position.x - player->weapon.attackRange <= ghost->position.x && player->position.x + player->weapon.attackRange >= ghost->position.x) && 
-    (player->position.y <= ghost->position.y + width && player->position.y >= ghost->position.y - width))
+
+    if((player->getPosition().x - player->getWeapon().attackRange <= ghost->getPosition().x && player->getPosition().x + player->getWeapon().attackRange >= ghost->getPosition().x) && 
+    (player->getPosition().y <= ghost->getPosition().y + width && player->getPosition().y >= ghost->getPosition().y - width))
     {
-        ghost->receiveDamage(player->weapon.damages);   //Dégâts pris par le ghost en fonction de l'arme du joueur
+        ghost->receiveDamage(player->getWeapon().damages);   //Dégâts pris par le ghost en fonction de l'arme du joueur
         if(ghost->getHealth() <= 0)
         {
             ghost->isDead = true;
         }
     }
-    if(savage != NULL && (player->position.x <= savage->position.x + 1 && player->position.x >= savage->position.x - 1) && 
-    (player->position.y <= savage->position.y + 1 && player->position.y >= savage->position.y - 1))
+    if(savage != NULL && (player->getPosition().x <= savage->getPosition().x + 1 && player->getPosition().x >= savage->getPosition().x - 1) && 
+    (player->getPosition().y <= savage->getPosition().y + 1 && player->getPosition().y >= savage->getPosition().y - 1))
     {
-        savage->receiveDamage(player->weapon.damages);  //Dégâts pris par le savage en fonction de l'arme du joueur
+        savage->receiveDamage(player->getWeapon().damages);  //Dégâts pris par le savage en fonction de l'arme du joueur
         if(savage->getHealth() <= 0)
         {
            savage->isDead = true;
@@ -203,9 +155,9 @@ void Game::attackSword(){
     }
 }
 
-void Game::takeItem(){
-    if((player->position.x <= item->position.x + 1 && player->position.x >= item->position.x - 1) && 
-    (player->position.y <= item->position.y + 1 && player->position.y >= item->position.y - 1)){
+void Game::checkItemTaken(){
+    if((player->getPosition().x <= item->getPosition().x + 1 && player->getPosition().x >= item->getPosition().x - 1) && 
+    (player->getPosition().y <= item->getPosition().y + 1 && player->getPosition().y >= item->getPosition().y - 1)){
         if(!item->isTaken){
             item->isTaken = true;
             player->receiveDamage(-3);
@@ -217,31 +169,24 @@ void Game::keyboardActions(char action)
 {
     switch (action)     //Actions à faire en fonction de la touche appuyée (gérée dans la SDL)
     {
-    case 'r':
+    case 'r': // déplacer à droite
         player->moveRight(*tilemap);
-        player->movingRight = true;
-        player->movingLeft = false;
         checkRoomChange('r');
         break;
-    case 'l':
+    case 'l': // déplacer à gauche
         player->moveLeft(*tilemap);
-        player->movingLeft = true;
-        player->movingRight = false;
         checkRoomChange('l');
         break;
-    case 'j':
+    case 'j': // sauter
         player->jump();
         break;
-    case 'e':
-        playerShoot(player->movingRight);
+    case 'e': // tirer
+        playerShoot();
         break;
-    case 'h':
+    case 'h': // attacker à l'épée
         attackSword();
         break;
-    case 'd':
-        takeItem();
-        break;
-    case 's':
+    case 's': // sprinter
         player->sprint();
         break;
     default:
@@ -252,27 +197,28 @@ void Game::keyboardActions(char action)
 void Game::automaticActions(float dt)
 {
     checkRoomChange(' ');
+
     ghost->flyToPlayer(player);
     if (savage != NULL)
         savage->runToPlayer(player,getConstTilemap(),dt);
-    updateProjectile();
+
+    updateProjectiles();
+    checkProjectileHit();
 
     if (player->getHealth() <= 0) {
         playerDead = true;
     }
-    projectileHitEnnemy();
 
     if(item != NULL){
-        takeItem();
+        checkItemTaken();
     }
 
-    hasWon = currentRoom.isBossRoom && ghost->isDead;   //
-
+    hasWon = currentRoom.isBossRoom && ghost->isDead;
 }
 
 bool Game::checkSpikes()
 {
-    if (tilemap->getXY(round(player->position.x), (int)round(player->position.y)).type == spike) {
+    if (tilemap->getXY(round(player->getPosition().x), (int)round(player->getPosition().y)).type == spike) {
         player->receiveDamage(SPIKES_DAMAGES);
         return true;
     }
@@ -281,15 +227,16 @@ bool Game::checkSpikes()
 
 void Game::checkRoomChange(char direction)
 {
-    if (tilemap->getXY(player->position.x, player->position.y).type == background)
+    if (tilemap->getXY(player->getPosition().x, player->getPosition().y).type == background)
     {
-        if (player->position.x >= 14.8f && player->movingRight && currentRoom.schema.openRight)
+        // Vérifie si le joueur est sur sur le bord de l'écran, si oui, on le change de salle.
+        if (player->getPosition().x >= 14.8f && player->isMovingRight() && currentRoom.schema.openRight)
             changeRoom('r');
-        else if (player->position.x <= 1.0f && player->movingLeft && currentRoom.schema.openLeft)
+        else if (player->getPosition().x <= 1.0f && !player->isMovingRight() && currentRoom.schema.openLeft)
             changeRoom('l');
-        else if (player->position.y >= 14.8f && currentRoom.schema.openBottom)
+        else if (player->getPosition().y >= 14.8f && currentRoom.schema.openBottom)
             changeRoom('b');
-        else if (player->position.y < 1.0f && currentRoom.schema.openTop)
+        else if (player->getPosition().y < 1.0f && currentRoom.schema.openTop)
             changeRoom('t');
     }
 }
@@ -300,25 +247,25 @@ void Game::changeRoom(char direction)
     {
     case 'r':
         currRoomX += 1;
-        player->position = {0, 7};
+        player->setPosition({0, 7});
         break;
     case 'l':
         currRoomX -= 1;
-        player->position = {15, 7};
+        player->setPosition({15, 7});
         break;
     case 'b':
         currRoomY += 1;
-        player->position = {7, 1};
+        player->setPosition({7, 1});
         break;
     case 't':
         currRoomY -= 1;
-        player->position = {7, 13};
+        player->setPosition({7, 13});
         break;
     }
 
     currentRoom = getConstRoom(currRoomX, currRoomY);
     if (currentRoom.isBossRoom) {
-        player->position = {(float)tilemap->playerSpawn.x, (float)tilemap->playerSpawn.y};
+        player->setPosition({(float)tilemap->playerSpawn.x, (float)tilemap->playerSpawn.y});
     }
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
     projectiles.clear();
@@ -329,44 +276,44 @@ void Game::changeRoom(char direction)
 }
 
 
-void Game::playerShoot(bool right)
+void Game::playerShoot()
 {
     Vector2D position;
     Vector2D velocity = {PROJECTILE_SPEED, 0};
-    if(right)
+    if(player->isMovingRight())
     {
-        position = {player->position.x,player->position.y};
+        position = {player->getPosition().x,player->getPosition().y};
     }
     else
     {
-        position = {player->position.x,player->position.y};
+        position = {player->getPosition().x,player->getPosition().y};
         velocity.x = -PROJECTILE_SPEED;
     }
 
-    Projectile p(position, velocity, PROJECTILE_DAMAGES, "data/blanc.jpg");
+    Projectile p(position, velocity, PROJECTILE_DAMAGES);
     projectiles.push_back(p);      
 }
 
-void Game::projectileHitEnnemy()
+void Game::checkProjectileHit()
 {
     float width = ghost->isBoss ? 2.75f : 0.75f;
     for(unsigned int i = 0; i < projectiles.size(); i++)
     {
-        if((projectiles[i].position.x <= ghost->position.x + width && projectiles[i].position.x >= ghost->position.x - width)
-        && (projectiles[i].position.y <= ghost->position.y + width && projectiles[i].position.y >= ghost->position.y - width) && projectiles[i].isHit == false)
+        if((projectiles[i].position.x <= ghost->getPosition().x + width && projectiles[i].position.x >= ghost->getPosition().x - width)
+        && (projectiles[i].position.y <= ghost->getPosition().y + width && projectiles[i].position.y >= ghost->getPosition().y - width) && projectiles[i].isHit == false)
         {
             projectiles[i].hit(*ghost);
         }
           
-        if(savage != NULL && (projectiles[i].position.x <= savage->position.x + 0.75f && projectiles[i].position.x >= savage->position.x - 0.75f)
-        && (projectiles[i].position.y <= savage->position.y + 0.75f && projectiles[i].position.y >= savage->position.y - 0.75f) && !projectiles[i].isHit)
+        if(savage != NULL && (projectiles[i].position.x <= savage->getPosition().x + 0.75f && projectiles[i].position.x >= savage->getPosition().x - 0.75f)
+        && (projectiles[i].position.y <= savage->getPosition().y + 0.75f && projectiles[i].position.y >= savage->getPosition().y - 0.75f) && !projectiles[i].isHit)
         {
             projectiles[i].hit(*savage);
         }
     }
 }
 
-void Game::updateProjectile()
+void Game::updateProjectiles()
 {
     for(unsigned int i = 0; i < projectiles.size(); i++)
     {

@@ -1,0 +1,4 @@
+<map id="Player" name="Player">
+<area shape="rect" id="node1" title="Classe représentant les caractéristiques d&#39;un personnage." alt="" coords="9,367,137,533"/>
+<area shape="rect" id="node2" href="$classEntity.html" title="Classe représentant les caractéristiques communes des entités du jeu." alt="" coords="5,5,140,319"/>
+</map>

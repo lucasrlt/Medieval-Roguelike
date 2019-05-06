@@ -51,9 +51,11 @@ void TileMap::fetchTileTypes()
 
     string content;
 
+    // les fichiers .tsx commencent par 4 lignes de XML inutles ici
     for (int k = 0; k < 3; k++)
         getline(readFile, content);
 
+    // le type par défaut d'une tile est background
     for (int i = 0; i < NUM_TILES; i++)
         tileTypes[i] = background;
 
@@ -70,6 +72,7 @@ void TileMap::fetchTileTypes()
             size_t endPos = content.find("/") - 1;
             string tileType = content.substr(typePos + 6, endPos - typePos - 6);
 
+            // assigne les types dnas le fichier .tsx aux types dans l'enum TileType
             if (tileType == "block")
                 tileTypes[tileId] = collision;
             else if (tileType == "background")
@@ -122,28 +125,35 @@ void TileMap::fetchRoomFromFile(const string &filename)
                 getline(readFile, content, ',');
                 int tileId = stoi(content);
 
+                // si l'id d'une tile est 0, alors c'est un bloc de fond, sinon on va récupérer
+                // son type dans le tableau des types de toutes les tiles du tileset (tileTypes[16 * 16]).
                 TileType tileType = tileId == 0 ? background : tileTypes[tileId - 1];
-                if (tileType == spawnMonster)
+
+                // si la tile est une tile de spawn, on l'ajoute au tableau approprié
+                if (tileType == spawnMonster) // ajoute un spawn de fantôme
                 {
                     enemySpawns.push_back({x, y});
                 }
-                if (tileType == spawnMonsterSavage)
+                if (tileType == spawnMonsterSavage) // ajoute un spawn de sauvage
                 {
                     savageSpawns.push_back({x, y});
                 }
-                if(tileType == regenItem)
+                if(tileType == regenItem) // ajoute un spawn d'item
                 {
                     itemSpawns.push_back({x, y});
                 }
-                int posX = ((tileId - 1) % TILE_SIZE) * TILE_SIZE;
-                int posY = ((int)((tileId - 1) / TILE_SIZE)) * TILE_SIZE;
-                Tile *tile = new Tile(tileId, posX, posY, tileType);
-
-                if (tileType == spawn)
+                if (tileType == spawn) // ajoute le spawn du joueur
                 {
                     playerSpawn.x = x;
                     playerSpawn.y = y;
                 }
+
+                // trouve la position appropriée de la tile à l'écran
+                int posX = ((tileId - 1) % TILE_SIZE) * TILE_SIZE;
+                int posY = ((int)((tileId - 1) / TILE_SIZE)) * TILE_SIZE;
+                Tile *tile = new Tile(tileId, posX, posY, tileType);
+
+                // ajoute la tile à la salle après l'avoir traitée en créant un objet Tile
                 roomMap[x][y] = tile;
             }
         }
@@ -153,7 +163,6 @@ void TileMap::fetchRoomFromFile(const string &filename)
 
 bool TileMap::isValidPosition(const int x, const int y, bool goingUp) const
 {
-    // cout << x << " : " << y << endl;
     return (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE && !(roomMap[x][y]->type == collision || (goingUp ? false : roomMap[x][y]->type == platform)));
 }
 

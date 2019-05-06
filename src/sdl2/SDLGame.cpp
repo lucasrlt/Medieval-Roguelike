@@ -32,23 +32,21 @@ SDLGame::~SDLGame()
     Mix_FreeChunk(playerProjectileSound);
     Mix_FreeChunk(regenItemSound);
     Mix_FreeMusic(backGroundMusic);
-    Mix_FreeMusic(deathMusic);
     Mix_CloseAudio();
 
 }
 
 void SDLGame::initSDLGame()
 {
-    drawBigMap = false;
-    isPlayerAttacking = false;
+    drawBigMap = false; // au début, on affiche la minimap
+
     isSelectionScreen = true;
     isDeathScreen = false;
     isHTPScreen = false;
     isPauseScreen = false;
-    right = false;
-    left = false;
-    stop = true;
-    playing = false;
+    
+    isPlayerAttacking = false;
+    isPlaying = false;
 }
 
 void SDLGame::initSDL() {
@@ -73,13 +71,11 @@ void SDLGame::initSDL() {
     {
         cout << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << endl;
         cout << "No sound !!!" << endl;
-        //SDL_Quit();exit(1);
+        SDL_Quit(); exit(1);
         withSound = false;
-        withDeathSound = false;
     }
     else{
         withSound = true;
-        withDeathSound = true;
     }
 
 
@@ -115,43 +111,39 @@ void SDLGame::drawGame(const Game &g)
     
     if (g.hasWon) {
         drawVictoryScreen();
-    } else {
-    if (isSelectionScreen && !isHTPScreen && !isDeathScreen && !playing) 
-    {
-        drawSelectionScreen();
-    }
-    if(!isSelectionScreen && isHTPScreen && !isDeathScreen && !playing)
-    {
-        drawHTPScreen();
-    }
-    if(!isSelectionScreen && !isHTPScreen && !isDeathScreen && playing && isPauseScreen)
-    {
-        playing = false;
-        //drawMenuScreen();
-    }
-    if (!g.playerDead && !isSelectionScreen && !isHTPScreen && !isDeathScreen && playing) 
-    {
-        drawBackground(g);
-        drawCurrentRoom(g);
-        drawPlayerHeart(g);
-        drawPlayer(g.getConstPlayer());
-        drawEnemiesHeart(g);        
-        drawEnemies(g);
-        drawProjectiles(g);
-        drawItemsRegen(g);
-        drawMap(g, !drawBigMap);
     } 
-    else
+    else 
     {
-        if(g.playerDead)
+        if (isSelectionScreen) 
+        {
+            drawSelectionScreen();
+        }
+        if(isHTPScreen)
+        {
+            drawHTPScreen();
+        }
+        if(isPlaying && isPauseScreen)
+        {
+            isPlaying = false;
+        }
+
+        if (!g.playerDead && !isSelectionScreen && !isHTPScreen && !isDeathScreen && isPlaying) 
+        {
+            drawBackground(g);
+            drawCurrentRoom(g);
+            drawPlayerHeart(g);
+            drawPlayer(g.getConstPlayer());
+            drawEnemiesHeart(g);        
+            drawEnemies(g);
+            drawProjectiles(g);
+            drawItemsRegen(g);
+            drawMap(g, !drawBigMap);
+        } 
+        else if(g.playerDead)
         {
             isDeathScreen = true;
-            withDeathSound = true;
-            withSound = false;
-            Mix_PlayMusic(deathMusic, 0);
             drawDeathScreen();
         }
-    }
     }
 }
 
@@ -187,19 +179,15 @@ void SDLGame::loadAssets() {
         playerProjectileSound = Mix_LoadWAV("data/sounds/playerProjectileSound.wav");
         regenItemSound = Mix_LoadWAV("data/sounds/regenItemSound.wav");
 
+        Mix_VolumeChunk(hitPlayerSound, MIX_MAX_VOLUME / 5);
+
+
         //Musiques utilisées dans le jeu
         backGroundMusic = Mix_LoadMUS("data/sounds/backGroundMusic.wav");
 
         if (hitPlayerSound == NULL || playerAttackSwordSound == NULL || playerProjectileSound == NULL ||
             regenItemSound == NULL || backGroundMusic == NULL) 
         {
-            cout << "Failed to load a music file: SDL_mixer Error: " << Mix_GetError() << endl; SDL_Quit(); exit(1);
-        }
-    }
-
-    if(withDeathSound){
-        deathMusic = Mix_LoadMUS("data/sounds/deathMusic.wav");
-        if(deathMusic == NULL){
             cout << "Failed to load a music file: SDL_mixer Error: " << Mix_GetError() << endl; SDL_Quit(); exit(1);
         }
     }
@@ -211,7 +199,7 @@ void SDLGame::loadAssets() {
     }
     font_color = {255, 255, 255};
 
-    /* BUTTONS */
+    /* BUTTONS - Initialise la position de tous les boutons de l'interface */
     returnToSelectionScreen.setPos({dimx-200,dimy/2 + 250});
     returnToSelectionScreen.setSize({200,50});
 
@@ -279,16 +267,17 @@ void SDLGame::drawPlayerEnergy(const Game &g){
 }
 
 void SDLGame::drawEnemiesHeart(const Game &g) {
-    Ghost* ghost = g.getConstGhost();
-    Savage* savage = g.getConstSavage();
+    const Ghost* ghost = g.getConstGhost();
+    const Savage* savage = g.getConstSavage();
 
+    // Dessine des coeurs au-dessus des ennemis.
     if(!ghost->isDead){
         for(int i = 0 ; i < ghost->getHealth() ; i++)
         {
             if (!ghost->isBoss) {
                 heartSprite.draw(renderer, 
-                                (ghost->position.x * SCALE * 16) + (i * (SCALE + 10)) + 5, 
-                                ghost->position.y * SCALE * 16 -20, 
+                                (ghost->getPosition().x * SCALE * 16) + (i * (SCALE + 10)) + 5, 
+                                ghost->getPosition().y * SCALE * 16 -20, 
                                 4 * SCALE, 4 * SCALE);
             } else {
                 heartSprite.draw(renderer, 
@@ -302,29 +291,29 @@ void SDLGame::drawEnemiesHeart(const Game &g) {
         for(int i = 0 ; i < g.getConstSavage()->getHealth() ; i++)
         {
             heartSprite.draw(renderer, 
-                             (savage->position.x * SCALE * 16) + (i * (SCALE + 10)) - 8, 
-                             savage->position.y * SCALE * 16 -20, 
+                             (savage->getPosition().x * SCALE * 16) + (i * (SCALE + 10)) - 8, 
+                             savage->getPosition().y * SCALE * 16 -20, 
                              4 * SCALE, 4 * SCALE);
         }
     }
 }
 
 void SDLGame::drawItemsRegen(const Game &g){
-    Item *item = g.getConstItems();
+    const Item *item = g.getConstItems();
 
     if(item != NULL && !item->isTaken){
-        itemIdle.draw(renderer, item->position.x * SCALE * 16, (item->position.y + 0.5f) * SCALE * 16, 8 * SCALE, 8 * SCALE);
+        itemIdle.draw(renderer, item->getPosition().x * SCALE * 16, (item->getPosition().y + 0.5f) * SCALE * 16, 8 * SCALE, 8 * SCALE);
     }
 }
 
 
-void SDLGame::drawPlayer(Player *player)
+void SDLGame::drawPlayer(const Player *player)
 {
     int spritesheetRow = 1;
     if (isPlayerAttacking) spritesheetRow = 0;
     else if (isPlayerShooting) spritesheetRow = 2;
 
-    playerAnimator.draw(renderer, player->position, spritesheetRow, player->movingRight);
+    playerAnimator.draw(renderer, player->getPosition(), spritesheetRow, player->isMovingRight());
 }
 
 void SDLGame::drawEnemy(Vector2D pos, Animator animator, bool goingRight, bool isAttacking, bool isDead) {
@@ -360,19 +349,18 @@ void SDLGame::drawText(const string& text, const SDL_Rect& rect, bool renderBg, 
 void SDLGame::drawEnemies(const Game &g){
     const Ghost* ghost = g.getConstGhost();
     const Savage* savage = g.getConstSavage();
-
     const Player* player = g.getConstPlayer();
 
     bool goingLeft = true;
     if (ghost != NULL && !ghost->isDead) {
-        if (ghost->position.x <= player->position.x) goingLeft = false;
-        drawEnemy(ghost->position, ghost->isBoss ? bossAnimator : ghostAnimator, goingLeft, isGhostAttacking, ghost->isDead);
+        if (ghost->getPosition().x <= player->getPosition().x) goingLeft = false;
+        drawEnemy(ghost->getPosition(), ghost->isBoss ? bossAnimator : ghostAnimator, goingLeft, isGhostAttacking, ghost->isDead);
     }
 
     if (savage != NULL && !savage->isDead) {
         goingLeft = false;
-        if (savage-> position.x <= player->position.x) goingLeft = true;
-        drawEnemy(savage->position, savageAnimator, goingLeft, isSavageAttacking, savage->isDead);
+        if (savage->getPosition().x <= player->getPosition().x) goingLeft = true;
+        drawEnemy(savage->getPosition(), savageAnimator, goingLeft, isSavageAttacking, savage->isDead);
     }
 }
 
@@ -545,18 +533,22 @@ bool SDLGame::handleInputs(Game& g) {
                     g.keyboardActions('j');
                     break;
                 case SDL_SCANCODE_SPACE: // tirer
-                    g.keyboardActions('e');
+                    if (SDL_GetTicks() - playerShootTime > 300) {
+                        g.keyboardActions('e');
 
-                    isPlayerShooting = true;
-                    playerShootTime = SDL_GetTicks();
-                    Mix_PlayChannel(2, playerProjectileSound, 0);
+                        isPlayerShooting = true;
+                        playerShootTime = SDL_GetTicks();
+                        Mix_PlayChannel(2, playerProjectileSound, 0);
+                    }
                     break;
                 case SDL_SCANCODE_H: // attaquer càc
-                    g.keyboardActions('h');
+                    if (SDL_GetTicks() - playerAttackTime > 300) {
+                        g.keyboardActions('h');
 
-                    Mix_PlayChannel(1, playerAttackSwordSound, 0);
-                    isPlayerAttacking = true;
-                    playerAttackTime = SDL_GetTicks();
+                        isPlayerAttacking = true;
+                        playerAttackTime = SDL_GetTicks();
+                        Mix_PlayChannel(1, playerAttackSwordSound, 0);
+                    }
                     break;
                 case SDL_SCANCODE_D:
                     g.keyboardActions('d');
@@ -567,13 +559,12 @@ bool SDLGame::handleInputs(Game& g) {
                 case SDL_SCANCODE_ESCAPE:
                     isPauseScreen = true;
                     break;  
+                case SDL_SCANCODE_S:
+                    withSound = !withSound;
+                    break;
                 default: break;
                 }
             }
-            // if(SDL_SCANCODE_LSHIFT){   //Sprint du joueur
-            //     g.keyboardActions('s');
-            //     break;
-            // }
         }
         else if (events.type == SDL_KEYUP)
         {
@@ -599,76 +590,76 @@ bool SDLGame::handleInputs(Game& g) {
         else if (events.type == SDL_MOUSEBUTTONDOWN)
         {
             SDL_GetMouseState(&xm, &ym);
-            checkButton(xm,ym,g);
+            updateButtons(xm,ym,g);
         }
     }
 
     return false;
 }
 
-void SDLGame::checkButton(int &xm, int &ym, Game &g)
+void SDLGame::updateButtons(int &xm, int &ym, Game &g)
 {
     Point pos = {xm,ym};
-    if(returnToSelectionScreen.clickZone(pos))
+    if (returnToSelectionScreen.clickZone(pos))
     {
         isSelectionScreen = true;
         isHTPScreen = false;
         isDeathScreen = false;
-        playing = false;
+        isPlaying = false;
         isPauseScreen = false;
     }
-    else if(newGameDeathScreen.clickZone(pos) && isDeathScreen)
+    else if (newGameDeathScreen.clickZone(pos) && isDeathScreen)
     {
         g.initDungeon();
         initSDLGame();
         isSelectionScreen = false;
         isHTPScreen = false;
         isDeathScreen = false;
-        playing = true;
+        isPlaying = true;
         isPauseScreen = false;
     }
-    else if(newGameSelectionScreen.clickZone(pos) && isSelectionScreen)
+    else if (newGameSelectionScreen.clickZone(pos) && isSelectionScreen)
     {
         g.initDungeon();
         initSDLGame();
         isSelectionScreen = false;
         isHTPScreen = false;
         isDeathScreen = false;
-        playing = true;
+        isPlaying = true;
         isPauseScreen = false;
     }
-    else if(goToHTP.clickZone(pos) && isSelectionScreen)
+    else if (goToHTP.clickZone(pos) && isSelectionScreen)
     {
         isSelectionScreen = false;
         isHTPScreen = true;
         isDeathScreen = false;
-        playing = false;
+        isPlaying = false;
         isPauseScreen = false;
     }
-    else if(goBackToGame.clickZone(pos) && isPauseScreen)
+    else if (goBackToGame.clickZone(pos) && isPauseScreen)
     {
         isSelectionScreen = false;
         isHTPScreen = false;
         isDeathScreen = false;
-        playing = true;
+        isPlaying = true;
         isPauseScreen = false;
     }
-    else if(goBackToFirstScreen.clickZone(pos) && isPauseScreen)
+    else if (goBackToFirstScreen.clickZone(pos) && isPauseScreen)
     {
         isSelectionScreen = true;
         isHTPScreen = false;
         isDeathScreen = false;
-        playing = false;
+        isPlaying = false;
         isPauseScreen = false;
     }
-    else if(afterVictoryScreen.clickZone(pos) && playing)
+    else if (afterVictoryScreen.clickZone(pos) && isPlaying)
     {
         g.hasWon = false;
         isSelectionScreen = true;
         isHTPScreen = false;
         isDeathScreen = false;
         isPauseScreen = false;
-        playing = false;
+        isPlaying = false;
     }
 }
 
@@ -680,7 +671,7 @@ void SDLGame::updateGame(Game& g, float dt) {
 
     p->updatePosition(tm, dt);
     g.automaticActions(dt);
-    checkButton(xm,ym,g);
+    updateButtons(xm,ym,g);
 
     Savage *s = g.getConstSavage();
     Ghost *gh = g.getConstGhost();
@@ -695,22 +686,21 @@ void SDLGame::updateGame(Game& g, float dt) {
     {
         isGhostAttacking = gh != NULL && gh->checkHit(p);
         isSavageAttacking = (s != NULL && s->checkHit(p));
-        if(g.checkSpikes() || isGhostAttacking || isSavageAttacking)
+        if(!g.playerDead && (g.checkSpikes() || isGhostAttacking || isSavageAttacking))
         {
-            if(withSound)
+            if(withSound) 
                 Mix_PlayChannel(0,hitPlayerSound,0);
 
             hitTime = SDL_GetTicks();
         } 
     }
-    if(p->isDead) Mix_PlayMusic(deathMusic, -1);
 
     // une attaque dure 800ms (pour l'animation)
     if (isPlayerAttacking && nt - playerAttackTime > 800) {
         isPlayerAttacking = false;
     }
 
-    // un tir dure 800ms (pour l'animation)
+    // un tir dure 500ms (pour l'animation)
     if (isPlayerShooting && nt - playerShootTime > 500) {
         isPlayerShooting = false;
     }
@@ -723,9 +713,9 @@ void SDLGame::gameLoop(Game &g)
 
     // lance la musique de fond
     Mix_VolumeMusic(MIX_MAX_VOLUME/5);
-    if(withSound) Mix_PlayMusic(backGroundMusic, -1);
-
-    // if(withDeathSound) Mix_PlayMusic(deathMusic, 0);
+    if(withSound) {
+      Mix_PlayMusic(backGroundMusic, -1);
+    } 
 
     lastTickTime = SDL_GetTicks();
     while (!quit)
@@ -735,7 +725,7 @@ void SDLGame::gameLoop(Game &g)
 
         quit = handleInputs(g);
         drawGame(g);
-        if(playing)
+        if(isPlaying)
             updateGame(g, deltaTime);
         if(isPauseScreen)
             drawMenuScreen();

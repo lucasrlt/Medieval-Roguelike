@@ -15,7 +15,6 @@ Room::Room()
 
 Room::Room(const Room& r) {
     schema = r.schema;
-    tiles = r.tiles;
     tilemapName = r.tilemapName;
     exterior = r.exterior;
     isBossRoom = r.isBossRoom;

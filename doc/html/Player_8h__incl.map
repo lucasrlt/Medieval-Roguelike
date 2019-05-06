@@ -1,0 +1,9 @@
+<map id="/Users/lucas/Documents/Fac/MedievalRogueLike/src/core/Player.h" name="/Users/lucas/Documents/Fac/MedievalRogueLike/src/core/Player.h">
+<area shape="rect" id="node1" title="Module gérant les caractéristiques d&#39;un personnage." alt="" coords="5,5,173,57"/>
+<area shape="rect" id="node2" title=" " alt="" coords="62,252,116,277"/>
+<area shape="rect" id="node3" href="$Entity_8h.html" title="Module gérant les entités du jeu." alt="" coords="161,105,226,131"/>
+<area shape="rect" id="node7" href="$Weapon_8h.html" title="Module gérant les armes." alt="" coords="48,179,130,204"/>
+<area shape="rect" id="node4" href="$Vector2D_8h.html" title="Module gérant les Vecteurs 2D." alt="" coords="226,252,313,277"/>
+<area shape="rect" id="node5" href="$TileMap_8h.html" title=" " alt="" coords="154,179,233,204"/>
+<area shape="rect" id="node6" title=" " alt="" coords="143,252,201,277"/>
+</map>

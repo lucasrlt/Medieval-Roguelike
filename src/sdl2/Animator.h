@@ -38,6 +38,8 @@ public:
    * @param filename la spritesheet d'où sont issues les animations
    * @param numSprites le nombre de sprites sur la spritesheet
    * @param sprite_width largeur d'un sprite sur la spritesheet
+   * @param draw_width dimension de l'image à dessiner
+   * @param draw_scale échelle à laquelle dessiner l'image
    */
   void init(SDL_Renderer *renderer, const string& filename, int numSprites, int sprite_width, int draw_width, int draw_scale = 1);
 

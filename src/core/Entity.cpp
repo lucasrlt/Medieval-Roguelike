@@ -8,32 +8,21 @@ using namespace std;
 Entity::Entity()
 {
     position = {0, 0};
-
     velocity = {0, 0};
-
     health = 0;
+    
     grounded = false;
-
-    movingLeft = movingBottom = movingRight = movingUp = false;
-
-
-    idleSprite = " ";
-    leftSprite = " ";
-    rightSprite = " ";
+    isDead = false;
 }
 
-Entity::Entity(Vector2D positionInit, Vector2D forceInit, int healthInit, std::string idle, std::string left, std::string right)
+Entity::Entity(Vector2D positionInit, Vector2D forceInit, int healthInit)
 {
     position = positionInit;
     velocity = forceInit;
     health = healthInit;
 
-    movingLeft = movingBottom = movingRight = movingUp = false;
-
     grounded = false;
-    idleSprite = idle;
-    leftSprite = left;
-    rightSprite = right;
+    isDead = false;
 }
 
 Entity::~Entity()
@@ -46,9 +35,22 @@ int Entity::getHealth() const
     return health;
 }
 
-Vector2D Entity::getForce() const
+Vector2D Entity::getVelocity() const
 {
     return velocity;
+}
+
+Vector2D Entity::getPosition() const 
+{
+    return position;
+}
+
+void Entity::setPosition(Vector2D pos) {
+    position = pos;
+}
+
+bool Entity::isMovingRight() const {
+    return velocity.x >= 0;
 }
 
 void Entity::receiveDamage(int amount)
@@ -63,6 +65,8 @@ void Entity::receiveDamage(int amount)
         health = MAX_HEALTH;
     }
 }
+
+
 
 void Entity::updatePosition(const TileMap &t, float dt)
 {
@@ -128,14 +132,6 @@ void Entity::addForce(Vector2D _force)
 {
     velocity.x += _force.x;
     velocity.y += _force.y;
-}
-
-void Entity::show()
-{
-    cout << "Position: " << position.x << ", " << position.y << endl;
-    cout << "Force: " << velocity.x << ", " << velocity.y << endl;
-    cout << "Vie: " << health << endl
-         << endl;
 }
 
 void Entity::regressionTest()

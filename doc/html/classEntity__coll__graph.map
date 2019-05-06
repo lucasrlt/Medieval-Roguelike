@@ -1,0 +1,4 @@
+<map id="Entity" name="Entity">
+<area shape="rect" id="node1" title="Classe représentant les caractéristiques communes des entités du jeu." alt="" coords="5,313,140,600"/>
+<area shape="rect" id="node2" href="$classVector2D.html" title="Classe représentant un point de coordonnées float x et y." alt="" coords="9,5,137,239"/>
+</map>

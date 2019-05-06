@@ -1,8 +1,6 @@
-/**
- * @file Ghost.h
- * @author Alexandre PUILLET
- * @brief Module gérant les ghosts de type distance
- */
+
+#ifndef MEDIEVALROGUELIKE_GHOST_H
+#define MEDIEVALROGUELIKE_GHOST_H
 
 #include <iostream>
 #include <vector>
@@ -10,19 +8,26 @@
 #include "Entity.h"
 #include "Projectile.h"
 
-#ifndef MEDIEVALROGUELIKE_GHOST_H
-#define MEDIEVALROGUELIKE_GHOST_H
+/**
+ * @brief Module gérant les ghosts de type distance
+ * 
+ * @file Ghost.h
+ * @author Alexandre PUILLET
+ */
 
 float const GHOST_SPEED = 0.03f;
 
 class Game;
 class Player;
+
 /**
- * @brief Classe créant les ghosts distance.
+ * @brief Classe gérant les fantômes. Les fantômes sont des ennemis qui volent et traversent
+ * les murss. Ils sont par contre fragiles et font peu de dégâts.
+ * 
+ * @note Un fantôme peut être un boss. Son sprite, sa vie et sa taille changeront en conséquence.
  */
-class Ghost : public Entity{
-    public:
-    vector<Projectile> projectiles;
+class Ghost : public Entity {
+public:
     bool isBoss;
     
     Ghost();
@@ -33,21 +38,10 @@ class Ghost : public Entity{
      * @param force force du ghost
      * @param health vie du ghost
      * @param strenght puissance du ghost
+     * @param isDead vrai si le fantôme est mort
      */
-    Ghost(Vector2D pos, Vector2D force, int health, int strenght, bool isDead, std::string spriteNameIdle, 
-            std::string spriteNameLeft, std::string spriteNameRight);
-
+    Ghost(Vector2D pos, Vector2D force, int health, int strenght, bool isDead);
     ~Ghost();
-
-    void init(Vector2D pos, Vector2D force, int health, int strenght, bool isDead, std::string spriteNameIdle, 
-            std::string spriteNameLeft, std::string spriteNameRight);
-
-    /**
-     * @brief Récupère les dégâts du ghost.
-     * 
-     * @return int 
-     */
-    int getStrenght() const;
 
     /**
      * @brief Check si le joueur est dans la zone de contact du ghost (son sprite)
@@ -72,8 +66,8 @@ class Ghost : public Entity{
      */
     void fireProjectile(Player *player);
 
-    private:
-    int strenght;   
+private:
+    int strength;   
 };
 
 #endif //MEDIEVALROGUELIKE_GHOST_H

@@ -8,15 +8,13 @@ Projectile::Projectile()
     position = {0, 0};
     velocity = {0, 0};
     damages = 0;
-    spriteName = " ";
 }
 
-Projectile::Projectile(Vector2D posInit, Vector2D velocityInit, int damagesInit, string name)
+Projectile::Projectile(Vector2D posInit, Vector2D velocityInit, int damagesInit)
 {
     position = posInit;
     velocity = velocityInit;
     damages = damagesInit;
-    spriteName = name;
     isHit = false;
 }
 

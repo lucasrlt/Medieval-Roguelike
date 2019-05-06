@@ -33,10 +33,14 @@ struct RoomSchema
 class Room
 {
   public:
+    /// @brief schéma des ouvertures de la salle
     RoomSchema schema;
-    int *tiles;
+    /// @brief nom du fichier .tmx référençant cette salle
     string tilemapName;
-    bool exterior, isBossRoom;
+    /// @brief cette salle est-elle en extérieur ?
+    bool exterior;
+    /// @brief est-ce une salle de boss ?
+    bool isBossRoom;
 
 
     Room();

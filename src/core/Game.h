@@ -28,71 +28,44 @@ const float PROJECTILE_SPEED = 0.1f;
 const int PROJECTILE_DAMAGES = 1;
 const int SPIKES_DAMAGES = 1;
 
-/**
- * @brief Classe s'occupant de créer le jeu.
- */
 class Savage;
 class Ghost;
+/**
+ * @brief Classe s'occupant de créer le jeu.
+ * C'est cette classe qui gère l'intéraction entre les modules. Une instance du jeu contient
+ * une Tilemap avec la salle courante, ainsi que les différentes entités (ennemis et joueur). 
+ * De plus, le jeu stocke tous les projectiles envoyés, et les actualise. 
+ */
 class Game
 {
   public:
-    bool playerDead, hasWon;
-
+    /// @brief vrai si le joueur est mort
+    bool playerDead;
+    /// @brief vrai si la partie est gégnée
+    bool hasWon;
+    /// @brief vecteur contenant tous les projectiles présents dans le jeu.
     vector<Projectile> projectiles;
+    /// @brief tableau 2D contenant toutes les salles du donjon.
+    Room **dungeon;
 
     Game();
     ~Game();
 
-    Room **dungeon;
+  
 
     /**
      * @brief Initialisation du niveau, avec le personnage.
      */
     void initDungeon();
 
-    /**
-     * @brief Récupère une salle.
-     * @return Room.
-     */
     Room &getConstRoom(int x, int y) const;
     int getCurrentRoomX() const;
     int getCurrentRoomY() const;
-
     const TileMap &getConstTilemap() const;
-
-    /**
-     * @brief Récupère un Player.
-     *
-     * @return Player
-     */
     Player *getConstPlayer() const;
-
-    /**
-     * @brief Récupère un Savage.
-     * 
-     * @return Savage
-     */
     Savage *getConstSavage() const;
-
     Ghost *getConstGhost() const;
-
     Item *getConstItems() const;
-
-    void spawnGhost();
-    void spawnSavage();
-    void spawnRegenItem();
-
-    /**
-     * @brief Attaque du personnage avec l'épée
-     */
-    void attackSword();
-
-    /**
-     * @brief Si le personnage est sur un item, le ramasse
-     * 
-     */
-    void takeItem();
-
 
     /**
      * @brief Fais une action sur le player en fonction des touches appuyées désignées dans la SDL
@@ -111,6 +84,45 @@ class Game
     void automaticActions(float dt);
 
     /**
+     * @brief Détecte si le joueur est sur des pics, et renvoie vrai si c'est le cas
+     */
+    bool checkSpikes();
+
+
+  private:
+    /* === VARIABLES === */
+    bool wasInitialized; // si vraie, alors une partie à déjà été lancée.
+    Room currentRoom;
+    int currRoomX, currRoomY;
+
+    Player *player;
+    Savage *savage; // chaque salle contient un fantôme, et parfois un sauvage, pas plus. idem pour l'item.
+    Ghost *ghost;
+    Item *item;
+
+    TileMap *tilemap;
+    DungeonGenerator dungeonGenerator;
+
+    /* === FONCTIONS === */
+
+    /**
+     * @brief Tire les projectiles du joueur
+     * 
+     * @param right si vrai, tire à droite, sinon, tire à gauche
+     */
+    void playerShoot();
+
+    /**
+     * @brief Fait avancer les projectiles
+     */
+    void updateProjectiles();
+
+    /**
+     * @brief Gère les collisions des projectiles avec les ennemis
+     */
+    void checkProjectileHit();
+
+    /**
      * @brief Vérifie si le joueur est sur un bord de map, et appelle changeRoom en fonction de direction
      * 
      * @param direction direction du joueur
@@ -125,40 +137,25 @@ class Game
     void changeRoom(char direction);
 
     /**
-     * @brief Détecte si le joueur est sur des pics, et renvoie vrai si c'est le cas
+     * @brief Fais apparaître un ennemi fantôme dans la salle.
      */
-    bool checkSpikes();
+    void spawnGhost();
+    void spawnSavage();
+    void spawnRegenItem();
 
     /**
-     * @brief Tire les projectiles du joueur
+     * @brief Attaque du personnage avec l'épée
+     */
+    void attackSword();
+
+    /**
+     * @brief Si le personnage est sur un item, le ramasse
      * 
-     * @param right si vrai, tire à droite, sinon, tire à gauche
      */
-    void playerShoot(bool right);
+    void checkItemTaken();
 
-    /**
-     * @brief Fait avancer le projectile
-     */
-    void updateProjectile();
 
-    /**
-     * @brief Gère les collisions des projectiles sur les ennemis
-     */
-    void projectileHitEnnemy();
 
-  private:
-    bool isJumping;
-    bool wasInitialized;
-    Room currentRoom;
-    int currRoomX, currRoomY;
-
-    Player *player;
-    Savage *savage;
-    Ghost *ghost;
-    Item *item;
-
-    TileMap *tilemap;
-    DungeonGenerator dungeonGenerator;
 };
 
 #endif //MEDIVALROGUELIKE_GAME_H

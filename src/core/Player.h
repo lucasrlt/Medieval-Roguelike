@@ -7,26 +7,27 @@
 
 /**
  * @brief Module gérant les caractéristiques d'un personnage
- * @file Player.h.h
+ * @file Player.h
  * @date 05/03/2019
  * @author Alexandre PUILLET
  */
 
 const float MAX_JUMP_HEIGHT = 40;
 
+class Game;
 /**
  * @brief Classe représentant les caractéristiques d'un personnage.
  */
-class Game;
 class Player : public Entity
 {
   private:
+    Weapon weapon;
+
     int energy;
     int shield;
     float currentJumpHeight;
 
   public:
-    Weapon weapon;
 
     Player();
 
@@ -36,36 +37,14 @@ class Player : public Entity
      * @param forceInit force du personnage.
      * @param healthInit vie du personnage.
      * @param energyInit énergie du personnage.
-     * @param shieldInit bouclier du personnage.
      * @param weaponInit arme du personnage.
-     * @param spriteNameIdle sprite de face
-     * @param spriteNameLeft sprite gauche
-     * @param spriteNameRight sprite droit
      */
-    Player(Vector2D positionInit, Vector2D forceInit, int healthInit, int energyInit, int shieldInit, 
-            Weapon weaponInit, std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight);
+    Player(Vector2D positionInit, Vector2D forceInit, int healthInit, int energyInit, Weapon weaponInit);
 
     ~Player();
 
-    /**
-     * @brief Récupère l'énerigie du player
-     * 
-     * @return int 
-     */
     int getEnergy() const;
-
-    /**
-     * @brief Récupère le shield du player
-     * 
-     * @return int 
-     */
-    int getShield() const;
-
-    /**
-     * @brief Enlève des points de bouclier.
-     * @param amount valeur à retirer aux points de bouclier.
-     */
-    // void receiveShieldDamage(int amount);
+    const Weapon& getWeapon() const;
 
     /**
      * @brief Enlève de l'énergie.
@@ -74,27 +53,15 @@ class Player : public Entity
     void loseEnergy(int amount);
 
     /**
-     * @brief Récupère le player.
-     */
-    Player getPlayer();
-
-    /**
      * @brief Augmente la vitesse du joueur pour le sprint
      * 
      */
     void sprint();
 
     /**
-     * @brief Affiche les caractéristiques du personnage.
-     */
-    void show();
-
-    /**
      * @brief Tests du module.
      */
     void regressionTest();
-
-    // bool jump(const TileMap &t);
 };
 
 #endif //MEDIEVAL_ROGUELIKE_PLAYER_H

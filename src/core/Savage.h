@@ -1,50 +1,42 @@
-/**
- * @file Savage.h
- * @author Alexandre PUILLET
- * @brief Module gérant les ennemis de type mêlée
- */
+#ifndef MEDIEVALROGUELIKE_SAVAGE_H
+#define MEDIEVALROGUELIKE_SAVAGE_H
+
 
 #include <iostream>
 #include <vector>
 #include "Game.h"
 #include "Entity.h"
 
-#ifndef MEDIEVALROGUELIKE_SAVAGE_H
-#define MEDIEVALROGUELIKE_SAVAGE_H
+/**
+ * @file Savage.h
+ * @author Alexandre PUILLET
+ * @brief Module gérant les ennemis de type mêlée
+ */
+
+float const SAVAGE_SPEED = 2;
 
 class Game;
 class Player;
 
-float const SAVAGE_SPEED = 2;
 /**
- * @brief Classe créant les savage.
+ * @brief Classe gérant un sauvage.
+ * Un sauvage est un ennemi plus puissant qu'un fantôme (plus de vie et plus de dégâts), 
+ * mais il ne peut pas voler. Il reste donc au sol et est très vulnéravble aux obstacles..
  */
-class Savage : public Entity{
-    public:
+class Savage : public Entity {
+public:
     Savage();
     /**
      * @brief Constructeur du savage.
      * 
-     * @param pos position du savage
-     * @param force force du savage
-     * @param health vie du savage
-     * @param strenght puissance du savage
+     * @param posInit position du savage
+     * @param velocityInit force du savage
+     * @param healthInit vie du savage
+     * @param strengthInit puissance du savage
      * @param isDeadCheck si le savage est mort
-     * @param spriteNameIdle sprite de face
-     * @param spriteNameLeft sprite gauche
-     * @param spriteNameRight sprite droit
      */
-    Savage(Vector2D posInit, Vector2D forceInit, int healthInit, int strenghtInit, bool isDeadCheck,
-            std::string spriteNameIdle, std::string spriteNameLeft, std::string spriteNameRight);
-
+    Savage(Vector2D posInit, Vector2D velocityInit, int healthInit, int strengthInit, bool isDeadCheck);
     ~Savage();
-
-    /**
-     * @brief Récupère les dégâts du savage
-     * 
-     * @return int 
-     */
-    int getStrenght() const;
 
     /**
      * @brief Fait avancer le savage vers le player
@@ -64,8 +56,8 @@ class Savage : public Entity{
      */
     bool checkHit(Player *player);
 
-    private:
-    int strenght;
+private:
+    int strength;
 };
 
 
