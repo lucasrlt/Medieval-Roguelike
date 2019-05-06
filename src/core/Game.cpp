@@ -50,10 +50,11 @@ int Game::getCurrentRoomY() const { return currRoomY; }
 
 
 void Game::spawnGhost(){
-    //Caratéristiques du Ghost
+    // Caratéristiques du Ghost
     // Le boss est un fantôme spécial, donc ses caractéristiques ne sont pas les mêmes
     int healthGhost = currentRoom.isBossRoom ? 8 : 3;
     int strengthGhost = currentRoom.isBossRoom ? 3 : 1;
+
     Vector2D posGhost = {(float)tilemap->enemySpawns[0].x, (float)tilemap->enemySpawns[0].y};
 
     if (ghost != nullptr)
@@ -114,7 +115,7 @@ void Game::initDungeon()
     tilemap->fetchRoomFromFile(currentRoom.tilemapName);
 
     // Init joueur
-    Weapon playerWeapon(1, 5, 2);
+    Weapon playerWeapon(1, 5, 1.5f);
     Vector2D playerPos = {(float)tilemap->playerSpawn.x, (float)tilemap->playerSpawn.y};
     player = new Player(playerPos, {0, 0}, 10, 5, playerWeapon);
 
@@ -128,14 +129,13 @@ void Game::initDungeon()
     spawnGhost();
     spawnSavage();
     spawnRegenItem();
-
 }
 
 
 void Game::attackSword(){
     float width = ghost->isBoss ? 2 : 1;
 
-    if((player->getPosition().x - player->getWeapon().attackRange <= ghost->getPosition().x && player->getPosition().x + player->getWeapon().attackRange >= ghost->getPosition().x) && 
+    if(ghost != NULL && (player->getPosition().x - player->getWeapon().attackRange <= ghost->getPosition().x && player->getPosition().x + player->getWeapon().attackRange >= ghost->getPosition().x) && 
     (player->getPosition().y <= ghost->getPosition().y + width && player->getPosition().y >= ghost->getPosition().y - width))
     {
         ghost->receiveDamage(player->getWeapon().damages);   //Dégâts pris par le ghost en fonction de l'arme du joueur
@@ -144,8 +144,9 @@ void Game::attackSword(){
             ghost->isDead = true;
         }
     }
-    if(savage != NULL && (player->getPosition().x <= savage->getPosition().x + 1 && player->getPosition().x >= savage->getPosition().x - 1) && 
-    (player->getPosition().y <= savage->getPosition().y + 1 && player->getPosition().y >= savage->getPosition().y - 1))
+
+    if(savage != NULL && (player->getPosition().x  - player->getWeapon().attackRange <= savage->getPosition().x && player->getPosition().x + player->getWeapon().attackRange >= savage->getPosition().x) && 
+    (player->getPosition().y <= savage->getPosition().y + width && player->getPosition().y >= savage->getPosition().y - width))
     {
         savage->receiveDamage(player->getWeapon().damages);  //Dégâts pris par le savage en fonction de l'arme du joueur
         if(savage->getHealth() <= 0)
@@ -229,7 +230,7 @@ void Game::checkRoomChange(char direction)
 {
     if (tilemap->getXY(player->getPosition().x, player->getPosition().y).type == background)
     {
-        // Vérifie si le joueur est sur sur le bord de l'écran, si oui, on le change de salle.
+        // Vérifie si le joueur est sur sur le bord de l'écran, si oui, on le change de salle en fonction de sa position.
         if (player->getPosition().x >= 14.8f && player->isMovingRight() && currentRoom.schema.openRight)
             changeRoom('r');
         else if (player->getPosition().x <= 1.0f && !player->isMovingRight() && currentRoom.schema.openLeft)
@@ -243,7 +244,7 @@ void Game::checkRoomChange(char direction)
 
 void Game::changeRoom(char direction)
 {
-    switch (direction)      // gère la position du joueur après le changement de room
+    switch (direction)      // gère la position du joueur une fois que sa position par rapport à la map a été check
     {
     case 'r':
         currRoomX += 1;
@@ -323,5 +324,5 @@ void Game::updateProjectiles()
 }
 
 void Game::regressionTest(){
-    
+
 }

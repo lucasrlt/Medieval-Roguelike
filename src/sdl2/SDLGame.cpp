@@ -727,8 +727,9 @@ void SDLGame::gameLoop(Game &g)
         drawGame(g);
         if(isPlaying)
             updateGame(g, deltaTime);
-        if(isPauseScreen)
+        if(isPauseScreen){
             drawMenuScreen();
+        }
         lastTickTime = SDL_GetTicks();
 
         SDL_RenderPresent(renderer);
