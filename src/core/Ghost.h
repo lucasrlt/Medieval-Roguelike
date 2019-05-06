@@ -66,6 +66,8 @@ public:
      */
     void fireProjectile(Player *player);
 
+    void regressionTest();
+
 private:
     int strength;   
 };

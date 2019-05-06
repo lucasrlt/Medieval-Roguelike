@@ -58,3 +58,14 @@ void Ghost::flyToPlayer(Player *player, float dt){
         position.y = position.y + ((newPos.y / m) * GHOST_SPEED * dt);
     }
 }
+
+void Ghost::regressionTest(){
+    Ghost ghost({15, 15}, {10, 10}, 10, 3, false);
+    Player *p;
+    p = new Player();
+    cout << endl << endl << "- TESTS Ghost-" << endl;
+    cout << "**************************" << endl;
+
+    assert(!ghost.isDead);
+    cout << "--> Ghost initialisé OK" << endl;
+}

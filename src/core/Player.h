@@ -22,7 +22,8 @@ class Player : public Entity
 {
   private:
     Weapon weapon;
-
+    
+    bool isRunning;
     int energy;
     int shield;
     float currentJumpHeight;

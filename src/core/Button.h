@@ -81,6 +81,8 @@ class Button
          * @return false sinon
          */
         bool clickZone(const Point &pos);
+
+        void regressionTest();
 };
 
 #endif //MEDIEVALROGUELIKE_BUTTON_H

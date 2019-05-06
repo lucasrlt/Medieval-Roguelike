@@ -85,76 +85,27 @@ const float Vector2D::module(){
     return sqrt(pow(x, 2) + pow(y, 2));
 }
 
-void Vector2D::regressionTest(){
-    // int zeroCoeff = 0;
-    // int coeff = 2;
+void Vector2D::regressionTest()
+{
+    cout << endl << "- TESTS Vector2D -" << endl;
+    cout << "**************************" << endl;
 
-    // Vector2D vecAfterTest(30, 40);
-    // Vector2D vecDefault(25, 30);
-    // Vector2D vec(25, 30);
-    // Vector2D vec2(5, 10);
-    // Vector2D vecY0(25, 0);
-    // Vector2D vecX0(0, 30);
-    // Vector2D vecBig(30, 50);
-    // Vector2D vecZero;
+    Vector2D vec1(15, 15);
+    Vector2D vec2(10, 10);
 
-    // assert(vec.x == 25 && vec.y == 30);
+    Vector2D vec3 = vec1 + vec2;
+    assert(vec3.x == 25 && vec3.y == 25);
+    cout << "--> Operator+ OK" << endl;
 
-    // operator+(vec, vecZero);
-    // assert(vec.x == 25 && vec.y == 30);
-    // cout << "Add 0 ok" << endl;
+    vec3 = vec1 - vec2;
+    assert(vec3.x == 5 && vec3.y == 5);
+    cout << "--> Operator- OK" << endl;
 
-    // operator+(vec, vec2);
-    // assert(vec.x == 30 && vec.y == 40);
-    // cout << "Vec + Vec ok" << endl;
+    vec3 = vec1 * vec2;
+    assert(vec3.x == 0 && vec3.y == 300);
+    cout << "--> Operator* OK" << endl;
 
-    // operator-(vec, vecZero);
-    // assert(vec.x == 30 && vec.y == 40);
-    // cout << "Vec - 0 ok" << endl;
-
-    // operator-(vec, vec);
-    // assert(vec.x == 0 && vec.y == 0);
-    // cout << "Vec nul" << endl;
-    // operator+(vec, vecAfterTest);
-
-    // operator-(vec, vec2);
-    // assert(vec.x == 25 && vec.y == 30);
-    // cout << "Vec - vec ok" << endl;
-
-    // operator-(vec, vecBig);
-    // assert(vec.x == -5 && vec.y == -20);
-    // cout << "Vec négatif ok" << endl;
-    // operator+(vec, vecBig);
-
-    // operator-(vec, vecY0);
-    // assert(vec.x == 0 && vec.y == 30);
-    // cout << "x nul ok" << endl;
-    // operator+(vec, vecY0);
-
-    // operator-(vec, vecX0);
-    // assert(vec.x == 25 && vec.y == 0);
-    // cout << "y nul ok" << endl;
-    // vec.show();
-    // operator+(vec, vecX0);
-    // vec.show();
-
-    // operator*(vec, zeroCoeff);
-    // assert(vec.x == 0 && vec.y == 0);
-    // cout << "Vec * 0 ok" << endl;
-    // vec.show();
-    // operator+(vec, vecDefault);
-
-    // operator*(vec, coeff);
-    // assert(vec.x == 50 && vec.y == 60);
-    // cout << "Vec * vec ok" << endl;
-    // vec.show();
-
-    // operator/(vec, coeff);
-    // assert(vec.x == 25 && vec.y == 30);
-    // cout<<"Vec / vec ok"<<endl;
-    // vec.show();
-
-    // operator/(vec, 0);
-    // cout << "Div 0 ok" << endl;
-    // vec.show();
+    vec3 = vec1 / 2;
+    assert(vec3.x == 7.5 && vec3.y == 7.5);
+    cout << "--> Operator/ OK" << endl;
 }

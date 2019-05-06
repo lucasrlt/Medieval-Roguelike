@@ -29,37 +29,24 @@ void Player::loseEnergy(int amount)
 }
 
 void Player::sprint(){
-    if(energy > 0)
+    if(isRunning){
         velocity = velocity * 1.5f;
+        loseEnergy(1);
+    }
 }
 
 const Weapon& Player::getWeapon() const { return weapon; }  
 
+int Player::getEnergy() const { return energy; }
+
 void Player::regressionTest()
 {
+    cout << endl << "- TESTS Player -" << endl;
+    cout << "**************************" << endl;
 
-    /*
-    Player p(5, 3, "JeSuisUnJoueur");
-    assert(p.energy == 5 && p.shield == 3 && p.spriteName == "JeSuisUnJoueur");
-    cout << "Paramètres ok" << endl;
-    p.show();
-
-    p.receiveShieldDamage(2);
-    assert(p.shield == 1);
-    cout << "receiveDamage ok" << endl;
-    p.show();
-
+    Player p({15, 15}, {10, 10}, 10, 5, weapon);
     p.loseEnergy(3);
+
     assert(p.energy == 2);
-    cout << "loseEnergy ok" << endl;
-    p.show();
-
-    p.loseEnergy(-3);
-    p.receiveShieldDamage(-2);
-    assert(p.energy == 5 && p.shield == 3);
-    cout << "Ok" << endl;
-    p.show();
-*/
+    cout << "--> Energie perdue OK" << endl;
 }
-
-int Player::getEnergy() const { return energy; }

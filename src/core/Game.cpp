@@ -322,3 +322,7 @@ void Game::updateProjectiles()
         projectiles[i].checkCollision(*tilemap);
     }
 }
+
+void Game::regressionTest(){
+    
+}
